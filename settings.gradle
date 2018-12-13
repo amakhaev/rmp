@@ -1,4 +1,4 @@
 rootProject.name = 'rmp'
 
-include ':dao'
+include ':dao', ':rmp-widget'
 

@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group 'rmp-widget'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    mapstructVersion = "1.3.0.Beta2"
+    lombokVersion = "1.18.4"
+}
+
+dependencies {
+    compile "ch.qos.logback:logback-classic:1.1.2"
+    compile "ch.qos.logback:logback-core:1.1.2"
+    
+    compile "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
