@@ -40,8 +40,7 @@ public class RMPWidgetBuilder {
      * @return the {@link RMPWidget} instance
      */
     public RMPWidget build() {
-        RMPWidget widget = new RMPWidget(this.getSkin());
-        return widget;
+        return new RMPWidget(this.getSkin());
     }
 
     private RMPSkin getSkin() {

@@ -1,6 +1,7 @@
 package com.rmp.widget;
 
 import com.rmp.widget.skins.RMPSkin;
+import com.rmp.widget.utilities.LocalizationUtils;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -19,7 +20,7 @@ public class RMPWidget extends JFrame {
      * @param skin - the skin that should be used when UI is shows
      */
     RMPWidget(RMPSkin skin) {
-        super("R-MP");
+        super(LocalizationUtils.getString("rmp_title"));
         this.skin = skin;
         this.initialize();
     }
