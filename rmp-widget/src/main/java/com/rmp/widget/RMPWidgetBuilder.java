@@ -1,6 +1,6 @@
 package com.rmp.widget;
 
-import com.rmp.widget.skins.DefaultSkin;
+import com.rmp.widget.skins.defaultSkin.DefaultSkin;
 import com.rmp.widget.skins.RMPSkin;
 import com.rmp.widget.skins.Skin;
 import lombok.Getter;

@@ -14,4 +14,18 @@ public interface RMPSkin {
      */
     Dimension getSize();
 
+    /**
+     * Gets the background start color of widget
+     */
+    Color getBackgroundStartColor();
+
+    /**
+     * Gets the background end color of widget
+     */
+    Color getBackgroundEndColor();
+
+    /**
+     * Gets the button panel skin
+     */
+    ButtonPanelSkin getButtonPanelSkin();
 }
