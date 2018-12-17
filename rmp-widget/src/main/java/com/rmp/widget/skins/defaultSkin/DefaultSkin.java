@@ -2,6 +2,7 @@ package com.rmp.widget.skins.defaultSkin;
 
 import com.rmp.widget.skins.ButtonPanelSkin;
 import com.rmp.widget.skins.Colors;
+import com.rmp.widget.skins.PlaylistPanelSkin;
 import com.rmp.widget.skins.RMPSkin;
 
 import java.awt.*;
@@ -50,5 +51,14 @@ public class DefaultSkin implements RMPSkin {
             this.buttonPanelSkin = new DefaultButtonPanelSkin();
         }
         return this.buttonPanelSkin;
+    }
+
+    /**
+     * Gets the playlist panel skin
+     */
+    @Override
+    public PlaylistPanelSkin getPlaylistSkin() {
+        return new PlaylistPanelSkin() {
+        };
     }
 }

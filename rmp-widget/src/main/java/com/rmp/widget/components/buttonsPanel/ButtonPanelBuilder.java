@@ -2,6 +2,9 @@ package com.rmp.widget.components.buttonsPanel;
 
 import com.rmp.widget.skins.ButtonPanelSkin;
 
+/**
+ * Provides the builder for {@link ButtonPanelComponent}
+ */
 public class ButtonPanelBuilder {
 
     private ButtonPanelSkin skin;

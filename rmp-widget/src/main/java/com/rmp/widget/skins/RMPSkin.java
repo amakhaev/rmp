@@ -28,4 +28,9 @@ public interface RMPSkin {
      * Gets the button panel skin
      */
     ButtonPanelSkin getButtonPanelSkin();
+
+    /**
+     * Gets the playlist panel skin
+     */
+    PlaylistPanelSkin getPlaylistSkin();
 }
