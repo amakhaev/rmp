@@ -2,7 +2,6 @@ package com.rmp.widget.skins.defaultSkin;
 
 import com.rmp.widget.skins.ButtonPanelSkin;
 import com.rmp.widget.skins.Colors;
-import com.rmp.widget.skins.PlaylistPanelSkin;
 import com.rmp.widget.skins.RMPSkin;
 
 import java.awt.*;
@@ -15,6 +14,7 @@ public class DefaultSkin implements RMPSkin {
     private static final Dimension SIZE = new Dimension(600, 400);
 
     private ButtonPanelSkin buttonPanelSkin;
+    private com.rmp.widget.skins.PlaylistPanelSkin playlistPanelSkin;
 
     /**
      * Gets the size of widget
@@ -57,8 +57,11 @@ public class DefaultSkin implements RMPSkin {
      * Gets the playlist panel skin
      */
     @Override
-    public PlaylistPanelSkin getPlaylistSkin() {
-        return new PlaylistPanelSkin() {
-        };
+    public com.rmp.widget.skins.PlaylistPanelSkin getPlaylistSkin() {
+        if (this.playlistPanelSkin == null) {
+            this.playlistPanelSkin = new DefaultPlaylistPanelSkin();
+        }
+
+        return this.playlistPanelSkin;
     }
 }
