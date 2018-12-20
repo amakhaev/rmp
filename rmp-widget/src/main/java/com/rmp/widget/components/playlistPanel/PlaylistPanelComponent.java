@@ -2,14 +2,19 @@ package com.rmp.widget.components.playlistPanel;
 
 import com.rmp.widget.controls.iconButton.IconButton;
 import com.rmp.widget.controls.roundPanel.RoundPanel;
+import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.Colors;
 import com.rmp.widget.skins.PlaylistPanelSkin;
+import com.rmp.widget.utilities.LocalizationUtils;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * Provides the playlist component of widget
@@ -18,11 +23,14 @@ public class PlaylistPanelComponent {
 
     private static final Border EMPTY_BORDER = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 
+    @Setter
+    private PlaylistDataWatcher dataWatcher;
     private PlaylistPanelSkin skin;
 
     @Getter
     private JPanel playlistPanel;
     private TitledBorder playlistTitle;
+    private PlaylistContextMenu contextMenu;
 
     /**
      * Initialize new instance of {@link PlaylistPanelComponent}
@@ -36,6 +44,7 @@ public class PlaylistPanelComponent {
         this.playlistPanel.setPreferredSize(size);
 
         this.initialize();
+        this.subscribeToWatcherChanges();
     }
 
     private void initialize() {
@@ -70,7 +79,12 @@ public class PlaylistPanelComponent {
                 this.skin.getPlaylistIcon()
         );
 
-        buttonsPanel.add(playlistButton);
+        JPopupMenu playlistPopupMenu = this.createPlaylistPopupMenu();
+        playlistButton.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                playlistPopupMenu.show(e.getComponent(), e.getX(), e.getY());
+            }
+        });
 
         JButton openFileButton = new IconButton(
                 30,
@@ -78,8 +92,44 @@ public class PlaylistPanelComponent {
                 this.skin.getOpenFileIcon()
         );
 
+        buttonsPanel.add(playlistButton);
         buttonsPanel.add(openFileButton);
 
         return buttonsPanel;
+    }
+
+    private JPopupMenu createPlaylistPopupMenu() {
+        this.contextMenu = new PlaylistContextMenu(this.skin.getCheckedFileIcon(), this.skin.getAddIcon());
+
+        this.contextMenu.addButton(
+                LocalizationUtils.getString("new_playlist"),
+                true,
+                () -> System.out.println("Test")
+        );
+
+        return this.contextMenu.update();
+    }
+
+    private void subscribeToWatcherChanges() {
+        if (this.dataWatcher == null) {
+            return;
+        }
+
+        if (this.dataWatcher.getPlaylistModelObserver() != null) {
+            this.dataWatcher.getPlaylistModelObserver().subscribe(models -> {
+                if (models != null && !models.isEmpty()) {
+                    models.forEach(
+                            (pl) -> this.contextMenu.addPlaylistButton(
+                                    pl.getId(),
+                                    pl.getTitle(),
+                                    () -> {
+                                        System.out.println("Playlist clicked");
+                                    }
+                            )
+                    );
+                    this.contextMenu.update();
+                }
+            });
+        }
     }
 }

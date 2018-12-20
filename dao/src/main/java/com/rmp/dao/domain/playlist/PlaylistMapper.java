@@ -30,6 +30,7 @@ public interface PlaylistMapper extends DataMapper {
      * @param model - the model to convert.
      * @return the Entity instance.
      */
+    @Mapping(target = "createdAtAsString", ignore = true)
     PlaylistEntity modelToEntity(PlaylistModel model);
 
     /**

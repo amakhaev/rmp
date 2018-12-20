@@ -2,6 +2,7 @@ package com.rmp.widget;
 
 import com.rmp.widget.components.rootPanel.RootPanelComponent;
 import com.rmp.widget.components.rootPanel.RootPanelBuilder;
+import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.RMPSkin;
 import com.rmp.widget.utilities.LocalizationUtils;
 
@@ -22,11 +23,12 @@ public class RMPWidget {
      * Initialize new instance of {@link RMPWidget}
      *
      * @param skin - the skin that should be used when UI is shows
+     * @param playlistDataWatcher - the playlist data watcher
      */
-    RMPWidget(RMPSkin skin) {
+    RMPWidget(RMPSkin skin, PlaylistDataWatcher playlistDataWatcher) {
         this.widget = new JFrame(LocalizationUtils.getString("rmp_title"));
         this.skin = skin;
-        this.initialize();
+        this.initialize(playlistDataWatcher);
     }
 
     /**
@@ -37,7 +39,7 @@ public class RMPWidget {
         this.widget.setVisible(true);
     }
 
-    private void initialize() {
+    private void initialize(PlaylistDataWatcher playlistDataWatcher) {
         this.widget.setResizable(false);
         this.widget.setPreferredSize(this.skin.getSize());
         this.widget.addWindowListener(new WindowAdapter() {
@@ -49,6 +51,7 @@ public class RMPWidget {
 
         RootPanelComponent rootPanelComponent = new RootPanelBuilder()
                 .setSkin(this.skin)
+                .setDataWatcher(playlistDataWatcher)
                 .build();
         this.widget.setContentPane(rootPanelComponent.getRootPanel());
     }

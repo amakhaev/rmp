@@ -20,4 +20,18 @@ public interface PlaylistPanelSkin {
      * @return the {@link URL} to file
      */
     URL getOpenFileIcon();
+
+    /**
+     * Gets the checked icon
+     *
+     * @return the {@link URL} to file
+     */
+    URL getCheckedFileIcon();
+
+    /**
+     * Gets the add icon
+     *
+     * @return the {@link URL} to file
+     */
+    URL getAddIcon();
 }

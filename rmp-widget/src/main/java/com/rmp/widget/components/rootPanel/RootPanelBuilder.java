@@ -1,5 +1,6 @@
 package com.rmp.widget.components.rootPanel;
 
+import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.RMPSkin;
 
 /**
@@ -8,6 +9,7 @@ import com.rmp.widget.skins.RMPSkin;
 public class RootPanelBuilder {
 
     private RMPSkin skin;
+    private PlaylistDataWatcher playlistDataWatcher;
 
     /**
      * Sets the skin of {@link RootPanelComponent}.
@@ -21,6 +23,17 @@ public class RootPanelBuilder {
     }
 
     /**
+     * Sets the watcher of playlist component
+     *
+     * @param dataWatcher - the watcher
+     * @return the current {@link RootPanelBuilder} instance
+     */
+    public RootPanelBuilder setDataWatcher(PlaylistDataWatcher dataWatcher) {
+        this.playlistDataWatcher = dataWatcher;
+        return this;
+    }
+
+    /**
      * Builds the {@link RootPanelComponent} from prepared parameters
      *
      * @return the {@link RootPanelComponent} instance
@@ -30,7 +43,7 @@ public class RootPanelBuilder {
             throw new NullPointerException("Skin is required to build RootPanelComponent");
         }
 
-        return new RootPanelComponent(skin);
+        return new RootPanelComponent(this.skin, this.playlistDataWatcher);
     }
 
 }

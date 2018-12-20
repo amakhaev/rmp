@@ -31,4 +31,24 @@ public class DefaultPlaylistPanelSkin implements PlaylistPanelSkin {
     public URL getOpenFileIcon() {
         return ResourceHelper.getPathToSkinIcon(SKIN_NAME, ResourceHelper.ADD_LIST_ICON);
     }
+
+    /**
+     * Gets the checked icon
+     *
+     * @return the {@link URL} to file
+     */
+    @Override
+    public URL getCheckedFileIcon() {
+        return ResourceHelper.getPathToSkinIcon(SKIN_NAME, ResourceHelper.CHECK_ICON);
+    }
+
+    /**
+     * Gets the add icon
+     *
+     * @return the {@link URL} to file
+     */
+    @Override
+    public URL getAddIcon() {
+        return ResourceHelper.getPathToSkinIcon(SKIN_NAME, ResourceHelper.ADD_ICON);
+    }
 }
