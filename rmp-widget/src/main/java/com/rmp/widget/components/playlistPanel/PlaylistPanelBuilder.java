@@ -65,9 +65,6 @@ public class PlaylistPanelBuilder {
             throw new NullPointerException("Data watcher is required to build PlaylistPanelComponent");
         }
 
-        PlaylistPanelComponent component = new PlaylistPanelComponent(this.skin, this.playlistPanelSize);
-        component.setDataWatcher(this.dataWatcher);
-
-        return component;
+        return new PlaylistPanelComponent(this.skin, this.playlistPanelSize, this.dataWatcher);
     }
 }

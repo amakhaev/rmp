@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+
 }
 
 group 'rmp'
@@ -31,22 +32,9 @@ dependencies {
     compile project(':dao')
     compile project(':rmp-widget')
 
-    compile "org.projectlombok:lombok:${lombokVersion}"
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-
-    compile "org.mapstruct:mapstruct:${mapstructVersion}"
-    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
-
-    compile "ch.qos.logback:logback-classic:1.1.2"
-    compile "ch.qos.logback:logback-core:1.1.2"
+    compile 'org.modelmapper:modelmapper:2.3.0'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
-}
-
-tasks.withType(JavaCompile) {
-    options.compilerArgs = [
-            '-Amapstruct.suppressGeneratorTimestamp=true'
-    ]
 }
 
 jar {

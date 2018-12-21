@@ -23,7 +23,6 @@ public class PlaylistPanelComponent {
 
     private static final Border EMPTY_BORDER = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 
-    @Setter
     private PlaylistDataWatcher dataWatcher;
     private PlaylistPanelSkin skin;
 
@@ -38,8 +37,10 @@ public class PlaylistPanelComponent {
      * @param skin - the skin of {@link PlaylistPanelComponent}
      * @param size - the size of {@link PlaylistPanelComponent}
      */
-    PlaylistPanelComponent(PlaylistPanelSkin skin, Dimension size) {
+    PlaylistPanelComponent(PlaylistPanelSkin skin, Dimension size, PlaylistDataWatcher dataWatcher) {
         this.skin = skin;
+        this.dataWatcher = dataWatcher;
+
         this.playlistPanel = new JPanel();
         this.playlistPanel.setPreferredSize(size);
 

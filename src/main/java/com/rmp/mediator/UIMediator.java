@@ -7,12 +7,14 @@ import com.rmp.widget.RMPWidget;
 import com.rmp.widget.RMPWidgetBuilder;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.Skin;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
 
 /**
  * Provides the com.rmp.mediator.mediator that working with UI
  */
+@Slf4j
 public class UIMediator {
 
     private AsyncTaskExecutor asyncTaskExecutor;
@@ -27,9 +29,9 @@ public class UIMediator {
     public UIMediator() {
         this.playlistDataWatcher = new PlaylistWatcher();
         this.asyncTaskExecutor = new AsyncTaskExecutor();
-        // this.playlistService = new PlaylistService();
+        this.playlistService = new PlaylistService();
 
-        // this.initializeUI();
+        this.initializeUI();
     }
 
     /**
@@ -47,10 +49,8 @@ public class UIMediator {
     }
 
     private void initializeUI() {
-        System.out.println("start init: " + Thread.currentThread().getName());
         this.asyncTaskExecutor.executeTask(() -> {
             this.playlistDataWatcher.getPlaylistModelObserver().emit(this.playlistService.getAllPlaylists());
-            System.out.println("complete init: " + Thread.currentThread().getName());
         });
     }
 }

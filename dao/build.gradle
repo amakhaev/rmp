@@ -1,6 +1,9 @@
 plugins {
     id 'java'
+    id 'net.ltgt.apt' version '0.15'
 }
+
+apply plugin: 'net.ltgt.apt-idea'
 
 group 'dao'
 version '1.0'
@@ -9,6 +12,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 ext {

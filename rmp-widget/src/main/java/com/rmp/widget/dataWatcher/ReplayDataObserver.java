@@ -6,15 +6,17 @@ import java.util.List;
 /**
  * Provides the observer that indicates when data will be changed
  */
-public class DataObserver<T> {
+public class ReplayDataObserver<T> {
 
     private List<DataChangeHandler<T>> dataChangeHandlers;
+    private List<T> dataHistory;
 
     /**
-     * Initialize new instance of {@link DataObserver}
+     * Initialize new instance of {@link ReplayDataObserver}
      */
-    public DataObserver() {
+    public ReplayDataObserver() {
         this.dataChangeHandlers = new ArrayList<>();
+        this.dataHistory = new ArrayList<>();
     }
 
     /**
@@ -23,6 +25,8 @@ public class DataObserver<T> {
      * @param data - the new value of data
      */
     public void emit(T data) {
+        this.dataHistory.add(data);
+
         if (!this.dataChangeHandlers.isEmpty()) {
             this.dataChangeHandlers.forEach(handler -> handler.onChange(data));
         }
@@ -35,5 +39,6 @@ public class DataObserver<T> {
      */
     public void subscribe(DataChangeHandler<T> changeHandler) {
         this.dataChangeHandlers.add(changeHandler);
+        this.dataHistory.forEach(changeHandler::onChange);
     }
 }

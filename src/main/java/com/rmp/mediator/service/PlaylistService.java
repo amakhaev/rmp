@@ -17,7 +17,7 @@ public class PlaylistService {
      * Initialize new instance of {@link PlaylistService}
      */
     public PlaylistService() {
-        this.mapper = UIPlaylistMapper.INSTANCE;
+        this.mapper = new UIPlaylistMapper();
         this.playlistDao = PlaylistDao.INSTANCE;
     }
 
