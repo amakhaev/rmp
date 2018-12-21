@@ -26,18 +26,18 @@ public class RootPanelComponent {
      * Initialize new instance of {@link RootPanelComponent}
      *
      * @param skin - the skin of root panel
-     * @param playlistDataWatcher - the playlist data watcher
+     * @param playlistPanelBuilder - the playlist panel builder
      */
-    RootPanelComponent(RMPSkin skin, PlaylistDataWatcher playlistDataWatcher) {
+    RootPanelComponent(RMPSkin skin, PlaylistPanelBuilder playlistPanelBuilder) {
         this.skin = skin;
         this.rootPanel = new GradientJPanel(this.skin.getBackgroundStartColor(), this.skin.getBackgroundEndColor());
-        this.initialize(playlistDataWatcher);
+        this.initialize(playlistPanelBuilder);
     }
 
-    private void initialize(PlaylistDataWatcher playlistDataWatcher) {
+    private void initialize(PlaylistPanelBuilder playlistPanelBuilder) {
         this.rootPanel.setLayout(new BorderLayout());
 
-        PlaylistPanelComponent playlistPanelComponent = new PlaylistPanelBuilder()
+        PlaylistPanelComponent playlistPanelComponent = playlistPanelBuilder
                 .setSkin(this.skin.getPlaylistSkin())
                 .setPlaylistPanelSize(
                         new Dimension(
@@ -45,7 +45,6 @@ public class RootPanelComponent {
                                 (int)skin.getSize().getHeight()
                         )
                 )
-                .setDataWatcher(playlistDataWatcher)
                 .build();
 
         ButtonPanelComponent buttonPanelComponent = new ButtonPanelBuilder()

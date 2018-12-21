@@ -1,4 +1,4 @@
-package com.rmp.widget.controls.iconButton;
+package com.rmp.widget.controls.button;
 
 import com.rmp.widget.utilities.ImageUtility;
 

@@ -1,5 +1,6 @@
 package com.rmp.widget.components.playlistPanel;
 
+import com.rmp.widget.components.playlistDialog.NewPlaylistDialogComponent;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.PlaylistPanelSkin;
 
@@ -13,6 +14,7 @@ public class PlaylistPanelBuilder {
     private PlaylistPanelSkin skin;
     private Dimension playlistPanelSize;
     private PlaylistDataWatcher dataWatcher;
+    private NewPlaylistDialogComponent playlistDialogComponent;
 
     /**
      * Sets the skin for {@link PlaylistPanelComponent}
@@ -48,6 +50,17 @@ public class PlaylistPanelBuilder {
     }
 
     /**
+     * Sets the playlist dialog component
+     *
+     * @param playlistDialogComponent - the dialog component to set
+     * @return the current {@link PlaylistPanelBuilder} instance
+     */
+    public PlaylistPanelBuilder setPlaylistDialogComponent(NewPlaylistDialogComponent playlistDialogComponent) {
+        this.playlistDialogComponent = playlistDialogComponent;
+        return this;
+    }
+
+    /**
      * Builds the {@link PlaylistPanelComponent} instance by given arguments
      *
      * @return the {@link PlaylistPanelComponent} instance
@@ -65,6 +78,9 @@ public class PlaylistPanelBuilder {
             throw new NullPointerException("Data watcher is required to build PlaylistPanelComponent");
         }
 
-        return new PlaylistPanelComponent(this.skin, this.playlistPanelSize, this.dataWatcher);
+        PlaylistPanelComponent component = new PlaylistPanelComponent(this.skin, this.playlistPanelSize, this.dataWatcher);
+        component.setPlaylistDialogComponent(this.playlistDialogComponent);
+
+        return component;
     }
 }

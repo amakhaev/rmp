@@ -1,6 +1,7 @@
 package com.rmp.widget.components.playlistPanel;
 
-import com.rmp.widget.controls.iconButton.IconButton;
+import com.rmp.widget.components.playlistDialog.NewPlaylistDialogComponent;
+import com.rmp.widget.controls.button.IconButton;
 import com.rmp.widget.controls.roundPanel.RoundPanel;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.Colors;
@@ -30,6 +31,7 @@ public class PlaylistPanelComponent {
     private JPanel playlistPanel;
     private TitledBorder playlistTitle;
     private PlaylistContextMenu contextMenu;
+    private NewPlaylistDialogComponent playlistDialogComponent;
 
     /**
      * Initialize new instance of {@link PlaylistPanelComponent}
@@ -46,6 +48,15 @@ public class PlaylistPanelComponent {
 
         this.initialize();
         this.subscribeToWatcherChanges();
+    }
+
+    void setPlaylistDialogComponent(NewPlaylistDialogComponent playlistDialogComponent) {
+        this.playlistDialogComponent = playlistDialogComponent;
+        if (this.playlistDialogComponent != null) {
+            this.playlistDialogComponent.getSaveSubject().subscribe(playlistTitle -> {
+                System.out.println(playlistTitle);
+            });
+        }
     }
 
     private void initialize() {
@@ -105,7 +116,11 @@ public class PlaylistPanelComponent {
         this.contextMenu.addButton(
                 LocalizationUtils.getString("new_playlist"),
                 true,
-                () -> System.out.println("Test")
+                () -> {
+                    if (this.playlistDialogComponent != null) {
+                        this.playlistDialogComponent.start();
+                    }
+                }
         );
 
         return this.contextMenu.update();

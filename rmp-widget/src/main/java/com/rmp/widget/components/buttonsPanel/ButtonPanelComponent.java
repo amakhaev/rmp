@@ -1,6 +1,6 @@
 package com.rmp.widget.components.buttonsPanel;
 
-import com.rmp.widget.controls.iconButton.IconButton;
+import com.rmp.widget.controls.button.IconButton;
 import com.rmp.widget.skins.ButtonPanelSkin;
 import com.rmp.widget.skins.Colors;
 import lombok.Getter;

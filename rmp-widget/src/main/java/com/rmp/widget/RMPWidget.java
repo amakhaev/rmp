@@ -1,5 +1,7 @@
 package com.rmp.widget;
 
+import com.rmp.widget.components.playlistDialog.NewPlaylistDialogComponent;
+import com.rmp.widget.components.playlistPanel.PlaylistPanelBuilder;
 import com.rmp.widget.components.rootPanel.RootPanelComponent;
 import com.rmp.widget.components.rootPanel.RootPanelBuilder;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
@@ -51,9 +53,14 @@ public class RMPWidget {
 
         RootPanelComponent rootPanelComponent = new RootPanelBuilder()
                 .setSkin(this.skin)
-                .setDataWatcher(playlistDataWatcher)
+                .setDataWatcher(this.createPlaylistBuilder(playlistDataWatcher))
                 .build();
         this.widget.setContentPane(rootPanelComponent.getRootPanel());
     }
 
+    private PlaylistPanelBuilder createPlaylistBuilder(PlaylistDataWatcher playlistDataWatcher) {
+        return new PlaylistPanelBuilder()
+                .setDataWatcher(playlistDataWatcher)
+                .setPlaylistDialogComponent(new NewPlaylistDialogComponent(this.widget));
+    }
 }
