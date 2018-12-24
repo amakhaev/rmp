@@ -1,6 +1,6 @@
 package com.rmp.widget;
 
-import com.rmp.widget.controller.PlaylistEventHandler;
+import com.rmp.widget.eventHandler.PlaylistEventHandler;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.RMPSkin;
 import com.rmp.widget.skins.Skin;
@@ -50,9 +50,9 @@ public class RMPWidgetBuilder {
     }
 
     /**
-     * Sets the playlist controller
+     * Sets the playlist eventHandler
      *
-     * @param playlistEventHandler - the dialog controller to set
+     * @param playlistEventHandler - the dialog eventHandler to set
      * @return the current {@link RMPWidgetBuilder} instance
      */
     public RMPWidgetBuilder setPlaylistEventHandler(PlaylistEventHandler playlistEventHandler) {

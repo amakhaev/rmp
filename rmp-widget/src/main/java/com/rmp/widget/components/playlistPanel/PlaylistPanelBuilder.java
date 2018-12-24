@@ -1,7 +1,8 @@
 package com.rmp.widget.components.playlistPanel;
 
 import com.rmp.widget.components.playlistDialog.NewPlaylistDialogComponent;
-import com.rmp.widget.controller.PlaylistEventHandler;
+import com.rmp.widget.components.playlistDialog.OpenFileDialogComponent;
+import com.rmp.widget.eventHandler.PlaylistEventHandler;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.PlaylistPanelSkin;
 
@@ -15,8 +16,10 @@ public class PlaylistPanelBuilder {
     private PlaylistPanelSkin skin;
     private Dimension playlistPanelSize;
     private PlaylistDataWatcher dataWatcher;
-    private NewPlaylistDialogComponent playlistDialogComponent;
     private PlaylistEventHandler playlistEventHandler;
+    private NewPlaylistDialogComponent playlistDialogComponent;
+    private OpenFileDialogComponent openFileDialogComponent;
+
 
     /**
      * Sets the skin for {@link PlaylistPanelComponent}
@@ -63,13 +66,24 @@ public class PlaylistPanelBuilder {
     }
 
     /**
-     * Sets the playlist controller
+     * Sets the playlist eventHandler
      *
-     * @param playlistEventHandler - the dialog controller to set
+     * @param playlistEventHandler - the dialog eventHandler to set
      * @return the current {@link PlaylistPanelBuilder} instance
      */
     public PlaylistPanelBuilder setPlaylistEventHandler(PlaylistEventHandler playlistEventHandler) {
         this.playlistEventHandler = playlistEventHandler;
+        return this;
+    }
+
+    /**
+     * Sets the open file dialog component
+     *
+     * @param openFileDialogComponent - the dialog component to set
+     * @return the current {@link PlaylistPanelBuilder} instance
+     */
+    public PlaylistPanelBuilder setOpenFileDialogComponent(OpenFileDialogComponent openFileDialogComponent) {
+        this.openFileDialogComponent = openFileDialogComponent;
         return this;
     }
 
@@ -93,7 +107,8 @@ public class PlaylistPanelBuilder {
 
         PlaylistPanelComponent component = new PlaylistPanelComponent(this.skin, this.playlistPanelSize, this.dataWatcher);
         component.setPlaylistDialogComponent(this.playlistDialogComponent);
-        component.setPlaylistEventHandler(playlistEventHandler);
+        component.setPlaylistEventHandler(this.playlistEventHandler);
+        component.setOpenFileDialogComponent(this.openFileDialogComponent);
 
         return component;
     }

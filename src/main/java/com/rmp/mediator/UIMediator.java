@@ -1,5 +1,6 @@
 package com.rmp.mediator;
 
+import com.rmp.mediator.service.mediaFile.MediaFileService;
 import com.rmp.mediator.service.playlist.PlaylistService;
 import com.rmp.mediator.service.state.StateService;
 import com.rmp.mediator.taskExecutor.AsyncTaskExecutor;
@@ -7,7 +8,7 @@ import com.rmp.mediator.ui.PlaylistEventHandlerImpl;
 import com.rmp.mediator.ui.PlaylistWatcher;
 import com.rmp.widget.RMPWidget;
 import com.rmp.widget.RMPWidgetBuilder;
-import com.rmp.widget.controller.PlaylistEventHandler;
+import com.rmp.widget.eventHandler.PlaylistEventHandler;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.Skin;
 import lombok.extern.slf4j.Slf4j;
@@ -58,6 +59,7 @@ public class UIMediator {
     private void initializeUI() {
         PlaylistService playlistService = new PlaylistService();
         StateService stateService=  new StateService();
+        MediaFileService mediaFileService = new MediaFileService();
 
         this.asyncTaskExecutor.executeTask(() -> {
             this.playlistDataWatcher.getPlaylistModelObserver().emit(playlistService.getAllPlaylists());
@@ -67,6 +69,12 @@ public class UIMediator {
             this.playlistDataWatcher.getSelectedPlaylistObserver().emit(playlistService.getById(
                     stateService.getCurrentState().getPlaylistId()
             ));
+        });
+
+        this.asyncTaskExecutor.executeTask(() -> {
+            this.playlistDataWatcher.getAddMediaFilesObserver().emit(
+                    mediaFileService.getByPlaylistId(stateService.getCurrentState().getPlaylistId())
+            );
         });
     }
 }

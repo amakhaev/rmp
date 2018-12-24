@@ -1,7 +1,8 @@
 package com.rmp.widget.components.playlistPanel;
 
 import com.rmp.widget.components.playlistDialog.NewPlaylistDialogComponent;
-import com.rmp.widget.controller.PlaylistEventHandler;
+import com.rmp.widget.components.playlistDialog.OpenFileDialogComponent;
+import com.rmp.widget.eventHandler.PlaylistEventHandler;
 import com.rmp.widget.controls.button.IconButton;
 import com.rmp.widget.controls.roundPanel.RoundPanel;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
@@ -36,6 +37,10 @@ public class PlaylistPanelComponent {
     private TitledBorder playlistTitle;
     private PlaylistContextMenu contextMenu;
     private NewPlaylistDialogComponent playlistDialogComponent;
+    private MediaListComponent mediaListComponent;
+
+    @Setter
+    private OpenFileDialogComponent openFileDialogComponent;
 
     /**
      * Initialize new instance of {@link PlaylistPanelComponent}
@@ -80,12 +85,20 @@ public class PlaylistPanelComponent {
     }
 
     private JPanel createMediaListPanel() {
-        this.playlistTitle = BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), "Test");
+        this.mediaListComponent = new MediaListComponent();
+        this.mediaListComponent.setDeleteMediaItemHandler(
+                mediaFileIdList -> null
+        );
+
+        this.playlistTitle = BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), "");
         this.playlistTitle.setTitleColor(Colors.LIGHT_GRAY);
 
         JPanel mediaListPanel = new RoundPanel();
         mediaListPanel.setBackground(Color.BLACK);
         mediaListPanel.setBorder(this.playlistTitle);
+        mediaListPanel.setLayout(new BorderLayout());
+
+        mediaListPanel.add(this.mediaListComponent.create(), BorderLayout.CENTER);
 
         return mediaListPanel;
     }
@@ -104,7 +117,7 @@ public class PlaylistPanelComponent {
 
         JPopupMenu playlistPopupMenu = this.createPlaylistPopupMenu();
         playlistButton.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
+            public void mouseClicked(MouseEvent e) {
                 playlistPopupMenu.show(e.getComponent(), e.getX(), e.getY());
             }
         });
@@ -114,6 +127,15 @@ public class PlaylistPanelComponent {
                 this.skin.getOpenFileIcon(),
                 this.skin.getOpenFileIcon()
         );
+        openFileButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                super.mouseClicked(mouseEvent);
+                if (openFileDialogComponent != null && playlistEventHandler != null) {
+                    playlistEventHandler.onFilesSelected(openFileDialogComponent.startForResult());
+                }
+            }
+        });
 
         buttonsPanel.add(playlistButton);
         buttonsPanel.add(openFileButton);
@@ -167,6 +189,18 @@ public class PlaylistPanelComponent {
                         selectedPlaylist.getTitle().substring(1);
                 this.playlistTitle.setTitle(title);
                 this.playlistPanel.repaint();
+            });
+        }
+
+        if (this.dataWatcher.getAddMediaFileObserver() != null) {
+            this.dataWatcher.getAddMediaFileObserver().subscribe(mediaFile -> {
+                this.mediaListComponent.addFile(mediaFile);
+            });
+        }
+
+        if (this.dataWatcher.getAddMediaFilesObserver() != null) {
+            this.dataWatcher.getAddMediaFilesObserver().subscribe(mediaFiles -> {
+                this.mediaListComponent.addFiles(mediaFiles);
             });
         }
     }

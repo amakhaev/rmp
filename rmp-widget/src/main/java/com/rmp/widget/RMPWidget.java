@@ -1,14 +1,14 @@
 package com.rmp.widget;
 
 import com.rmp.widget.components.playlistDialog.NewPlaylistDialogComponent;
+import com.rmp.widget.components.playlistDialog.OpenFileDialogComponent;
 import com.rmp.widget.components.playlistPanel.PlaylistPanelBuilder;
 import com.rmp.widget.components.rootPanel.RootPanelComponent;
 import com.rmp.widget.components.rootPanel.RootPanelBuilder;
-import com.rmp.widget.controller.PlaylistEventHandler;
+import com.rmp.widget.eventHandler.PlaylistEventHandler;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.RMPSkin;
 import com.rmp.widget.utilities.LocalizationUtils;
-import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -70,6 +70,7 @@ public class RMPWidget {
         return new PlaylistPanelBuilder()
                 .setDataWatcher(playlistDataWatcher)
                 .setPlaylistDialogComponent(new NewPlaylistDialogComponent(this.widget))
+                .setOpenFileDialogComponent(new OpenFileDialogComponent(this.widget))
                 .setPlaylistEventHandler(playlistEventHandler);
     }
 }

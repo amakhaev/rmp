@@ -8,7 +8,7 @@ import org.mapstruct.factory.Mappers;
  * Provides the mapper to work with playlists
  */
 @Mapper
-public interface StateMapper extends DataMapper {
+interface StateMapper extends DataMapper {
 
     StateMapper INSTANCE = Mappers.getMapper(StateMapper.class);
 

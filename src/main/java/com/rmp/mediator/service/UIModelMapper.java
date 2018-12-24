@@ -1,10 +1,7 @@
 package com.rmp.mediator.service;
 
-import com.rmp.widget.readModels.UIPlaylistModel;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +32,16 @@ public abstract class UIModelMapper<Model, UIModel> {
      */
     public UIModel dataModelToUIModel(Model dataModel) {
         return this.modelMapper.map(dataModel, this.uiModelClass);
+    }
+
+    /**
+     * Maps the ui model to data model
+     *
+     * @param dataModel - the model for mapping
+     * @return ui representation of model
+     */
+    public Model UiModelToDataModel(UIModel dataModel) {
+        return this.modelMapper.map(dataModel, this.dataModelClass);
     }
 
     /**
