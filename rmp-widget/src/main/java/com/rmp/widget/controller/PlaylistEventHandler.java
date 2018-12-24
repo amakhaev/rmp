@@ -12,4 +12,11 @@ public interface PlaylistEventHandler {
      */
     void onPlaylistCreate(String name);
 
+    /**
+     * Handles the selecting of playlist from list
+     *
+     * @param id - the identifier of selected playlist
+     */
+    void onPlaylistSelected(int id);
+
 }

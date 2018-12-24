@@ -1,6 +1,7 @@
 package com.rmp.mediator;
 
-import com.rmp.mediator.service.PlaylistService;
+import com.rmp.mediator.service.playlist.PlaylistService;
+import com.rmp.mediator.service.state.StateService;
 import com.rmp.mediator.taskExecutor.AsyncTaskExecutor;
 import com.rmp.mediator.ui.PlaylistEventHandlerImpl;
 import com.rmp.mediator.ui.PlaylistWatcher;
@@ -20,7 +21,6 @@ import javax.swing.*;
 public class UIMediator {
 
     private AsyncTaskExecutor asyncTaskExecutor;
-    private PlaylistService playlistService;
 
     private PlaylistDataWatcher playlistDataWatcher;
     private RMPWidget widget;
@@ -31,7 +31,6 @@ public class UIMediator {
     public UIMediator() {
         this.playlistDataWatcher = new PlaylistWatcher();
         this.asyncTaskExecutor = new AsyncTaskExecutor();
-        this.playlistService = new PlaylistService();
 
         this.initializeUI();
     }
@@ -43,7 +42,7 @@ public class UIMediator {
         if (this.widget == null) {
             PlaylistEventHandler handler = new PlaylistEventHandlerImpl(
                     this.playlistDataWatcher,
-                    this.playlistService, this.asyncTaskExecutor
+                    this.asyncTaskExecutor
             );
 
             this.widget = new RMPWidgetBuilder()
@@ -57,8 +56,17 @@ public class UIMediator {
     }
 
     private void initializeUI() {
+        PlaylistService playlistService = new PlaylistService();
+        StateService stateService=  new StateService();
+
         this.asyncTaskExecutor.executeTask(() -> {
-            this.playlistDataWatcher.getPlaylistModelObserver().emit(this.playlistService.getAllPlaylists());
+            this.playlistDataWatcher.getPlaylistModelObserver().emit(playlistService.getAllPlaylists());
+        });
+
+        this.asyncTaskExecutor.executeTask(() -> {
+            this.playlistDataWatcher.getSelectedPlaylistObserver().emit(playlistService.getById(
+                    stateService.getCurrentState().getPlaylistId()
+            ));
         });
     }
 }

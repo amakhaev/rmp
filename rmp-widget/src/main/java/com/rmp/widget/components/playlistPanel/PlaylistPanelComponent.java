@@ -150,12 +150,23 @@ public class PlaylistPanelComponent {
                                     pl.getId(),
                                     pl.getTitle(),
                                     () -> {
-                                        System.out.println("Playlist clicked");
+                                        if (this.playlistEventHandler != null) {
+                                            this.playlistEventHandler.onPlaylistSelected(pl.getId());
+                                        }
                                     }
                             )
                     );
                     this.contextMenu.update();
                 }
+            });
+        }
+
+        if (this.dataWatcher.getSelectedPlaylistObserver() != null) {
+            this.dataWatcher.getSelectedPlaylistObserver().subscribe(selectedPlaylist -> {
+                String title = Character.toUpperCase(selectedPlaylist.getTitle().charAt(0)) +
+                        selectedPlaylist.getTitle().substring(1);
+                this.playlistTitle.setTitle(title);
+                this.playlistPanel.repaint();
             });
         }
     }

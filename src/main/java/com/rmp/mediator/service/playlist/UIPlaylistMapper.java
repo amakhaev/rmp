@@ -1,6 +1,7 @@
-package com.rmp.mediator.service;
+package com.rmp.mediator.service.playlist;
 
 import com.rmp.dao.domain.playlist.PlaylistModel;
+import com.rmp.mediator.service.UIModelMapper;
 import com.rmp.widget.readModels.UIPlaylistModel;
 
 /**

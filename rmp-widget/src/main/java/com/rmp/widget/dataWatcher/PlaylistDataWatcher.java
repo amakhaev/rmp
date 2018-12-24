@@ -14,4 +14,9 @@ public interface PlaylistDataWatcher {
      */
     ReplayDataObserver<List<UIPlaylistModel>> getPlaylistModelObserver();
 
+    /**
+     * Gets the observer that provides selected playlist
+     */
+    ReplayDataObserver<UIPlaylistModel> getSelectedPlaylistObserver();
+
 }

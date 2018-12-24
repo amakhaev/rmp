@@ -12,6 +12,7 @@ import java.util.List;
 public class PlaylistWatcher implements PlaylistDataWatcher {
 
     private ReplayDataObserver<List<UIPlaylistModel>> playlistModels;
+    private ReplayDataObserver<UIPlaylistModel> selectedPlaylist;
 
     /**
      * Gets the observer that watched on playlist models
@@ -23,5 +24,17 @@ public class PlaylistWatcher implements PlaylistDataWatcher {
         }
 
         return this.playlistModels;
+    }
+
+    /**
+     * Gets the observer that provides selected playlist
+     */
+    @Override
+    public ReplayDataObserver<UIPlaylistModel> getSelectedPlaylistObserver() {
+        if (this.selectedPlaylist == null) {
+            this.selectedPlaylist = new ReplayDataObserver<>();
+        }
+
+        return this.selectedPlaylist;
     }
 }

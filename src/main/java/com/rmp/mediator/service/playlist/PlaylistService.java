@@ -1,4 +1,4 @@
-package com.rmp.mediator.service;
+package com.rmp.mediator.service.playlist;
 
 import com.rmp.dao.domain.playlist.PlaylistDao;
 import com.rmp.dao.domain.playlist.PlaylistModel;
@@ -45,5 +45,25 @@ public class PlaylistService {
         playlistModel.setTitle(title);
 
         this.playlistDao.create(playlistModel);
+    }
+
+    /**
+     * Gets the UI playlist model by given id
+     *
+     * @param id - the id of playlist
+     * @return the {@link UIPlaylistModel} instance
+     */
+    public UIPlaylistModel getById(int id) {
+        return this.mapper.dataModelToUIModel(this.playlistDao.findById(id));
+    }
+
+    /**
+     * Gets the UI playlist model by given title
+     *
+     * @param title - the title of playlist
+     * @return the {@link UIPlaylistModel} instance
+     */
+    public UIPlaylistModel getByTitle(String title) {
+        return this.mapper.dataModelToUIModel(this.playlistDao.findByTitle(title));
     }
 }
