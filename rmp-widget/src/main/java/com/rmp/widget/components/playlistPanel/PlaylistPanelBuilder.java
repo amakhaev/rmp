@@ -1,6 +1,7 @@
 package com.rmp.widget.components.playlistPanel;
 
 import com.rmp.widget.components.playlistDialog.NewPlaylistDialogComponent;
+import com.rmp.widget.controller.PlaylistEventHandler;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.PlaylistPanelSkin;
 
@@ -15,6 +16,7 @@ public class PlaylistPanelBuilder {
     private Dimension playlistPanelSize;
     private PlaylistDataWatcher dataWatcher;
     private NewPlaylistDialogComponent playlistDialogComponent;
+    private PlaylistEventHandler playlistEventHandler;
 
     /**
      * Sets the skin for {@link PlaylistPanelComponent}
@@ -39,9 +41,9 @@ public class PlaylistPanelBuilder {
     }
 
     /**
-     * Sets the watcher of playlist component
+     * Sets the ui of playlist component
      *
-     * @param dataWatcher - the watcher
+     * @param dataWatcher - the ui
      * @return the current {@link PlaylistPanelBuilder} instance
      */
     public PlaylistPanelBuilder setDataWatcher(PlaylistDataWatcher dataWatcher) {
@@ -61,6 +63,17 @@ public class PlaylistPanelBuilder {
     }
 
     /**
+     * Sets the playlist controller
+     *
+     * @param playlistEventHandler - the dialog controller to set
+     * @return the current {@link PlaylistPanelBuilder} instance
+     */
+    public PlaylistPanelBuilder setPlaylistEventHandler(PlaylistEventHandler playlistEventHandler) {
+        this.playlistEventHandler = playlistEventHandler;
+        return this;
+    }
+
+    /**
      * Builds the {@link PlaylistPanelComponent} instance by given arguments
      *
      * @return the {@link PlaylistPanelComponent} instance
@@ -75,11 +88,12 @@ public class PlaylistPanelBuilder {
         }
 
         if (this.dataWatcher == null) {
-            throw new NullPointerException("Data watcher is required to build PlaylistPanelComponent");
+            throw new NullPointerException("Data ui is required to build PlaylistPanelComponent");
         }
 
         PlaylistPanelComponent component = new PlaylistPanelComponent(this.skin, this.playlistPanelSize, this.dataWatcher);
         component.setPlaylistDialogComponent(this.playlistDialogComponent);
+        component.setPlaylistEventHandler(playlistEventHandler);
 
         return component;
     }

@@ -28,7 +28,7 @@ public class RootPanelBuilder {
      * @param playlistPanelBuilder - the playlist panel builder
      * @return the current {@link RootPanelBuilder} instance
      */
-    public RootPanelBuilder setDataWatcher(PlaylistPanelBuilder playlistPanelBuilder) {
+    public RootPanelBuilder setPlaylistPanelBuilder(PlaylistPanelBuilder playlistPanelBuilder) {
         this.playlistPanelBuilder = playlistPanelBuilder;
         return this;
     }

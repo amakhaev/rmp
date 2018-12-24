@@ -4,9 +4,11 @@ import com.rmp.widget.components.playlistDialog.NewPlaylistDialogComponent;
 import com.rmp.widget.components.playlistPanel.PlaylistPanelBuilder;
 import com.rmp.widget.components.rootPanel.RootPanelComponent;
 import com.rmp.widget.components.rootPanel.RootPanelBuilder;
+import com.rmp.widget.controller.PlaylistEventHandler;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.RMPSkin;
 import com.rmp.widget.utilities.LocalizationUtils;
+import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -25,12 +27,10 @@ public class RMPWidget {
      * Initialize new instance of {@link RMPWidget}
      *
      * @param skin - the skin that should be used when UI is shows
-     * @param playlistDataWatcher - the playlist data watcher
      */
-    RMPWidget(RMPSkin skin, PlaylistDataWatcher playlistDataWatcher) {
+    RMPWidget(RMPSkin skin) {
         this.widget = new JFrame(LocalizationUtils.getString("rmp_title"));
         this.skin = skin;
-        this.initialize(playlistDataWatcher);
     }
 
     /**
@@ -41,7 +41,12 @@ public class RMPWidget {
         this.widget.setVisible(true);
     }
 
-    private void initialize(PlaylistDataWatcher playlistDataWatcher) {
+    /**
+     * Initialize widget
+     *
+     * @param playlistDataWatcher - the data watcher
+     */
+    void initialize(PlaylistDataWatcher playlistDataWatcher, PlaylistEventHandler playlistEventHandler) {
         this.widget.setResizable(false);
         this.widget.setPreferredSize(this.skin.getSize());
         this.widget.addWindowListener(new WindowAdapter() {
@@ -53,14 +58,18 @@ public class RMPWidget {
 
         RootPanelComponent rootPanelComponent = new RootPanelBuilder()
                 .setSkin(this.skin)
-                .setDataWatcher(this.createPlaylistBuilder(playlistDataWatcher))
+                .setPlaylistPanelBuilder(this.createPlaylistBuilder(playlistDataWatcher, playlistEventHandler))
                 .build();
         this.widget.setContentPane(rootPanelComponent.getRootPanel());
     }
 
-    private PlaylistPanelBuilder createPlaylistBuilder(PlaylistDataWatcher playlistDataWatcher) {
+    private PlaylistPanelBuilder createPlaylistBuilder(
+            PlaylistDataWatcher playlistDataWatcher,
+            PlaylistEventHandler playlistEventHandler
+    ) {
         return new PlaylistPanelBuilder()
                 .setDataWatcher(playlistDataWatcher)
-                .setPlaylistDialogComponent(new NewPlaylistDialogComponent(this.widget));
+                .setPlaylistDialogComponent(new NewPlaylistDialogComponent(this.widget))
+                .setPlaylistEventHandler(playlistEventHandler);
     }
 }

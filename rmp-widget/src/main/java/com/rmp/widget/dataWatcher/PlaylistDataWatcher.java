@@ -5,7 +5,7 @@ import com.rmp.widget.readModels.UIPlaylistModel;
 import java.util.List;
 
 /**
- * Provides the watcher for playlist
+ * Provides the ui for playlist
  */
 public interface PlaylistDataWatcher {
 

@@ -1,4 +1,4 @@
-package com.rmp.mediator.watcher;
+package com.rmp.mediator.ui;
 
 import com.rmp.widget.dataWatcher.ReplayDataObserver;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;

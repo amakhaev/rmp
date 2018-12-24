@@ -2,9 +2,11 @@ package com.rmp.mediator;
 
 import com.rmp.mediator.service.PlaylistService;
 import com.rmp.mediator.taskExecutor.AsyncTaskExecutor;
-import com.rmp.mediator.watcher.PlaylistWatcher;
+import com.rmp.mediator.ui.PlaylistEventHandlerImpl;
+import com.rmp.mediator.ui.PlaylistWatcher;
 import com.rmp.widget.RMPWidget;
 import com.rmp.widget.RMPWidgetBuilder;
+import com.rmp.widget.controller.PlaylistEventHandler;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.Skin;
 import lombok.extern.slf4j.Slf4j;
@@ -39,9 +41,15 @@ public class UIMediator {
      */
     public void showUI() {
         if (this.widget == null) {
+            PlaylistEventHandler handler = new PlaylistEventHandlerImpl(
+                    this.playlistDataWatcher,
+                    this.playlistService, this.asyncTaskExecutor
+            );
+
             this.widget = new RMPWidgetBuilder()
                     .setSkin(Skin.DEFAULT)
                     .setDataWatcher(this.playlistDataWatcher)
+                    .setPlaylistEventHandler(handler)
                     .build();
         }
 

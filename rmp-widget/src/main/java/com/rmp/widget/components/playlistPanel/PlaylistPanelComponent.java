@@ -1,6 +1,7 @@
 package com.rmp.widget.components.playlistPanel;
 
 import com.rmp.widget.components.playlistDialog.NewPlaylistDialogComponent;
+import com.rmp.widget.controller.PlaylistEventHandler;
 import com.rmp.widget.controls.button.IconButton;
 import com.rmp.widget.controls.roundPanel.RoundPanel;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
@@ -27,6 +28,9 @@ public class PlaylistPanelComponent {
     private PlaylistDataWatcher dataWatcher;
     private PlaylistPanelSkin skin;
 
+    @Setter
+    private PlaylistEventHandler playlistEventHandler;
+
     @Getter
     private JPanel playlistPanel;
     private TitledBorder playlistTitle;
@@ -50,11 +54,18 @@ public class PlaylistPanelComponent {
         this.subscribeToWatcherChanges();
     }
 
+    /**
+     * Sets the playlist dialog component
+     *
+     * @param playlistDialogComponent - the dialog to enter new playlist
+     */
     void setPlaylistDialogComponent(NewPlaylistDialogComponent playlistDialogComponent) {
         this.playlistDialogComponent = playlistDialogComponent;
         if (this.playlistDialogComponent != null) {
             this.playlistDialogComponent.getSaveSubject().subscribe(playlistTitle -> {
-                System.out.println(playlistTitle);
+                if (playlistEventHandler != null) {
+                    playlistEventHandler.onPlaylistCreate(playlistTitle);
+                }
             });
         }
     }

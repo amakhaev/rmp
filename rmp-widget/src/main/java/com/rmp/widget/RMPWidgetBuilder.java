@@ -1,5 +1,6 @@
 package com.rmp.widget;
 
+import com.rmp.widget.controller.PlaylistEventHandler;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.RMPSkin;
 import com.rmp.widget.skins.Skin;
@@ -14,6 +15,7 @@ public class RMPWidgetBuilder {
 
     private Skin skin;
     private PlaylistDataWatcher playlistDataWatcher;
+    private PlaylistEventHandler playlistEventHandler;
 
     /**
      * Initialize new instance of {@link RMPWidgetBuilder}
@@ -37,13 +39,24 @@ public class RMPWidgetBuilder {
     }
 
     /**
-     * Sets the watcher of playlist component
+     * Sets the ui of playlist component
      *
-     * @param dataWatcher - the watcher
+     * @param dataWatcher - the ui
      * @return the current {@link RMPWidgetBuilder} instance
      */
     public RMPWidgetBuilder setDataWatcher(PlaylistDataWatcher dataWatcher) {
         this.playlistDataWatcher = dataWatcher;
+        return this;
+    }
+
+    /**
+     * Sets the playlist controller
+     *
+     * @param playlistEventHandler - the dialog controller to set
+     * @return the current {@link RMPWidgetBuilder} instance
+     */
+    public RMPWidgetBuilder setPlaylistEventHandler(PlaylistEventHandler playlistEventHandler) {
+        this.playlistEventHandler = playlistEventHandler;
         return this;
     }
 
@@ -53,7 +66,10 @@ public class RMPWidgetBuilder {
      * @return the {@link RMPWidget} instance
      */
     public RMPWidget build() {
-        return new RMPWidget(this.getSkin(), this.playlistDataWatcher);
+        RMPWidget widget = new RMPWidget(this.getSkin());
+        widget.initialize(this.playlistDataWatcher, this.playlistEventHandler);
+
+        return widget;
     }
 
     private RMPSkin getSkin() {
