@@ -74,7 +74,7 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
                     this.playlistService.getById(currentState.getPlaylistId())
             );
 
-            this.playlistDataWatcher.getAddMediaFilesObserver().emit(
+            this.playlistDataWatcher.getReplaceMediaFilesObserver().emit(
                     this.mediaFileService.getByPlaylistId(currentState.getPlaylistId())
             );
         });
@@ -91,7 +91,6 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
             List<String> filePaths = this.getFilePaths(files);
             StateModel currentState = this.stateService.getCurrentState();
 
-
             filePaths.forEach(filePath -> {
                 UIMediaFileModel mediaFile = new UIMediaFileModel();
                 mediaFile.setPath(filePath);
@@ -100,6 +99,23 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
                 mediaFile = this.mediaFileService.createMediaFile(mediaFile);
                 this.playlistDataWatcher.getAddMediaFileObserver().emit(mediaFile);
             });
+        });
+    }
+
+    /**
+     * Handles the deleting of media files
+     *
+     * @param mediaFileIds - the media files ids
+     */
+    @Override
+    public void onMediaFilesDeleted(List<Integer> mediaFileIds) {
+        this.asyncTaskExecutor.executeTask(() -> {
+            StateModel currentState = this.stateService.getCurrentState();
+
+            this.mediaFileService.deleteMediaFiles(mediaFileIds);
+            this.playlistDataWatcher.getReplaceMediaFilesObserver().emit(
+                    this.mediaFileService.getByPlaylistId(currentState.getPlaylistId())
+            );
         });
     }
 

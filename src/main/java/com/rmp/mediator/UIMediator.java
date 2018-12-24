@@ -72,7 +72,7 @@ public class UIMediator {
         });
 
         this.asyncTaskExecutor.executeTask(() -> {
-            this.playlistDataWatcher.getAddMediaFilesObserver().emit(
+            this.playlistDataWatcher.getReplaceMediaFilesObserver().emit(
                     mediaFileService.getByPlaylistId(stateService.getCurrentState().getPlaylistId())
             );
         });

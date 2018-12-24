@@ -49,6 +49,7 @@ class MediaListComponent {
 
                 UIMediaFileModel mediaFile = (UIMediaFileModel) value;
                 lbl.setText((index + 1) + ". " + mediaFile.getDisplayName());
+                lbl.setToolTipText(mediaFile.getDisplayName());
 
                 if (isSelected) {
                     this.setBackground(Colors.IRON);

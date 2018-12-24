@@ -12,20 +12,23 @@ import java.util.List;
  */
 public class PlaylistWatcher implements PlaylistDataWatcher {
 
-    private ReplayDataObserver<List<UIPlaylistModel>> playlistModels;
-    private ReplayDataObserver<UIPlaylistModel> selectedPlaylist;
-    private ReplayDataObserver<UIMediaFileModel> addMediaFile;
-    private ReplayDataObserver<List<UIMediaFileModel>> addMediaFiles;
+    private final ReplayDataObserver<List<UIPlaylistModel>> playlistModels;
+    private final ReplayDataObserver<UIPlaylistModel> selectedPlaylist;
+    private final ReplayDataObserver<UIMediaFileModel> addMediaFile;
+    private final ReplayDataObserver<List<UIMediaFileModel>> addMediaFiles;
+
+    public PlaylistWatcher() {
+        this.playlistModels = new ReplayDataObserver<>();
+        this.selectedPlaylist = new ReplayDataObserver<>();
+        this.addMediaFile = new ReplayDataObserver<>();
+        this.addMediaFiles = new ReplayDataObserver<>();
+    }
 
     /**
      * Gets the observer that watched on playlist models
      */
     @Override
     public ReplayDataObserver<List<UIPlaylistModel>> getPlaylistModelObserver() {
-        if (this.playlistModels == null) {
-            this.playlistModels = new ReplayDataObserver<>();
-        }
-
         return this.playlistModels;
     }
 
@@ -34,10 +37,6 @@ public class PlaylistWatcher implements PlaylistDataWatcher {
      */
     @Override
     public ReplayDataObserver<UIPlaylistModel> getSelectedPlaylistObserver() {
-        if (this.selectedPlaylist == null) {
-            this.selectedPlaylist = new ReplayDataObserver<>();
-        }
-
         return this.selectedPlaylist;
     }
 
@@ -46,10 +45,6 @@ public class PlaylistWatcher implements PlaylistDataWatcher {
      */
     @Override
     public ReplayDataObserver<UIMediaFileModel> getAddMediaFileObserver() {
-        if (this.addMediaFile == null) {
-            this.addMediaFile = new ReplayDataObserver<>();
-        }
-
         return this.addMediaFile;
     }
 
@@ -57,11 +52,7 @@ public class PlaylistWatcher implements PlaylistDataWatcher {
      * Gets the observer that called when media files were added
      */
     @Override
-    public ReplayDataObserver<List<UIMediaFileModel>> getAddMediaFilesObserver() {
-        if (this.addMediaFiles == null) {
-            this.addMediaFiles = new ReplayDataObserver<>();
-        }
-
+    public ReplayDataObserver<List<UIMediaFileModel>> getReplaceMediaFilesObserver() {
         return this.addMediaFiles;
     }
 }

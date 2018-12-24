@@ -29,4 +29,11 @@ public interface PlaylistEventHandler {
      */
     void onFilesSelected(List<File> files);
 
+    /**
+     * Handles the deleting of media files
+     *
+     * @param mediaFileIds - the media files ids
+     */
+    void onMediaFilesDeleted(List<Integer> mediaFileIds);
+
 }

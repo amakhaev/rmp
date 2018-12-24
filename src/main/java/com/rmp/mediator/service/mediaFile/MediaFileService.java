@@ -47,4 +47,13 @@ public class MediaFileService {
                 this.mediaFileDao.findAllByPlaylistId(playlistId)
         );
     }
+
+    /**
+     * Deletes the media files ids
+     *
+     * @param mediaFileIds - the identifiers of media files to delete
+     */
+    public void deleteMediaFiles(List<Integer> mediaFileIds) {
+        this.mediaFileDao.deleteByFileIds(mediaFileIds);
+    }
 }
