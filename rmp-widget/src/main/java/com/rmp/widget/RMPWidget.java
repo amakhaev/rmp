@@ -1,10 +1,13 @@
 package com.rmp.widget;
 
+import com.rmp.widget.components.buttonsPanel.ButtonPanelBuilder;
 import com.rmp.widget.components.playlistDialog.NewPlaylistDialogComponent;
 import com.rmp.widget.components.playlistDialog.OpenFileDialogComponent;
 import com.rmp.widget.components.playlistPanel.PlaylistPanelBuilder;
 import com.rmp.widget.components.rootPanel.RootPanelComponent;
 import com.rmp.widget.components.rootPanel.RootPanelBuilder;
+import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;
+import com.rmp.widget.eventHandler.ControlPanelEventHandler;
 import com.rmp.widget.eventHandler.PlaylistEventHandler;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.RMPSkin;
@@ -46,7 +49,10 @@ public class RMPWidget {
      *
      * @param playlistDataWatcher - the data watcher
      */
-    void initialize(PlaylistDataWatcher playlistDataWatcher, PlaylistEventHandler playlistEventHandler) {
+    void initialize(PlaylistDataWatcher playlistDataWatcher,
+                    PlaylistEventHandler playlistEventHandler,
+                    ControlPanelDataWatcher dataWatcher,
+                    ControlPanelEventHandler eventHandler) {
         this.widget.setResizable(false);
         this.widget.setPreferredSize(this.skin.getSize());
         this.widget.addWindowListener(new WindowAdapter() {
@@ -59,18 +65,25 @@ public class RMPWidget {
         RootPanelComponent rootPanelComponent = new RootPanelBuilder()
                 .setSkin(this.skin)
                 .setPlaylistPanelBuilder(this.createPlaylistBuilder(playlistDataWatcher, playlistEventHandler))
+                .setButtonPanelBuilder(this.createButtonPanelBuilder(dataWatcher, eventHandler))
                 .build();
         this.widget.setContentPane(rootPanelComponent.getRootPanel());
     }
 
-    private PlaylistPanelBuilder createPlaylistBuilder(
-            PlaylistDataWatcher playlistDataWatcher,
-            PlaylistEventHandler playlistEventHandler
+    private PlaylistPanelBuilder createPlaylistBuilder(PlaylistDataWatcher playlistDataWatcher,
+                                                       PlaylistEventHandler playlistEventHandler
     ) {
         return new PlaylistPanelBuilder()
                 .setDataWatcher(playlistDataWatcher)
                 .setPlaylistDialogComponent(new NewPlaylistDialogComponent(this.widget))
                 .setOpenFileDialogComponent(new OpenFileDialogComponent(this.widget))
                 .setPlaylistEventHandler(playlistEventHandler);
+    }
+
+    private ButtonPanelBuilder createButtonPanelBuilder(ControlPanelDataWatcher dataWatcher,
+                                                        ControlPanelEventHandler eventHandler) {
+        return new ButtonPanelBuilder()
+                .setControlPanelDataWatcher(dataWatcher)
+                .setEventHandler(eventHandler);
     }
 }

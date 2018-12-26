@@ -29,6 +29,11 @@ public class StateEntity {
     public static final String PLAYLIST_ID_FIELD = "playlist_id";
 
     /**
+     * Provides the playlist file id field name.
+     */
+    public static final String PLAYLIST_FILE_ID_FIELD = "playlist_file_id";
+
+    /**
      * Provides the modified at field name.
      */
     public static final String MODIFIED_AT_FIELD = "modified_at";
@@ -38,6 +43,9 @@ public class StateEntity {
 
     @DatabaseField(columnName = PLAYLIST_ID_FIELD)
     private int playlistId;
+
+    @DatabaseField(columnName = PLAYLIST_FILE_ID_FIELD)
+    private Integer playlistFileId;
 
     @DatabaseField(columnName = MODIFIED_AT_FIELD)
     private String modifiedAtAsString = formatter.format(LocalDateTime.now());

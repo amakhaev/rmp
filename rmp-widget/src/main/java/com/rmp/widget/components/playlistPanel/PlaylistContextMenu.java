@@ -3,6 +3,7 @@ package com.rmp.widget.components.playlistPanel;
 import com.rmp.widget.utilities.ImageUtility;
 
 import javax.swing.*;
+import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +15,8 @@ import java.util.Map;
  */
 class PlaylistContextMenu {
 
-    private final URL checkIcon;
-    private final URL addIcon;
+    private final ImageIcon checkIcon;
+    private final ImageIcon addIcon;
 
     private List<JMenuItem> anyButtons;
     private Map<Integer, JMenuItem> playlistButtons;
@@ -25,8 +26,8 @@ class PlaylistContextMenu {
      * Initialize new instance of {@link PlaylistContextMenu}
      */
     PlaylistContextMenu(URL checkIcon, URL addIcon) {
-        this.checkIcon = checkIcon;
-        this.addIcon = addIcon;
+        this.checkIcon = new ImageIcon(ImageUtility.getScaledImage(new ImageIcon(checkIcon).getImage(), 18, 18));
+        this.addIcon = new ImageIcon(ImageUtility.getScaledImage(new ImageIcon(addIcon).getImage(), 18, 18));
         this.anyButtons = new ArrayList<>();
         this.playlistButtons = new HashMap<>();
         this.popup = new JPopupMenu();
@@ -69,9 +70,7 @@ class PlaylistContextMenu {
         }
 
         this.playlistButtons.forEach((key, value) -> value.setIcon(null));
-        this.playlistButtons.get(playlistId).setIcon(
-                new ImageIcon(ImageUtility.getScaledImage(new ImageIcon(this.checkIcon).getImage(), 20, 20))
-        );
+        this.playlistButtons.get(playlistId).setIcon(this.checkIcon);
 
         return true;
     }
@@ -98,15 +97,10 @@ class PlaylistContextMenu {
         JMenuItem menuItem = new JMenuItem(title);
 
         if (enableAddIcon) {
-            menuItem.setIcon(
-                    new ImageIcon(
-                            ImageUtility.getScaledImage(new ImageIcon(this.addIcon).getImage(), 20, 20)
-                    )
-            );
+            menuItem.setIcon(this.addIcon);
         }
 
         menuItem.addActionListener(actionEvent -> action.run());
-
         return menuItem;
     }
 }

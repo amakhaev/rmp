@@ -29,4 +29,9 @@ public interface PlaylistDataWatcher {
      * Gets the observer that called when media files were added
      */
     ReplayDataObserver<List<UIMediaFileModel>> getReplaceMediaFilesObserver();
+
+    /**
+     * Gets the observer that called when media file id was changed
+     */
+    ReplayDataObserver<Integer> getSelectedMediaFileIdObserver();
 }

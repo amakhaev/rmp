@@ -66,9 +66,7 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
     @Override
     public void onPlaylistSelected(int id) {
         this.asyncTaskExecutor.executeTask(() -> {
-            StateModel currentState = this.stateService.getCurrentState();
-            currentState.setPlaylistId(id);
-            currentState = this.stateService.updateState(currentState);
+            StateModel currentState = this.stateService.updatePlaylistId(id);
 
             this.playlistDataWatcher.getSelectedPlaylistObserver().emit(
                     this.playlistService.getById(currentState.getPlaylistId())

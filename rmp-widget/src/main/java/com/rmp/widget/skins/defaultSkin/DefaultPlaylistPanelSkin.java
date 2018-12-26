@@ -51,4 +51,14 @@ public class DefaultPlaylistPanelSkin implements PlaylistPanelSkin {
     public URL getAddIcon() {
         return ResourceHelper.getPathToSkinIcon(SKIN_NAME, ResourceHelper.ADD_ICON);
     }
+
+    /**
+     * Gets the small play icon
+     *
+     * @return the {@link URL} to file
+     */
+    @Override
+    public URL getSmallPlayIcon() {
+        return ResourceHelper.getPathToSkinIcon(SKIN_NAME, ResourceHelper.PLAY_BUTTON_ICON);
+    }
 }

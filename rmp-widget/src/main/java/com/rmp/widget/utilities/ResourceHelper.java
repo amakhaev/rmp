@@ -33,6 +33,7 @@ public class ResourceHelper {
     public static final String ADD_ICON = "add-icon.png";
     public static final String ADD_LIST_ICON = "add-list-icon.png";
     public static final String CHECK_ICON = "check-icon.png";
+    public static final String PLAY_BUTTON_ICON = "play-button-icon.png";
 
     /**
      * Gets the full path to resource.

@@ -3,12 +3,14 @@ package com.rmp.widget.components.playlistPanel;
 import com.rmp.widget.controls.scroll.ModernScrollPanel;
 import com.rmp.widget.readModels.UIMediaFileModel;
 import com.rmp.widget.skins.Colors;
+import com.rmp.widget.utilities.ImageUtility;
 import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
@@ -19,11 +21,22 @@ import java.util.stream.Collectors;
  */
 class MediaListComponent {
 
+    private final ImageIcon playIcon;
+
     private JList<UIMediaFileModel> mediaList;
     private DefaultListModel<UIMediaFileModel> defaultListModel;
+    private Integer selectedItemId;
 
     @Setter
     private Function<List<Integer>, Void> deleteMediaItemHandler;
+
+    /**
+     * Initialize new instance of {@link MediaListComponent}
+     */
+    MediaListComponent(URL playIcon) {
+        this.selectedItemId = -1;
+        this.playIcon = new ImageIcon(ImageUtility.getScaledImage(new ImageIcon(playIcon).getImage(), 15, 15));
+    }
 
     /**
      * Creates the list of media files
@@ -51,11 +64,19 @@ class MediaListComponent {
                 lbl.setText((index + 1) + ". " + mediaFile.getDisplayName());
                 lbl.setToolTipText(mediaFile.getDisplayName());
 
+                if (selectedItemId != null && mediaFile.getId() == selectedItemId) {
+                    lbl.setIcon(playIcon);
+                }
+
                 if (isSelected) {
                     this.setBackground(Colors.IRON);
-                } else {
-                    this.setBackground(index % 2 == 0 ? Color.BLACK : new Color(8,32,54));
+                } else if (selectedItemId != null && mediaFile.getId() == selectedItemId) {
+                    this.setBackground(new Color(6,45,0));
                 }
+                else {
+                    this.setBackground(Color.BLACK);
+                }
+
                 return lbl;
             }
         });
@@ -113,6 +134,16 @@ class MediaListComponent {
         if (this.defaultListModel != null) {
             this.defaultListModel.clear();
         }
+    }
+
+    /**
+     * Sets the selected item id in media list component
+     *
+     * @param selectedItemId - the new value of selected item id
+     */
+    void setSelectedItemId(Integer selectedItemId) {
+        this.selectedItemId = selectedItemId;
+        this.mediaList.repaint();
     }
 
 }

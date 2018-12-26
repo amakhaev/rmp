@@ -14,6 +14,7 @@ public class StateModel {
 
     private int id;
     private int playlistId;
+    private Integer playlistFileId;
     private LocalDateTime modifiedAt;
 
 }

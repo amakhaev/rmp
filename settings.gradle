@@ -1,4 +1,4 @@
 rootProject.name = 'rmp'
 
-include ':dao', ':rmp-widget'
+include ':dao', ':rmp-widget', ':vlc-player'
 

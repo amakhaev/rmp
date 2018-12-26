@@ -1,9 +1,12 @@
 package com.rmp.widget.components.buttonsPanel;
 
 import com.rmp.widget.controls.button.IconButton;
+import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;
+import com.rmp.widget.eventHandler.ControlPanelEventHandler;
 import com.rmp.widget.skins.ButtonPanelSkin;
 import com.rmp.widget.skins.Colors;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -16,6 +19,13 @@ import java.net.URL;
 public class ButtonPanelComponent {
 
     private ButtonPanelSkin skin;
+    private ToggleIconButton playPauseButton;
+
+    @Setter
+    private ControlPanelDataWatcher controlPanelDataWatcher;
+
+    @Setter
+    private ControlPanelEventHandler eventHandler;
 
     @Getter
     private JPanel buttonPanel;
@@ -28,8 +38,14 @@ public class ButtonPanelComponent {
 
         this.buttonPanel = new JPanel();
         this.buttonPanel.setBackground(Colors.TRANSPARENT);
+    }
 
+    /**
+     * Initializes the component
+     */
+    void initialize() {
         this.initializeButtons();
+        this.subscribeToWatcherChanges();
     }
 
     private void initializeButtons() {
@@ -37,7 +53,11 @@ public class ButtonPanelComponent {
                 this.createButton(
                         this.skin.getStopIconUrl(),
                         this.skin.getStopPressedIconUrl(),
-                        () -> System.out.println("Stop")
+                        () -> {
+                            if (this.eventHandler != null) {
+                                this.eventHandler.onStop();
+                            }
+                        }
                 )
         );
 
@@ -45,23 +65,32 @@ public class ButtonPanelComponent {
                 this.createButton(
                         this.skin.getPreviousIconUrl(),
                         this.skin.getPreviousPressedIconUrl(),
-                        () -> System.out.println("Prev")
+                        () -> {
+                            if (this.eventHandler != null) {
+                                this.eventHandler.onPrev();
+                            }
+                        }
                 )
         );
 
-        this.buttonPanel.add(
-                this.createButton(
-                        this.skin.getPlayIconUrl(),
-                        this.skin.getPlayPressedIconUrl(),
-                        () -> System.out.println("Play")
-                )
+        this.playPauseButton = this.createPlayPauseButton(
+                () -> {
+                    if (this.eventHandler != null) {
+                        this.eventHandler.onPlay();
+                    }
+                }
         );
+        this.buttonPanel.add(this.playPauseButton.getIconButton());
 
         this.buttonPanel.add(
                 this.createButton(
                         this.skin.getNextIconUrl(),
                         this.skin.getNextPressedIconUrl(),
-                        () -> System.out.println("Next")
+                        () -> {
+                            if (this.eventHandler != null) {
+                                this.eventHandler.onNext();
+                            }
+                        }
                 )
         );
 
@@ -69,7 +98,11 @@ public class ButtonPanelComponent {
                 this.createButton(
                         this.skin.getConfigIconUrl(),
                         this.skin.getConfigPressedIconUrl(),
-                        () -> System.out.println("Config")
+                        () -> {
+                            if (this.eventHandler != null) {
+                                this.eventHandler.onConfigOpen();
+                            }
+                        }
                 )
         );
     }
@@ -83,5 +116,37 @@ public class ButtonPanelComponent {
         });
 
         return button;
+    }
+
+    private ToggleIconButton createPlayPauseButton(Runnable clickHandler) {
+        ToggleIconButton toggleIconButton = new ToggleIconButton(
+                50,
+                this.skin.getPlayIconUrl(),
+                this.skin.getPlayPressedIconUrl(),
+                this.skin.getPauseIconUrl(),
+                this.skin.getPausePressedIconUrl()
+        );
+
+        toggleIconButton.getIconButton().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                super.mouseClicked(mouseEvent);
+                clickHandler.run();
+            }
+        });
+
+        return toggleIconButton;
+    }
+
+    private void subscribeToWatcherChanges() {
+        if (this.controlPanelDataWatcher == null) {
+            return;
+        }
+
+        if (this.controlPanelDataWatcher.getIsPlayingObserver() != null) {
+            this.controlPanelDataWatcher.getIsPlayingObserver().subscribe(isPlaying -> {
+                playPauseButton.change(!isPlaying);
+            });
+        }
     }
 }

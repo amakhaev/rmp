@@ -34,4 +34,11 @@ public interface PlaylistPanelSkin {
      * @return the {@link URL} to file
      */
     URL getAddIcon();
+
+    /**
+     * Gets the small play icon
+     *
+     * @return the {@link URL} to file
+     */
+    URL getSmallPlayIcon();
 }

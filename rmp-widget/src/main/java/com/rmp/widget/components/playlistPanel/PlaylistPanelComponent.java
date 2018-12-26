@@ -85,7 +85,7 @@ public class PlaylistPanelComponent {
     }
 
     private JPanel createMediaListPanel() {
-        this.mediaListComponent = new MediaListComponent();
+        this.mediaListComponent = new MediaListComponent(this.skin.getSmallPlayIcon());
         this.mediaListComponent.setDeleteMediaItemHandler(
                 mediaFileIdList -> {
                     if (playlistEventHandler != null) {
@@ -193,6 +193,7 @@ public class PlaylistPanelComponent {
                 String title = Character.toUpperCase(selectedPlaylist.getTitle().charAt(0)) +
                         selectedPlaylist.getTitle().substring(1);
                 this.playlistTitle.setTitle(title);
+                this.contextMenu.setCheckedPlaylist(selectedPlaylist.getId());
                 this.playlistPanel.repaint();
             });
         }
@@ -206,6 +207,12 @@ public class PlaylistPanelComponent {
         if (this.dataWatcher.getReplaceMediaFilesObserver() != null) {
             this.dataWatcher.getReplaceMediaFilesObserver().subscribe(mediaFiles -> {
                 this.mediaListComponent.addFiles(mediaFiles);
+            });
+        }
+
+        if (this.dataWatcher.getSelectedMediaFileIdObserver() != null) {
+            this.dataWatcher.getSelectedMediaFileIdObserver().subscribe(selectedMediaFileId -> {
+                this.mediaListComponent.setSelectedItemId(selectedMediaFileId);
             });
         }
     }

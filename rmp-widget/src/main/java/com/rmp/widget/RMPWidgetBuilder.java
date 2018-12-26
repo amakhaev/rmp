@@ -1,7 +1,9 @@
 package com.rmp.widget;
 
-import com.rmp.widget.eventHandler.PlaylistEventHandler;
+import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
+import com.rmp.widget.eventHandler.ControlPanelEventHandler;
+import com.rmp.widget.eventHandler.PlaylistEventHandler;
 import com.rmp.widget.skins.RMPSkin;
 import com.rmp.widget.skins.Skin;
 import com.rmp.widget.skins.defaultSkin.DefaultSkin;
@@ -16,6 +18,8 @@ public class RMPWidgetBuilder {
     private Skin skin;
     private PlaylistDataWatcher playlistDataWatcher;
     private PlaylistEventHandler playlistEventHandler;
+    private ControlPanelDataWatcher controlPanelDataWatcher;
+    private ControlPanelEventHandler controlPanelEventHandler;
 
     /**
      * Initialize new instance of {@link RMPWidgetBuilder}
@@ -44,7 +48,7 @@ public class RMPWidgetBuilder {
      * @param dataWatcher - the ui
      * @return the current {@link RMPWidgetBuilder} instance
      */
-    public RMPWidgetBuilder setDataWatcher(PlaylistDataWatcher dataWatcher) {
+    public RMPWidgetBuilder setPlaylistDataWatcher(PlaylistDataWatcher dataWatcher) {
         this.playlistDataWatcher = dataWatcher;
         return this;
     }
@@ -61,13 +65,40 @@ public class RMPWidgetBuilder {
     }
 
     /**
+     * Sets the data watcher of buttons panel
+     *
+     * @param controlPanelDataWatcher - the data watcher for panel
+     * @return the current {@link RMPWidgetBuilder} instance
+     */
+    public RMPWidgetBuilder setControlPanelDataWatcher(ControlPanelDataWatcher controlPanelDataWatcher) {
+        this.controlPanelDataWatcher = controlPanelDataWatcher;
+        return this;
+    }
+
+    /**
+     * Sets the data event handler of buttons panel
+     *
+     * @param eventHandler - the event handler for panel
+     * @return the current {@link RMPWidgetBuilder} instance
+     */
+    public RMPWidgetBuilder setControlPanelEventHandler(ControlPanelEventHandler eventHandler) {
+        this.controlPanelEventHandler = eventHandler;
+        return this;
+    }
+
+    /**
      * Builds the widget by parameters from builder
      *
      * @return the {@link RMPWidget} instance
      */
     public RMPWidget build() {
         RMPWidget widget = new RMPWidget(this.getSkin());
-        widget.initialize(this.playlistDataWatcher, this.playlistEventHandler);
+        widget.initialize(
+                this.playlistDataWatcher,
+                this.playlistEventHandler,
+                this.controlPanelDataWatcher,
+                this.controlPanelEventHandler
+        );
 
         return widget;
     }

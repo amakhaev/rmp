@@ -25,12 +25,36 @@ public class StateService {
     }
 
     /**
+     * Updates the playlist file in the state
+     *
+     * @param currentPlaylistFile - the file value in state
+     * @return updated {@link StateModel} instance
+     */
+    public StateModel updatePlaylistFile(Integer currentPlaylistFile) {
+        StateModel current = this.getCurrentState();
+        current.setPlaylistFileId(currentPlaylistFile);
+        return this.updateState(current);
+    }
+
+    /**
+     * Updates the playlist file in the state
+     *
+     * @param currentPlaylistId - the playlist id value in state
+     * @return updated {@link StateModel} instance
+     */
+    public StateModel updatePlaylistId(int currentPlaylistId) {
+        StateModel current = this.getCurrentState();
+        current.setPlaylistId(currentPlaylistId);
+        return this.updateState(current);
+    }
+
+    /**
      * Updates the current state
      *
      * @param state - the state to update
      * @return the updated {@link StateModel} instance
      */
-    public StateModel updateState(StateModel state) {
+    private StateModel updateState(StateModel state) {
         return this.stateDao.update(state);
     }
 }
