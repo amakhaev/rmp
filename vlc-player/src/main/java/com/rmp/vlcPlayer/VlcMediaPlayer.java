@@ -40,6 +40,16 @@ public class VlcMediaPlayer {
     }
 
     /**
+     * Plays the selected media item.
+     */
+    public void play(String path) {
+        this.mediaPlayer.stop();
+        this.mediaPlaylist.setCurrentMedia(path);
+        this.mediaPlayer.prepareMedia(this.mediaPlaylist.getCurrentMedia());
+        this.play();
+    }
+
+    /**
      * Pauses the selected media item.
      */
     public void pause() {

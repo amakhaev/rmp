@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -30,6 +32,21 @@ class MediaListComponent {
     @Setter
     private Function<List<Integer>, Void> deleteMediaItemHandler;
 
+    @Setter
+    private Function<Integer, Void> doubleClickMediaItemHandler;
+
+    @Setter
+    private Color listItemForegroundColor = Colors.PRIMARY_GRAY;
+
+    @Setter
+    private Color selectedListItemBackgroundColor = Colors.IRON;
+
+    @Setter
+    private Color focusedListItemBackgroundColor = Colors.VERY_DARK_GREEN;
+
+    @Setter
+    private Color listItemBackgroundColor = Colors.BLACK;
+
     /**
      * Initialize new instance of {@link MediaListComponent}
      */
@@ -49,35 +66,15 @@ class MediaListComponent {
         this.mediaList.setLayoutOrientation(JList.VERTICAL);
         this.mediaList.setBackground(Color.BLACK);
         this.mediaList.setBorder(BorderFactory.createEmptyBorder());
-        this.mediaList.setCellRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList list,
-                                                          Object value,
-                                                          int index,
-                                                          boolean isSelected,
-                                                          boolean cellHasFocus) {
-                JLabel lbl = (JLabel)super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                lbl.setForeground(Colors.PRIMARY_GRAY);
-                lbl.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        this.mediaList.setCellRenderer(this.createCellRenderer());
 
-                UIMediaFileModel mediaFile = (UIMediaFileModel) value;
-                lbl.setText((index + 1) + ". " + mediaFile.getDisplayName());
-                lbl.setToolTipText(mediaFile.getDisplayName());
-
-                if (selectedItemId != null && mediaFile.getId() == selectedItemId) {
-                    lbl.setIcon(playIcon);
+        this.mediaList.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                if (evt.getClickCount() == 2 && doubleClickMediaItemHandler != null) {
+                    JList list = (JList)evt.getSource();
+                    UIMediaFileModel model = defaultListModel.get(list.locationToIndex(evt.getPoint()));
+                    doubleClickMediaItemHandler.apply(model.getId());
                 }
-
-                if (isSelected) {
-                    this.setBackground(Colors.IRON);
-                } else if (selectedItemId != null && mediaFile.getId() == selectedItemId) {
-                    this.setBackground(new Color(6,45,0));
-                }
-                else {
-                    this.setBackground(Color.BLACK);
-                }
-
-                return lbl;
             }
         });
 
@@ -128,15 +125,6 @@ class MediaListComponent {
     }
 
     /**
-     * Clears the list model.
-     */
-    void clear() {
-        if (this.defaultListModel != null) {
-            this.defaultListModel.clear();
-        }
-    }
-
-    /**
      * Sets the selected item id in media list component
      *
      * @param selectedItemId - the new value of selected item id
@@ -144,6 +132,40 @@ class MediaListComponent {
     void setSelectedItemId(Integer selectedItemId) {
         this.selectedItemId = selectedItemId;
         this.mediaList.repaint();
+    }
+
+    private DefaultListCellRenderer createCellRenderer() {
+        return new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList list,
+                                                          Object value,
+                                                          int index,
+                                                          boolean isSelected,
+                                                          boolean cellHasFocus) {
+                JLabel lbl = (JLabel)super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                lbl.setForeground(listItemForegroundColor);
+                lbl.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+                UIMediaFileModel mediaFile = (UIMediaFileModel) value;
+                lbl.setText((index + 1) + ". " + mediaFile.getDisplayName());
+                lbl.setToolTipText(mediaFile.getDisplayName());
+
+                if (selectedItemId != null && mediaFile.getId() == selectedItemId) {
+                    lbl.setIcon(playIcon);
+                }
+
+                if (isSelected) {
+                    this.setBackground(selectedListItemBackgroundColor);
+                } else if (selectedItemId != null && mediaFile.getId() == selectedItemId) {
+                    this.setBackground(focusedListItemBackgroundColor);
+                }
+                else {
+                    this.setBackground(listItemBackgroundColor);
+                }
+
+                return lbl;
+            }
+        };
     }
 
 }

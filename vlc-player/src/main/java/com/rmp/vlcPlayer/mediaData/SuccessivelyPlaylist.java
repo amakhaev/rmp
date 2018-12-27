@@ -55,6 +55,20 @@ public class SuccessivelyPlaylist implements MediaPlaylist {
     }
 
     /**
+     * Sets the current media file to play
+     *
+     * @param path - the path od media item
+     */
+    @Override
+    public void setCurrentMedia(String path) {
+        int foundIndex = this.mediaFilePath.indexOf(path);
+
+        if (foundIndex != -1) {
+            this.selectedPathIndex = foundIndex;
+        }
+    }
+
+    /**
      * Sets the media files
      *
      * @param filePaths - the path to selected files

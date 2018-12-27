@@ -1,12 +1,11 @@
 package com.rmp.mediator.ui;
 
+import com.rmp.mediator.UIWatcherContainer;
 import com.rmp.mediator.service.mediaFile.MediaFileService;
 import com.rmp.mediator.service.playlist.PlaylistService;
 import com.rmp.mediator.service.state.StateService;
 import com.rmp.mediator.taskExecutor.AsyncTaskExecutor;
 import com.rmp.vlcPlayer.VlcMediaPlayer;
-import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;
-import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.eventHandler.ControlPanelEventHandler;
 import com.rmp.widget.readModels.UIMediaFileModel;
 import lombok.Setter;
@@ -20,8 +19,7 @@ public class ControlPanelEventHandlerImpl implements ControlPanelEventHandler {
 
     @Setter
     private VlcMediaPlayer mediaPlayer;
-    private final ControlPanelDataWatcher controlPanelDataWatcher;
-    private final PlaylistDataWatcher playlistDataWatcher;
+    private final UIWatcherContainer watcherContainer;
     private final AsyncTaskExecutor asyncTaskExecutor;
 
     private final StateService stateService;
@@ -31,11 +29,8 @@ public class ControlPanelEventHandlerImpl implements ControlPanelEventHandler {
     /**
      * Initialize new instance of {@link ControlPanelEventHandler}
      */
-    public ControlPanelEventHandlerImpl(ControlPanelDataWatcher controlPanelDataWatcher,
-                                        AsyncTaskExecutor asyncTaskExecutor,
-                                        PlaylistDataWatcher playlistDataWatcher) {
-        this.controlPanelDataWatcher = controlPanelDataWatcher;
-        this.playlistDataWatcher = playlistDataWatcher;
+    public ControlPanelEventHandlerImpl(AsyncTaskExecutor asyncTaskExecutor, UIWatcherContainer watcherContainer) {
+        this.watcherContainer = watcherContainer;
         this.asyncTaskExecutor = asyncTaskExecutor;
         this.stateService = new StateService();
         this.playlistService = new PlaylistService();
@@ -49,9 +44,9 @@ public class ControlPanelEventHandlerImpl implements ControlPanelEventHandler {
     public void onStop() {
         this.asyncTaskExecutor.executeTask(() -> {
             this.mediaPlayer.stop();
-            this.controlPanelDataWatcher.getIsPlayingObserver().emit(this.mediaPlayer.isPlaying());
+            this.watcherContainer.getControlPanelDataWatcher().getIsPlayingObserver().emit(this.mediaPlayer.isPlaying());
             this.stateService.updatePlaylistFile(null);
-            this.playlistDataWatcher.getSelectedMediaFileIdObserver().emit(null);
+            this.watcherContainer.getPlaylistDataWatcher().getSelectedMediaFileIdObserver().emit(null);
         });
     }
 
@@ -110,7 +105,9 @@ public class ControlPanelEventHandlerImpl implements ControlPanelEventHandler {
 
     private void updateAfterMediaFileChange() {
         this.updateSelectedMediaFileState(this.mediaPlayer.getSelectedMediaFileIndex());
-        this.playlistDataWatcher.getSelectedMediaFileIdObserver().emit(this.stateService.getCurrentState().getPlaylistFileId());
-        this.controlPanelDataWatcher.getIsPlayingObserver().emit(this.mediaPlayer.isPlaying());
+        this.watcherContainer.getPlaylistDataWatcher().getSelectedMediaFileIdObserver().emit(
+                this.stateService.getCurrentState().getPlaylistFileId()
+        );
+        this.watcherContainer.getControlPanelDataWatcher().getIsPlayingObserver().emit(this.mediaPlayer.isPlaying());
     }
 }

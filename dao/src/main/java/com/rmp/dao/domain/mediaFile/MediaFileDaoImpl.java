@@ -71,6 +71,24 @@ class MediaFileDaoImpl implements MediaFileDao {
     }
 
     /**
+     * Finds the media file by given id
+     *
+     * @param id - the id of media file
+     * @return the {@link MediaFileModel} instance
+     */
+    @Override
+    public MediaFileModel findMediaFileById(int id) {
+        try {
+            return this.mapper.entityToModel(
+                    this.mediaFileDao.queryBuilder().where().eq(MediaFileEntity.ID_FIELD, id).queryForFirst()
+            );
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
+
+    /**
      * Deletes the media files by given ids.
      *
      * @param fileIds - the list of identifiers to delete

@@ -1,13 +1,15 @@
 package com.rmp.mediator.ui;
 
 import com.rmp.dao.domain.state.StateModel;
+import com.rmp.mediator.UIWatcherContainer;
 import com.rmp.mediator.service.mediaFile.MediaFileService;
 import com.rmp.mediator.service.playlist.PlaylistService;
 import com.rmp.mediator.service.state.StateService;
 import com.rmp.mediator.taskExecutor.AsyncTaskExecutor;
+import com.rmp.vlcPlayer.VlcMediaPlayer;
 import com.rmp.widget.eventHandler.PlaylistEventHandler;
-import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.readModels.UIMediaFileModel;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 
@@ -26,8 +28,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
 
+    @Setter
+    private VlcMediaPlayer mediaPlayer;
     private final AsyncTaskExecutor asyncTaskExecutor;
-    private final PlaylistDataWatcher playlistDataWatcher;
+    private final UIWatcherContainer watcherContainer;
     private final PlaylistService playlistService;
     private final StateService stateService;
     private final MediaFileService mediaFileService;
@@ -35,9 +39,8 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
     /**
      * Initialize new instance of {@link PlaylistEventHandlerImpl}
      */
-    public PlaylistEventHandlerImpl(PlaylistDataWatcher playlistDataWatcher,
-                                    AsyncTaskExecutor asyncTaskExecutor) {
-        this.playlistDataWatcher = playlistDataWatcher;
+    public PlaylistEventHandlerImpl(AsyncTaskExecutor asyncTaskExecutor, UIWatcherContainer watcherContainer) {
+        this.watcherContainer = watcherContainer;
         this.asyncTaskExecutor = asyncTaskExecutor;
         this.playlistService = new PlaylistService();
         this.stateService = new StateService();
@@ -53,7 +56,7 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
     public void onPlaylistCreate(String title) {
         this.asyncTaskExecutor.executeTask(() -> {
             this.playlistService.createPlaylist(title);
-            this.playlistDataWatcher.getPlaylistModelObserver().emit(this.playlistService.getAllPlaylists());
+            this.watcherContainer.getPlaylistDataWatcher().getPlaylistModelObserver().emit(this.playlistService.getAllPlaylists());
             this.onPlaylistSelected(this.playlistService.getByTitle(title).getId());
         });
     }
@@ -68,11 +71,11 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
         this.asyncTaskExecutor.executeTask(() -> {
             StateModel currentState = this.stateService.updatePlaylistId(id);
 
-            this.playlistDataWatcher.getSelectedPlaylistObserver().emit(
+            this.watcherContainer.getPlaylistDataWatcher().getSelectedPlaylistObserver().emit(
                     this.playlistService.getById(currentState.getPlaylistId())
             );
 
-            this.playlistDataWatcher.getReplaceMediaFilesObserver().emit(
+            this.watcherContainer.getPlaylistDataWatcher().getReplaceMediaFilesObserver().emit(
                     this.mediaFileService.getByPlaylistId(currentState.getPlaylistId())
             );
         });
@@ -95,7 +98,7 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
                 mediaFile.setPlaylistId(currentState.getPlaylistId());
 
                 mediaFile = this.mediaFileService.createMediaFile(mediaFile);
-                this.playlistDataWatcher.getAddMediaFileObserver().emit(mediaFile);
+                this.watcherContainer.getPlaylistDataWatcher().getAddMediaFileObserver().emit(mediaFile);
             });
         });
     }
@@ -111,9 +114,23 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
             StateModel currentState = this.stateService.getCurrentState();
 
             this.mediaFileService.deleteMediaFiles(mediaFileIds);
-            this.playlistDataWatcher.getReplaceMediaFilesObserver().emit(
+            this.watcherContainer.getPlaylistDataWatcher().getReplaceMediaFilesObserver().emit(
                     this.mediaFileService.getByPlaylistId(currentState.getPlaylistId())
             );
+        });
+    }
+
+    /**
+     * Handles double click by media file item in playlist
+     *
+     * @param mediaFileId - the media file id
+     */
+    @Override
+    public void onMediaItemDoubleClick(int mediaFileId) {
+        this.asyncTaskExecutor.executeTask(() -> {
+            UIMediaFileModel mediaFile = this.mediaFileService.getById(mediaFileId);
+            this.mediaPlayer.play(mediaFile.getPath());
+            this.updateAfterMediaFileChange();
         });
     }
 
@@ -143,5 +160,18 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
         });
 
         return result;
+    }
+
+    private void updateAfterMediaFileChange() {
+        List<UIMediaFileModel> mediaFileModels = this.mediaFileService.getByPlaylistId(
+                this.playlistService.getById(this.stateService.getCurrentState().getPlaylistId()).getId()
+        );
+
+        this.stateService.updatePlaylistFile(mediaFileModels.get(this.mediaPlayer.getSelectedMediaFileIndex()).getId());
+
+        this.watcherContainer.getPlaylistDataWatcher().getSelectedMediaFileIdObserver().emit(
+                this.stateService.getCurrentState().getPlaylistFileId()
+        );
+        this.watcherContainer.getControlPanelDataWatcher().getIsPlayingObserver().emit(this.mediaPlayer.isPlaying());
     }
 }

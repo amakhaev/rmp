@@ -49,6 +49,18 @@ public class MediaFileService {
     }
 
     /**
+     * Gets media file by given id
+     *
+     * @param id - the id to search
+     * @return the media file
+     */
+    public UIMediaFileModel getById(int id) {
+        return this.mapper.dataModelToUIModel(
+                this.mediaFileDao.findMediaFileById(id)
+        );
+    }
+
+    /**
      * Deletes the media files ids
      *
      * @param mediaFileIds - the identifiers of media files to delete

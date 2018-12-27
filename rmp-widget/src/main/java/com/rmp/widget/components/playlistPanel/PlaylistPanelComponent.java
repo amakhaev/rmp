@@ -86,6 +86,11 @@ public class PlaylistPanelComponent {
 
     private JPanel createMediaListPanel() {
         this.mediaListComponent = new MediaListComponent(this.skin.getSmallPlayIcon());
+        this.mediaListComponent.setListItemForegroundColor(this.skin.getListItemForegroundColor());
+        this.mediaListComponent.setSelectedListItemBackgroundColor(this.skin.getSelectedListItemBackgroundColor());
+        this.mediaListComponent.setFocusedListItemBackgroundColor(this.skin.getFocusedListItemBackgroundColor());
+        this.mediaListComponent.setListItemBackgroundColor(this.skin.getListItemBackgroundColor());
+
         this.mediaListComponent.setDeleteMediaItemHandler(
                 mediaFileIdList -> {
                     if (playlistEventHandler != null) {
@@ -94,6 +99,13 @@ public class PlaylistPanelComponent {
                     return  null;
                 }
         );
+
+        this.mediaListComponent.setDoubleClickMediaItemHandler(mediaFileId -> {
+            if (playlistEventHandler != null) {
+                playlistEventHandler.onMediaItemDoubleClick(mediaFileId);
+            }
+            return null;
+        });
 
         this.playlistTitle = BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), "");
         this.playlistTitle.setTitleColor(Colors.LIGHT_GRAY);

@@ -21,4 +21,8 @@ public class Colors {
 
     public static final Color PRIMARY_GRAY = new Color(112,101,107);
 
+    public static final Color BLACK = Color.BLACK;
+
+    public static final Color VERY_DARK_GREEN = new Color(6,45,0);
+
 }

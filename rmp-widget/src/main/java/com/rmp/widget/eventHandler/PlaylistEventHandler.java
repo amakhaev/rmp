@@ -36,4 +36,10 @@ public interface PlaylistEventHandler {
      */
     void onMediaFilesDeleted(List<Integer> mediaFileIds);
 
+    /**
+     * Handles double click by media file item in playlist
+     *
+     * @param mediaFileId - the media file id
+     */
+    void onMediaItemDoubleClick(int mediaFileId);
 }

@@ -1,8 +1,10 @@
 package com.rmp.widget.skins.defaultSkin;
 
+import com.rmp.widget.skins.Colors;
 import com.rmp.widget.skins.PlaylistPanelSkin;
 import com.rmp.widget.utilities.ResourceHelper;
 
+import java.awt.*;
 import java.net.URL;
 
 /**
@@ -60,5 +62,37 @@ public class DefaultPlaylistPanelSkin implements PlaylistPanelSkin {
     @Override
     public URL getSmallPlayIcon() {
         return ResourceHelper.getPathToSkinIcon(SKIN_NAME, ResourceHelper.PLAY_BUTTON_ICON);
+    }
+
+    /**
+     * Gets the color of text for label in list of media items
+     */
+    @Override
+    public Color getListItemForegroundColor() {
+        return Colors.PRIMARY_GRAY;
+    }
+
+    /**
+     * Gets the color of label in list of media items that currently selected
+     */
+    @Override
+    public Color getSelectedListItemBackgroundColor() {
+        return Colors.IRON;
+    }
+
+    /**
+     * Gets the color of label in list of media items that currently has focus
+     */
+    @Override
+    public Color getFocusedListItemBackgroundColor() {
+        return Colors.VERY_DARK_GREEN;
+    }
+
+    /**
+     * Gets the color of background for label in list of media items
+     */
+    @Override
+    public Color getListItemBackgroundColor() {
+        return Colors.BLACK;
     }
 }

@@ -26,6 +26,14 @@ public interface MediaFileDao {
     List<MediaFileModel> findAllByPlaylistId(int playlistId);
 
     /**
+     * Finds the media file by given id
+     *
+     * @param id - the id of media file
+     * @return the {@link MediaFileModel} instance
+     */
+    MediaFileModel findMediaFileById(int id);
+
+    /**
      * Deletes the media files by given ids.
      *
      * @param fileIds - the list of identifiers to delete

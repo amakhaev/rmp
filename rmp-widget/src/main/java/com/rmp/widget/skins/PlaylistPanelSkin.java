@@ -1,5 +1,6 @@
 package com.rmp.widget.skins;
 
+import java.awt.*;
 import java.net.URL;
 
 /**
@@ -41,4 +42,24 @@ public interface PlaylistPanelSkin {
      * @return the {@link URL} to file
      */
     URL getSmallPlayIcon();
+
+    /**
+     * Gets the color of text for label in list of media items
+     */
+    Color getListItemForegroundColor();
+
+    /**
+     * Gets the color of label in list of media items that currently selected
+     */
+    Color getSelectedListItemBackgroundColor();
+
+    /**
+     * Gets the color of label in list of media items that currently has focus
+     */
+    Color getFocusedListItemBackgroundColor();
+
+    /**
+     * Gets the color of background for label in list of media items
+     */
+    Color getListItemBackgroundColor();
 }

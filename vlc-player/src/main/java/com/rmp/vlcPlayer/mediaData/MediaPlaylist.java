@@ -28,6 +28,13 @@ public interface MediaPlaylist {
     int getCurrentIndex();
 
     /**
+     * Sets the current media file to play
+     *
+     * @param path - the path od media item
+     */
+    void setCurrentMedia(String path);
+
+    /**
      * Sets the media files
      *
      * @param filePaths - the path to selected files

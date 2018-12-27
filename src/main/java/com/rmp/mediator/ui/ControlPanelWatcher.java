@@ -6,7 +6,7 @@ import com.rmp.widget.dataWatcher.ReplayDataObserver;
 /**
  * Provides the implementation of {@link ControlPanelDataWatcher}
  */
-public class ControlPanelWatcher implements ControlPanelDataWatcher {
+public final class ControlPanelWatcher implements ControlPanelDataWatcher {
 
     private final ReplayDataObserver<Boolean> isPlayingObserver;
 
