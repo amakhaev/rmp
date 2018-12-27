@@ -1,4 +1,4 @@
-package com.rmp.widget.components.buttonsPanel;
+package com.rmp.widget.components.controlPanel;
 
 import com.rmp.widget.controls.button.IconButton;
 import lombok.Getter;

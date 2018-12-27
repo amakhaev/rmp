@@ -3,7 +3,7 @@ package com.rmp.widget.skins;
 import java.net.URL;
 
 /**
- * Provides the skin of ButtonPanelComponent
+ * Provides the skin of ControlPanelComponent
  */
 public interface ButtonPanelSkin {
 

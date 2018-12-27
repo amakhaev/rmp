@@ -1,6 +1,6 @@
 package com.rmp.widget;
 
-import com.rmp.widget.components.buttonsPanel.ButtonPanelBuilder;
+import com.rmp.widget.components.controlPanel.ControlPanelBuilder;
 import com.rmp.widget.components.playlistDialog.NewPlaylistDialogComponent;
 import com.rmp.widget.components.playlistDialog.OpenFileDialogComponent;
 import com.rmp.widget.components.playlistPanel.PlaylistPanelBuilder;
@@ -65,7 +65,7 @@ public class RMPWidget {
         RootPanelComponent rootPanelComponent = new RootPanelBuilder()
                 .setSkin(this.skin)
                 .setPlaylistPanelBuilder(this.createPlaylistBuilder(playlistDataWatcher, playlistEventHandler))
-                .setButtonPanelBuilder(this.createButtonPanelBuilder(dataWatcher, eventHandler))
+                .setControlPanelBuilder(this.createButtonPanelBuilder(dataWatcher, eventHandler))
                 .build();
         this.widget.setContentPane(rootPanelComponent.getRootPanel());
     }
@@ -80,9 +80,9 @@ public class RMPWidget {
                 .setPlaylistEventHandler(playlistEventHandler);
     }
 
-    private ButtonPanelBuilder createButtonPanelBuilder(ControlPanelDataWatcher dataWatcher,
-                                                        ControlPanelEventHandler eventHandler) {
-        return new ButtonPanelBuilder()
+    private ControlPanelBuilder createButtonPanelBuilder(ControlPanelDataWatcher dataWatcher,
+                                                         ControlPanelEventHandler eventHandler) {
+        return new ControlPanelBuilder()
                 .setControlPanelDataWatcher(dataWatcher)
                 .setEventHandler(eventHandler);
     }

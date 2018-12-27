@@ -1,25 +1,25 @@
-package com.rmp.widget.components.buttonsPanel;
+package com.rmp.widget.components.controlPanel;
 
 import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;
 import com.rmp.widget.eventHandler.ControlPanelEventHandler;
 import com.rmp.widget.skins.ButtonPanelSkin;
 
 /**
- * Provides the builder for {@link ButtonPanelComponent}
+ * Provides the builder for {@link ControlPanelComponent}
  */
-public class ButtonPanelBuilder {
+public class ControlPanelBuilder {
 
     private ButtonPanelSkin skin;
     private ControlPanelDataWatcher controlPanelDataWatcher;
     private ControlPanelEventHandler eventHandler;
 
     /**
-     * Sets the skin for {@link ButtonPanelComponent}
+     * Sets the skin for {@link ControlPanelComponent}
      *
      * @param skin - the skin that should be applied
-     * @return the current {@link ButtonPanelBuilder} instance
+     * @return the current {@link ControlPanelBuilder} instance
      */
-    public ButtonPanelBuilder setSkin(ButtonPanelSkin skin) {
+    public ControlPanelBuilder setSkin(ButtonPanelSkin skin) {
         this.skin = skin;
         return this;
     }
@@ -28,9 +28,9 @@ public class ButtonPanelBuilder {
      * Sets the data watcher of buttons panel
      *
      * @param controlPanelDataWatcher - the data watcher for panel
-     * @return the current {@link ButtonPanelBuilder} instance
+     * @return the current {@link ControlPanelBuilder} instance
      */
-    public ButtonPanelBuilder setControlPanelDataWatcher(ControlPanelDataWatcher controlPanelDataWatcher) {
+    public ControlPanelBuilder setControlPanelDataWatcher(ControlPanelDataWatcher controlPanelDataWatcher) {
         this.controlPanelDataWatcher = controlPanelDataWatcher;
         return this;
     }
@@ -39,24 +39,24 @@ public class ButtonPanelBuilder {
      * Sets the data event handler of buttons panel
      *
      * @param eventHandler - the event handler for panel
-     * @return the current {@link ButtonPanelBuilder} instance
+     * @return the current {@link ControlPanelBuilder} instance
      */
-    public ButtonPanelBuilder setEventHandler(ControlPanelEventHandler eventHandler) {
+    public ControlPanelBuilder setEventHandler(ControlPanelEventHandler eventHandler) {
         this.eventHandler = eventHandler;
         return this;
     }
 
     /**
-     * Builds the {@link ButtonPanelComponent} instance by given arguments
+     * Builds the {@link ControlPanelComponent} instance by given arguments
      *
-     * @return the {@link ButtonPanelComponent} instance
+     * @return the {@link ControlPanelComponent} instance
      */
-    public ButtonPanelComponent build() {
+    public ControlPanelComponent build() {
         if (this.skin == null) {
-            throw new NullPointerException("Skin is required to build ButtonPanelComponent");
+            throw new NullPointerException("Skin is required to build ControlPanelComponent");
         }
 
-        ButtonPanelComponent component = new ButtonPanelComponent(this.skin);
+        ControlPanelComponent component = new ControlPanelComponent(this.skin);
         component.setControlPanelDataWatcher(this.controlPanelDataWatcher);
         component.setEventHandler(this.eventHandler);
         component.initialize();

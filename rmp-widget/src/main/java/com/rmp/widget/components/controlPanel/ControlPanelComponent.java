@@ -1,4 +1,4 @@
-package com.rmp.widget.components.buttonsPanel;
+package com.rmp.widget.components.controlPanel;
 
 import com.rmp.widget.controls.button.IconButton;
 import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;
@@ -16,7 +16,7 @@ import java.net.URL;
 /**
  * Provides the buttons panel of widget
  */
-public class ButtonPanelComponent {
+public class ControlPanelComponent {
 
     private ButtonPanelSkin skin;
     private ToggleIconButton playPauseButton;
@@ -31,9 +31,9 @@ public class ButtonPanelComponent {
     private JPanel buttonPanel;
 
     /**
-     * Initialize new instance of {@link ButtonPanelComponent}
+     * Initialize new instance of {@link ControlPanelComponent}
      */
-    ButtonPanelComponent(ButtonPanelSkin skin) {
+    ControlPanelComponent(ButtonPanelSkin skin) {
         this.skin = skin;
 
         this.buttonPanel = new JPanel();

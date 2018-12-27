@@ -1,11 +1,10 @@
 package com.rmp.widget.components.rootPanel;
 
-import com.rmp.widget.components.buttonsPanel.ButtonPanelComponent;
-import com.rmp.widget.components.buttonsPanel.ButtonPanelBuilder;
+import com.rmp.widget.components.controlPanel.ControlPanelComponent;
+import com.rmp.widget.components.controlPanel.ControlPanelBuilder;
 import com.rmp.widget.components.playlistPanel.PlaylistPanelBuilder;
 import com.rmp.widget.components.playlistPanel.PlaylistPanelComponent;
 import com.rmp.widget.controls.gradientPanel.GradientJPanel;
-import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.RMPSkin;
 import lombok.Getter;
 
@@ -35,7 +34,7 @@ public class RootPanelComponent {
     /**
      * Initializes the root panel
      */
-    void initialize(PlaylistPanelBuilder playlistPanelBuilder, ButtonPanelBuilder buttonPanelBuilder) {
+    void initialize(PlaylistPanelBuilder playlistPanelBuilder, ControlPanelBuilder controlPanelBuilder) {
         this.rootPanel.setLayout(new BorderLayout());
 
         PlaylistPanelComponent playlistPanelComponent = playlistPanelBuilder
@@ -48,12 +47,12 @@ public class RootPanelComponent {
                 )
                 .build();
 
-        ButtonPanelComponent buttonPanelComponent = buttonPanelBuilder
+        ControlPanelComponent controlPanelComponent = controlPanelBuilder
                 .setSkin(this.skin.getButtonPanelSkin())
                 .build();
 
         this.rootPanel.add(playlistPanelComponent.getPlaylistPanel(), BorderLayout.LINE_END);
-        this.rootPanel.add(buttonPanelComponent.getButtonPanel(), BorderLayout.PAGE_END);
+        this.rootPanel.add(controlPanelComponent.getButtonPanel(), BorderLayout.PAGE_END);
     }
 
 }
