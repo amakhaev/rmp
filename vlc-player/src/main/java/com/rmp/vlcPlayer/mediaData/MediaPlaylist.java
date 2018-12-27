@@ -35,9 +35,12 @@ public interface MediaPlaylist {
     void setCurrentMedia(String path);
 
     /**
-     * Sets the media files
-     *
-     * @param filePaths - the path to selected files
+     * Indicates when playlist has next value
      */
-    void setMediaFilePaths(List<String> filePaths);
+    boolean hasNext();
+
+    /**
+     * Indicates when playlist has prev value
+     */
+    boolean hasPrev();
 }

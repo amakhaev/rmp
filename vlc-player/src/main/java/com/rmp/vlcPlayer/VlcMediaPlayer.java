@@ -2,6 +2,7 @@ package com.rmp.vlcPlayer;
 
 import com.rmp.vlcPlayer.mediaData.MediaPlaylist;
 import lombok.Getter;
+import lombok.Setter;
 import uk.co.caprica.vlcj.player.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 
@@ -10,6 +11,7 @@ import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
  */
 public class VlcMediaPlayer {
 
+    @Setter
     private MediaPlaylist mediaPlaylist;
     private EmbeddedMediaPlayer mediaPlayer;
 
@@ -21,22 +23,19 @@ public class VlcMediaPlayer {
      */
     public VlcMediaPlayer(MediaPlaylist mediaPlaylist) {
         this.mediaPlayer = new MediaPlayerFactory().newEmbeddedMediaPlayer();
-        this.mediaPlaylist = mediaPlaylist;
+        this.setMediaPlaylist(mediaPlaylist);
 
         if (this.mediaPlaylist.getCurrentMedia() != null) {
             this.mediaPlayer.prepareMedia(this.mediaPlaylist.getCurrentMedia());
         }
-        this.isPlaying = false;
     }
 
     /**
      * Plays the selected media item.
      */
     public void play() {
-        if (this.mediaPlaylist.getCurrentMedia() != null) {
-            this.mediaPlayer.play();
-            this.isPlaying = true;
-        }
+        this.mediaPlayer.play();
+        this.isPlaying = true;
     }
 
     /**
@@ -70,8 +69,10 @@ public class VlcMediaPlayer {
      */
     public void playNext() {
         this.stop();
-        this.mediaPlayer.prepareMedia(this.mediaPlaylist.getNextMedia());
-        this.play();
+        if (this.mediaPlaylist.hasNext()) {
+            this.mediaPlayer.prepareMedia(this.mediaPlaylist.getNextMedia());
+            this.play();
+        }
     }
 
     /**
@@ -79,8 +80,10 @@ public class VlcMediaPlayer {
      */
     public void playPrev() {
         this.stop();
-        this.mediaPlayer.prepareMedia(this.mediaPlaylist.getPrevMedia());
-        this.play();
+        if (this.mediaPlaylist.hasPrev()) {
+            this.mediaPlayer.prepareMedia(this.mediaPlaylist.getPrevMedia());
+            this.play();
+        }
     }
 
     /**

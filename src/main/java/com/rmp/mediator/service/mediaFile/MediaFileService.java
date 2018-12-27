@@ -5,6 +5,7 @@ import com.rmp.dao.domain.mediaFile.MediaFileModel;
 import com.rmp.widget.readModels.UIMediaFileModel;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Provides the service to work with media files
@@ -46,6 +47,34 @@ public class MediaFileService {
         return this.mapper.dataModelsToUIModels(
                 this.mediaFileDao.findAllByPlaylistId(playlistId)
         );
+    }
+
+    /**
+     * Gets media files path from playlist
+     *
+     * @param playlistId - the playlist if
+     * @return the {@link List<String>} instance
+     */
+    public List<String> getPathsFromPlaylist(int playlistId) {
+        List<UIMediaFileModel> models = this.getByPlaylistId(playlistId);
+        return models.stream().map(UIMediaFileModel::getPath).collect(Collectors.toList());
+    }
+
+    /**
+     * Finds index of media file in playlist by given id
+     *
+     * @param playlistId - the playlist id
+     * @param mediaFileId - the media file id
+     * @return index of found media file or -1 if not found
+     */
+    public int findMediaFileIndexInPlaylist(int playlistId, int mediaFileId) {
+        List<UIMediaFileModel> models = this.getByPlaylistId(playlistId);
+        for (int i = 0; i < models.size(); i++) {
+            if (models.get(i).getId() == mediaFileId) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**

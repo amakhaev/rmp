@@ -1,5 +1,6 @@
 package com.rmp.mediator;
 
+import com.rmp.mediator.factory.MediaPlaylistFactory;
 import com.rmp.mediator.service.mediaFile.MediaFileService;
 import com.rmp.mediator.service.playlist.PlaylistService;
 import com.rmp.mediator.service.state.StateService;
@@ -7,19 +8,13 @@ import com.rmp.mediator.taskExecutor.AsyncTaskExecutor;
 import com.rmp.mediator.ui.ControlPanelEventHandlerImpl;
 import com.rmp.mediator.ui.PlaylistEventHandlerImpl;
 import com.rmp.vlcPlayer.VlcMediaPlayer;
-import com.rmp.vlcPlayer.mediaData.SuccessivelyPlaylist;
 import com.rmp.widget.RMPWidget;
 import com.rmp.widget.RMPWidgetBuilder;
-import com.rmp.widget.eventHandler.PlaylistEventHandler;
-import com.rmp.widget.readModels.UIMediaFileModel;
 import com.rmp.widget.skins.Skin;
 import lombok.extern.slf4j.Slf4j;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
-import uk.co.caprica.vlcj.player.MediaPlayer;
 
 import javax.swing.*;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Provides the com.rmp.mediator.mediator that working with UI
@@ -113,22 +108,8 @@ public class UIMediator {
     }
 
     private VlcMediaPlayer createMediaPlayer() {
-        List<UIMediaFileModel> models = this.mediaFileService.getByPlaylistId(this.stateService.getCurrentState().getPlaylistId());
-
-        List<String> paths = models.stream()
-                .map(UIMediaFileModel::getPath)
-                .collect(Collectors.toList());
-
-        Integer startMediaFileId = this.stateService.getCurrentState().getPlaylistFileId();
-        int startIndex = 0;
-        if (startMediaFileId != null) {
-            for (int i = 0; i < models.size(); i++)
-                if (models.get(i).getId() == startMediaFileId) {
-                    startIndex = i;
-                    break;
-                }
-        }
-
-        return new VlcMediaPlayer(new SuccessivelyPlaylist(paths, startIndex));
+        return new VlcMediaPlayer(
+                MediaPlaylistFactory.create(this.stateService.getCurrentState(), this.mediaFileService)
+        );
     }
 }

@@ -24,7 +24,7 @@ public class SuccessivelyPlaylist implements MediaPlaylist {
      */
     @Override
     public String getNextMedia() {
-        this.selectedPathIndex = this.selectedPathIndex >= this.mediaFilePath.size() - 1 ? 0 : ++this.selectedPathIndex;
+        this.selectedPathIndex = this.selectedPathIndex >= this.mediaFilePath.size() - 1 ? 0 : this.selectedPathIndex + 1;
         return this.getCurrentMedia();
     }
 
@@ -33,7 +33,7 @@ public class SuccessivelyPlaylist implements MediaPlaylist {
      */
     @Override
     public String getPrevMedia() {
-        this.selectedPathIndex = this.selectedPathIndex == 0 ? this.mediaFilePath.size() - 1 : --this.selectedPathIndex;
+        this.selectedPathIndex = this.selectedPathIndex == 0 ? this.mediaFilePath.size() - 1 : this.selectedPathIndex - 1;
         return this.getCurrentMedia();
     }
 
@@ -69,13 +69,18 @@ public class SuccessivelyPlaylist implements MediaPlaylist {
     }
 
     /**
-     * Sets the media files
-     *
-     * @param filePaths - the path to selected files
+     * Indicates when playlist has next value
      */
     @Override
-    public void setMediaFilePaths(List<String> filePaths) {
-        this.mediaFilePath = filePaths;
-        this.selectedPathIndex = 0;
+    public boolean hasNext() {
+        return !this.mediaFilePath.isEmpty();
+    }
+
+    /**
+     * Indicates when playlist has prev value
+     */
+    @Override
+    public boolean hasPrev() {
+        return !this.mediaFilePath.isEmpty();
     }
 }

@@ -131,6 +131,16 @@ class MediaListComponent {
      */
     void setSelectedItemId(Integer selectedItemId) {
         this.selectedItemId = selectedItemId;
+
+        if (selectedItemId != null) {
+            for (int i = 0; i < this.defaultListModel.size(); i++) {
+                if (this.defaultListModel.get(i).getId() == this.selectedItemId) {
+                    this.mediaList.ensureIndexIsVisible(i);
+                    break;
+                }
+            }
+        }
+
         this.mediaList.repaint();
     }
 
@@ -147,8 +157,8 @@ class MediaListComponent {
                 lbl.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
                 UIMediaFileModel mediaFile = (UIMediaFileModel) value;
-                lbl.setText((index + 1) + ". " + mediaFile.getDisplayName());
                 lbl.setToolTipText(mediaFile.getDisplayName());
+                lbl.setText((index + 1) + ". " + mediaFile.getDisplayName());
 
                 if (selectedItemId != null && mediaFile.getId() == selectedItemId) {
                     lbl.setIcon(playIcon);

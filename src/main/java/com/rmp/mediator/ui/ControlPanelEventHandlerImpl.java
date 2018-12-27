@@ -95,16 +95,15 @@ public class ControlPanelEventHandlerImpl implements ControlPanelEventHandler {
         System.out.println("Not implemented yet");
     }
 
-    private void updateSelectedMediaFileState(int selectedMediaFileIndex) {
+    private void updateAfterMediaFileChange() {
         List<UIMediaFileModel> mediaFileModels = this.mediaFileService.getByPlaylistId(
                 this.playlistService.getById(this.stateService.getCurrentState().getPlaylistId()).getId()
         );
 
-        this.stateService.updatePlaylistFile(mediaFileModels.get(selectedMediaFileIndex).getId());
-    }
+        if (mediaFileModels != null && !mediaFileModels.isEmpty()) {
+            this.stateService.updatePlaylistFile(mediaFileModels.get(this.mediaPlayer.getSelectedMediaFileIndex()).getId());
+        }
 
-    private void updateAfterMediaFileChange() {
-        this.updateSelectedMediaFileState(this.mediaPlayer.getSelectedMediaFileIndex());
         this.watcherContainer.getPlaylistDataWatcher().getSelectedMediaFileIdObserver().emit(
                 this.stateService.getCurrentState().getPlaylistFileId()
         );

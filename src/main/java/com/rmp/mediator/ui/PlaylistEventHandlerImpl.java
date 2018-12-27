@@ -2,6 +2,7 @@ package com.rmp.mediator.ui;
 
 import com.rmp.dao.domain.state.StateModel;
 import com.rmp.mediator.UIWatcherContainer;
+import com.rmp.mediator.factory.MediaPlaylistFactory;
 import com.rmp.mediator.service.mediaFile.MediaFileService;
 import com.rmp.mediator.service.playlist.PlaylistService;
 import com.rmp.mediator.service.state.StateService;
@@ -71,6 +72,10 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
         this.asyncTaskExecutor.executeTask(() -> {
             StateModel currentState = this.stateService.updatePlaylistId(id);
 
+            this.mediaPlayer.setMediaPlaylist(
+                    MediaPlaylistFactory.create(this.stateService.getCurrentState(), this.mediaFileService)
+            );
+
             this.watcherContainer.getPlaylistDataWatcher().getSelectedPlaylistObserver().emit(
                     this.playlistService.getById(currentState.getPlaylistId())
             );
@@ -78,6 +83,8 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
             this.watcherContainer.getPlaylistDataWatcher().getReplaceMediaFilesObserver().emit(
                     this.mediaFileService.getByPlaylistId(currentState.getPlaylistId())
             );
+
+            this.watcherContainer.getControlPanelDataWatcher().getIsPlayingObserver().emit(this.mediaPlayer.isPlaying());
         });
     }
 
@@ -100,6 +107,10 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
                 mediaFile = this.mediaFileService.createMediaFile(mediaFile);
                 this.watcherContainer.getPlaylistDataWatcher().getAddMediaFileObserver().emit(mediaFile);
             });
+
+            this.mediaPlayer.setMediaPlaylist(
+                    MediaPlaylistFactory.create(this.stateService.getCurrentState(), this.mediaFileService)
+            );
         });
     }
 
@@ -116,6 +127,10 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
             this.mediaFileService.deleteMediaFiles(mediaFileIds);
             this.watcherContainer.getPlaylistDataWatcher().getReplaceMediaFilesObserver().emit(
                     this.mediaFileService.getByPlaylistId(currentState.getPlaylistId())
+            );
+
+            this.mediaPlayer.setMediaPlaylist(
+                    MediaPlaylistFactory.create(this.stateService.getCurrentState(), this.mediaFileService)
             );
         });
     }
@@ -167,7 +182,9 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
                 this.playlistService.getById(this.stateService.getCurrentState().getPlaylistId()).getId()
         );
 
-        this.stateService.updatePlaylistFile(mediaFileModels.get(this.mediaPlayer.getSelectedMediaFileIndex()).getId());
+        if (mediaFileModels != null && !mediaFileModels.isEmpty()) {
+            this.stateService.updatePlaylistFile(mediaFileModels.get(this.mediaPlayer.getSelectedMediaFileIndex()).getId());
+        }
 
         this.watcherContainer.getPlaylistDataWatcher().getSelectedMediaFileIdObserver().emit(
                 this.stateService.getCurrentState().getPlaylistFileId()
