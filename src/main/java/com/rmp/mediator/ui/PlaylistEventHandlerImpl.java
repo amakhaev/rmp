@@ -2,7 +2,7 @@ package com.rmp.mediator.ui;
 
 import com.rmp.dao.domain.state.StateModel;
 import com.rmp.mediator.UIWatcherContainer;
-import com.rmp.mediator.factory.MediaPlaylistFactory;
+import com.rmp.mediator.mediaPlayer.MediaPlaylistFactory;
 import com.rmp.mediator.service.mediaFile.MediaFileService;
 import com.rmp.mediator.service.playlist.PlaylistService;
 import com.rmp.mediator.service.state.StateService;
@@ -186,9 +186,6 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
             this.stateService.updatePlaylistFile(mediaFileModels.get(this.mediaPlayer.getSelectedMediaFileIndex()).getId());
         }
 
-        this.watcherContainer.getPlaylistDataWatcher().getSelectedMediaFileIdObserver().emit(
-                this.stateService.getCurrentState().getPlaylistFileId()
-        );
         this.watcherContainer.getControlPanelDataWatcher().getIsPlayingObserver().emit(this.mediaPlayer.isPlaying());
     }
 }

@@ -27,7 +27,7 @@ public interface RMPSkin {
     /**
      * Gets the button panel skin
      */
-    ButtonPanelSkin getButtonPanelSkin();
+    ControlPanelSkin getControlPanelSkin();
 
     /**
      * Gets the playlist panel skin

@@ -1,11 +1,17 @@
 package com.rmp.widget.skins;
 
+import java.awt.*;
 import java.net.URL;
 
 /**
  * Provides the skin of ControlPanelComponent
  */
-public interface ButtonPanelSkin {
+public interface ControlPanelSkin {
+
+    /**
+     * Gets the size of parent widget
+     */
+    Dimension getWidgetSize();
 
     /**
      * Gets the URL of STOP icon
@@ -66,4 +72,36 @@ public interface ButtonPanelSkin {
      * Gets the URL of PAUSE_PRESSED icon
      */
     URL getPausePressedIconUrl();
+
+    // === Skin of timeline =========================
+
+    /**
+     * Gets the timeline background color
+     */
+    Color getTimelineBackgroundColor();
+
+    /**
+     * Gets the timeline border color
+     */
+    Color getTimelineBorderColor();
+
+    /**
+     * Gets the timeline cursor shadow color
+     */
+    Color getTimelineCursorShadowColor();
+
+    /**
+     * Gets the timeline shadow color
+     */
+    Color getTimelineShadowColor();
+
+    /**
+     * Gets the shadow color of label
+     */
+    Color getTimeLineLabelShadowColor();
+
+    /**
+     * Gets the foreground color of label
+     */
+    Color getTimeLineLabelForegroundColor();
 }

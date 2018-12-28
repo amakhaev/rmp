@@ -44,9 +44,7 @@ public class ControlPanelEventHandlerImpl implements ControlPanelEventHandler {
     public void onStop() {
         this.asyncTaskExecutor.executeTask(() -> {
             this.mediaPlayer.stop();
-            this.watcherContainer.getControlPanelDataWatcher().getIsPlayingObserver().emit(this.mediaPlayer.isPlaying());
             this.stateService.updatePlaylistFile(null);
-            this.watcherContainer.getPlaylistDataWatcher().getSelectedMediaFileIdObserver().emit(null);
         });
     }
 

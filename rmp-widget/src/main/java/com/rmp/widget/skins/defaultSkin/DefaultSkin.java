@@ -1,6 +1,6 @@
 package com.rmp.widget.skins.defaultSkin;
 
-import com.rmp.widget.skins.ButtonPanelSkin;
+import com.rmp.widget.skins.ControlPanelSkin;
 import com.rmp.widget.skins.Colors;
 import com.rmp.widget.skins.RMPSkin;
 
@@ -11,9 +11,9 @@ import java.awt.*;
  */
 public class DefaultSkin implements RMPSkin {
 
-    private static final Dimension SIZE = new Dimension(600, 400);
+    private static final Dimension SIZE = new Dimension(600, 450);
 
-    private ButtonPanelSkin buttonPanelSkin;
+    private ControlPanelSkin controlPanelSkin;
     private com.rmp.widget.skins.PlaylistPanelSkin playlistPanelSkin;
 
     /**
@@ -46,11 +46,11 @@ public class DefaultSkin implements RMPSkin {
      * Gets the button panel skin
      */
     @Override
-    public ButtonPanelSkin getButtonPanelSkin() {
-        if (this.buttonPanelSkin == null) {
-            this.buttonPanelSkin = new DefaultButtonPanelSkin();
+    public ControlPanelSkin getControlPanelSkin() {
+        if (this.controlPanelSkin == null) {
+            this.controlPanelSkin = new DefaultControlPanelSkin(this.getSize());
         }
-        return this.buttonPanelSkin;
+        return this.controlPanelSkin;
     }
 
     /**

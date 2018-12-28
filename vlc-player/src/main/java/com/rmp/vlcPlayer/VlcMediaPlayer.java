@@ -3,6 +3,7 @@ package com.rmp.vlcPlayer;
 import com.rmp.vlcPlayer.mediaData.MediaPlaylist;
 import lombok.Getter;
 import lombok.Setter;
+import uk.co.caprica.vlcj.player.MediaPlayerEventListener;
 import uk.co.caprica.vlcj.player.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 
@@ -21,12 +22,14 @@ public class VlcMediaPlayer {
     /**
      * Initialize new instance of {@link VlcMediaPlayer}
      */
-    public VlcMediaPlayer(MediaPlaylist mediaPlaylist) {
+    public VlcMediaPlayer(MediaPlaylist mediaPlaylist, MediaPlayerEventListener eventListener) {
         this.mediaPlayer = new MediaPlayerFactory().newEmbeddedMediaPlayer();
         this.setMediaPlaylist(mediaPlaylist);
+        this.mediaPlayer.addMediaPlayerEventListener(eventListener);
 
         if (this.mediaPlaylist.getCurrentMedia() != null) {
             this.mediaPlayer.prepareMedia(this.mediaPlaylist.getCurrentMedia());
+            this.mediaPlayer.requestParseMedia();
         }
     }
 
@@ -45,6 +48,7 @@ public class VlcMediaPlayer {
         this.mediaPlayer.stop();
         this.mediaPlaylist.setCurrentMedia(path);
         this.mediaPlayer.prepareMedia(this.mediaPlaylist.getCurrentMedia());
+        this.mediaPlayer.requestParseMedia();
         this.play();
     }
 
@@ -71,6 +75,7 @@ public class VlcMediaPlayer {
         this.stop();
         if (this.mediaPlaylist.hasNext()) {
             this.mediaPlayer.prepareMedia(this.mediaPlaylist.getNextMedia());
+            this.mediaPlayer.requestParseMedia();
             this.play();
         }
     }
@@ -82,6 +87,7 @@ public class VlcMediaPlayer {
         this.stop();
         if (this.mediaPlaylist.hasPrev()) {
             this.mediaPlayer.prepareMedia(this.mediaPlaylist.getPrevMedia());
+            this.mediaPlayer.requestParseMedia();
             this.play();
         }
     }

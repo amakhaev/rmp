@@ -20,7 +20,7 @@ public class UIWatcherContainer {
     /**
      * Initialize new instance of {@link UIWatcherContainer}
      */
-    public UIWatcherContainer() {
+    UIWatcherContainer() {
         this.controlPanelDataWatcher = new ControlPanelWatcher();
         this.playlistDataWatcher = new PlaylistWatcher();
     }

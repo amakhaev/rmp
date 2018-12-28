@@ -2,14 +2,14 @@ package com.rmp.widget.components.controlPanel;
 
 import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;
 import com.rmp.widget.eventHandler.ControlPanelEventHandler;
-import com.rmp.widget.skins.ButtonPanelSkin;
+import com.rmp.widget.skins.ControlPanelSkin;
 
 /**
  * Provides the builder for {@link ControlPanelComponent}
  */
 public class ControlPanelBuilder {
 
-    private ButtonPanelSkin skin;
+    private ControlPanelSkin skin;
     private ControlPanelDataWatcher controlPanelDataWatcher;
     private ControlPanelEventHandler eventHandler;
 
@@ -19,7 +19,7 @@ public class ControlPanelBuilder {
      * @param skin - the skin that should be applied
      * @return the current {@link ControlPanelBuilder} instance
      */
-    public ControlPanelBuilder setSkin(ButtonPanelSkin skin) {
+    public ControlPanelBuilder setSkin(ControlPanelSkin skin) {
         this.skin = skin;
         return this;
     }

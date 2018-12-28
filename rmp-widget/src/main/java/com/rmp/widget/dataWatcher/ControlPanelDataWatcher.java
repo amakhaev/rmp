@@ -6,8 +6,18 @@ package com.rmp.widget.dataWatcher;
 public interface ControlPanelDataWatcher {
 
     /**
-     * Provides the observer that indicates when player is playing
+     * Gets the observer that indicates when player is playing
      */
     ReplayDataObserver<Boolean> getIsPlayingObserver();
+
+    /**
+     * Gets the observer that indicates when slider value was changed
+     */
+    ReplayDataObserver<Long> getTimelineValueChangedObserver();
+
+    /**
+     * Gets the observer that indicates when slider length was changed
+     */
+    ReplayDataObserver<Long> getTimelineLengthChangedObserver();
 
 }

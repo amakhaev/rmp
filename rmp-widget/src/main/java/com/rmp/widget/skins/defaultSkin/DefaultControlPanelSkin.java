@@ -1,16 +1,34 @@
 package com.rmp.widget.skins.defaultSkin;
 
-import com.rmp.widget.skins.ButtonPanelSkin;
+import com.rmp.widget.skins.ControlPanelSkin;
 import com.rmp.widget.utilities.ResourceHelper;
 
+import java.awt.*;
 import java.net.URL;
 
 /**
  * Provides the default skin of button panel
  */
-public class DefaultButtonPanelSkin implements ButtonPanelSkin {
+public class DefaultControlPanelSkin implements ControlPanelSkin {
 
     private static final String SKIN_NAME = "skin_default";
+
+    private final Dimension widgetSize;
+
+    /**
+     * Initialize new instance of {@link DefaultControlPanelSkin}
+     */
+    DefaultControlPanelSkin(Dimension widgetSize) {
+        this.widgetSize = widgetSize;
+    }
+
+    /**
+     * Gets the size of parent widget
+     */
+    @Override
+    public Dimension getWidgetSize() {
+        return this.widgetSize;
+    }
 
     /**
      * Gets the URL of STOP icon
@@ -106,5 +124,53 @@ public class DefaultButtonPanelSkin implements ButtonPanelSkin {
     @Override
     public URL getPausePressedIconUrl() {
         return ResourceHelper.getPathToSkinIcon(SKIN_NAME, ResourceHelper.PAUSE_PRESSED_ICON);
+    }
+
+    /**
+     * Gets the timeline background color
+     */
+    @Override
+    public Color getTimelineBackgroundColor() {
+        return null;
+    }
+
+    /**
+     * Gets the timeline border color
+     */
+    @Override
+    public Color getTimelineBorderColor() {
+        return null;
+    }
+
+    /**
+     * Gets the timeline cursor shadow color
+     */
+    @Override
+    public Color getTimelineCursorShadowColor() {
+        return null;
+    }
+
+    /**
+     * Gets the timeline shadow color
+     */
+    @Override
+    public Color getTimelineShadowColor() {
+        return null;
+    }
+
+    /**
+     * Gets the shadow color of label
+     */
+    @Override
+    public Color getTimeLineLabelShadowColor() {
+        return null;
+    }
+
+    /**
+     * Gets the foreground color of label
+     */
+    @Override
+    public Color getTimeLineLabelForegroundColor() {
+        return null;
     }
 }

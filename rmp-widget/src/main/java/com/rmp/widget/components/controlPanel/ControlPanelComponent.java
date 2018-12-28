@@ -1,14 +1,16 @@
 package com.rmp.widget.components.controlPanel;
 
 import com.rmp.widget.controls.button.IconButton;
+import com.rmp.widget.controls.slider.SliderControl;
 import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;
 import com.rmp.widget.eventHandler.ControlPanelEventHandler;
-import com.rmp.widget.skins.ButtonPanelSkin;
+import com.rmp.widget.skins.ControlPanelSkin;
 import com.rmp.widget.skins.Colors;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
@@ -18,8 +20,9 @@ import java.net.URL;
  */
 public class ControlPanelComponent {
 
-    private ButtonPanelSkin skin;
+    private ControlPanelSkin skin;
     private ToggleIconButton playPauseButton;
+    private TimelinePanel timelinePanel;
 
     @Setter
     private ControlPanelDataWatcher controlPanelDataWatcher;
@@ -28,28 +31,41 @@ public class ControlPanelComponent {
     private ControlPanelEventHandler eventHandler;
 
     @Getter
-    private JPanel buttonPanel;
+    private JPanel controlPanel;
 
     /**
      * Initialize new instance of {@link ControlPanelComponent}
      */
-    ControlPanelComponent(ButtonPanelSkin skin) {
+    ControlPanelComponent(ControlPanelSkin skin) {
         this.skin = skin;
 
-        this.buttonPanel = new JPanel();
-        this.buttonPanel.setBackground(Colors.TRANSPARENT);
+        this.controlPanel = new JPanel();
+        this.controlPanel.setBackground(Colors.TRANSPARENT);
     }
 
     /**
      * Initializes the component
      */
     void initialize() {
-        this.initializeButtons();
+        this.controlPanel.setLayout(new BorderLayout());
+
+        this.controlPanel.add(this.createTimeSliderPanel(), BorderLayout.PAGE_START);
+        this.controlPanel.add(this.createButtonsPanel(), BorderLayout.CENTER);
+
         this.subscribeToWatcherChanges();
     }
 
-    private void initializeButtons() {
-        this.buttonPanel.add(
+    private JPanel createTimeSliderPanel() {
+        this.timelinePanel = new TimelinePanel(new Dimension(this.skin.getWidgetSize().width - 20, 30));
+        this.timelinePanel.initialize();
+        return this.timelinePanel;
+    }
+
+    private JPanel createButtonsPanel() {
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setBackground(Colors.TRANSPARENT);
+
+        buttonsPanel.add(
                 this.createButton(
                         this.skin.getStopIconUrl(),
                         this.skin.getStopPressedIconUrl(),
@@ -61,7 +77,7 @@ public class ControlPanelComponent {
                 )
         );
 
-        this.buttonPanel.add(
+        buttonsPanel.add(
                 this.createButton(
                         this.skin.getPreviousIconUrl(),
                         this.skin.getPreviousPressedIconUrl(),
@@ -80,9 +96,9 @@ public class ControlPanelComponent {
                     }
                 }
         );
-        this.buttonPanel.add(this.playPauseButton.getIconButton());
+        buttonsPanel.add(this.playPauseButton.getIconButton());
 
-        this.buttonPanel.add(
+        buttonsPanel.add(
                 this.createButton(
                         this.skin.getNextIconUrl(),
                         this.skin.getNextPressedIconUrl(),
@@ -94,7 +110,7 @@ public class ControlPanelComponent {
                 )
         );
 
-        this.buttonPanel.add(
+        buttonsPanel.add(
                 this.createButton(
                         this.skin.getConfigIconUrl(),
                         this.skin.getConfigPressedIconUrl(),
@@ -105,6 +121,8 @@ public class ControlPanelComponent {
                         }
                 )
         );
+
+        return buttonsPanel;
     }
 
     private JButton createButton(URL iconUrl, URL iconPressedUrl, Runnable clickHandler) {
@@ -146,6 +164,18 @@ public class ControlPanelComponent {
         if (this.controlPanelDataWatcher.getIsPlayingObserver() != null) {
             this.controlPanelDataWatcher.getIsPlayingObserver().subscribe(isPlaying -> {
                 playPauseButton.change(!isPlaying);
+            });
+        }
+
+        if (this.controlPanelDataWatcher.getTimelineLengthChangedObserver() != null) {
+            this.controlPanelDataWatcher.getTimelineLengthChangedObserver().subscribe(length -> {
+                this.timelinePanel.setEndTime(length.intValue());
+            });
+        }
+
+        if (this.controlPanelDataWatcher.getTimelineValueChangedObserver() != null) {
+            this.controlPanelDataWatcher.getTimelineValueChangedObserver().subscribe(value -> {
+                this.timelinePanel.setTimeValue(value.intValue());
             });
         }
     }

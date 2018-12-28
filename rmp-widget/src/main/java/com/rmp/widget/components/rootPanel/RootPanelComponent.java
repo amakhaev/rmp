@@ -48,11 +48,11 @@ public class RootPanelComponent {
                 .build();
 
         ControlPanelComponent controlPanelComponent = controlPanelBuilder
-                .setSkin(this.skin.getButtonPanelSkin())
+                .setSkin(this.skin.getControlPanelSkin())
                 .build();
 
         this.rootPanel.add(playlistPanelComponent.getPlaylistPanel(), BorderLayout.LINE_END);
-        this.rootPanel.add(controlPanelComponent.getButtonPanel(), BorderLayout.PAGE_END);
+        this.rootPanel.add(controlPanelComponent.getControlPanel(), BorderLayout.PAGE_END);
     }
 
 }

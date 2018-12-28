@@ -1,4 +1,4 @@
-package com.rmp.mediator.factory;
+package com.rmp.mediator.mediaPlayer;
 
 import com.rmp.dao.domain.state.StateModel;
 import com.rmp.mediator.service.mediaFile.MediaFileService;
@@ -9,7 +9,7 @@ import lombok.experimental.UtilityClass;
 import java.util.List;
 
 /**
- * Provides the factory to create media playlist
+ * Provides the mediaPlayer to create media playlist
  */
 @UtilityClass
 public class MediaPlaylistFactory {

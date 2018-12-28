@@ -1,6 +1,7 @@
 package com.rmp.mediator;
 
-import com.rmp.mediator.factory.MediaPlaylistFactory;
+import com.rmp.mediator.mediaPlayer.MediaPlayerEventListener;
+import com.rmp.mediator.mediaPlayer.MediaPlaylistFactory;
 import com.rmp.mediator.service.mediaFile.MediaFileService;
 import com.rmp.mediator.service.playlist.PlaylistService;
 import com.rmp.mediator.service.state.StateService;
@@ -105,11 +106,15 @@ public class UIMediator {
                     this.stateService.getCurrentState().getPlaylistFileId()
             );
         });
+
+        this.watcherContainer.getControlPanelDataWatcher().getTimelineValueChangedObserver().emit(0L);
+        this.watcherContainer.getControlPanelDataWatcher().getTimelineValueChangedObserver().emit(0L);
     }
 
     private VlcMediaPlayer createMediaPlayer() {
         return new VlcMediaPlayer(
-                MediaPlaylistFactory.create(this.stateService.getCurrentState(), this.mediaFileService)
+                MediaPlaylistFactory.create(this.stateService.getCurrentState(), this.mediaFileService),
+                new MediaPlayerEventListener(watcherContainer)
         );
     }
 }
