@@ -3,7 +3,7 @@ package com.rmp.vlcPlayer;
 import com.rmp.vlcPlayer.mediaData.MediaPlaylist;
 import lombok.Getter;
 import lombok.Setter;
-import uk.co.caprica.vlcj.player.MediaPlayerEventListener;
+import uk.co.caprica.vlcj.player.MediaPlayer;
 import uk.co.caprica.vlcj.player.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 
@@ -22,10 +22,10 @@ public class VlcMediaPlayer {
     /**
      * Initialize new instance of {@link VlcMediaPlayer}
      */
-    public VlcMediaPlayer(MediaPlaylist mediaPlaylist, MediaPlayerEventListener eventListener) {
+    public VlcMediaPlayer(MediaPlaylist mediaPlaylist, VlcMediaPlayerEventListener eventListener) {
         this.mediaPlayer = new MediaPlayerFactory().newEmbeddedMediaPlayer();
         this.setMediaPlaylist(mediaPlaylist);
-        this.mediaPlayer.addMediaPlayerEventListener(eventListener);
+        this.mediaPlayer.addMediaPlayerEventListener(this.createEventListener(eventListener));
 
         if (this.mediaPlaylist.getCurrentMedia() != null) {
             this.mediaPlayer.prepareMedia(this.mediaPlaylist.getCurrentMedia());
@@ -106,5 +106,18 @@ public class VlcMediaPlayer {
      */
     public int getSelectedMediaFileIndex() {
         return this.mediaPlaylist.getCurrentIndex();
+    }
+
+    private InternalMediaPlayerEventListener createEventListener(VlcMediaPlayerEventListener eventListener) {
+        return new InternalMediaPlayerEventListener(eventListener) {
+            @Override
+            public void finished(MediaPlayer mediaPlayer) {
+                if (this.eventListener == null) {
+                    return;
+                }
+
+                this.eventListener.onFinish(VlcMediaPlayer.this);
+            }
+        };
     }
 }

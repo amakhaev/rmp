@@ -55,7 +55,7 @@ public class ControlPanelEventHandlerImpl implements ControlPanelEventHandler {
     public void onPrev() {
         this.asyncTaskExecutor.executeTask(() -> {
             this.mediaPlayer.playPrev();
-            this.updateAfterMediaFileChange();
+            this.updateAfterMediaFileChanged();
         });
     }
 
@@ -70,7 +70,7 @@ public class ControlPanelEventHandlerImpl implements ControlPanelEventHandler {
             } else {
                 this.mediaPlayer.play();
             }
-            this.updateAfterMediaFileChange();
+            this.updateAfterMediaFileChanged();
         });
     }
 
@@ -81,7 +81,7 @@ public class ControlPanelEventHandlerImpl implements ControlPanelEventHandler {
     public void onNext() {
         this.asyncTaskExecutor.executeTask(() -> {
             this.mediaPlayer.playNext();
-            this.updateAfterMediaFileChange();
+            this.updateAfterMediaFileChanged();
         });
     }
 
@@ -103,7 +103,7 @@ public class ControlPanelEventHandlerImpl implements ControlPanelEventHandler {
         this.asyncTaskExecutor.executeTask(() -> this.mediaPlayer.setTime(value));
     }
 
-    private void updateAfterMediaFileChange() {
+    private void updateAfterMediaFileChanged() {
         List<UIMediaFileModel> mediaFileModels = this.mediaFileService.getByPlaylistId(
                 this.playlistService.getById(this.stateService.getCurrentState().getPlaylistId()).getId()
         );

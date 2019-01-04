@@ -114,7 +114,7 @@ public class UIMediator {
     private VlcMediaPlayer createMediaPlayer() {
         return new VlcMediaPlayer(
                 MediaPlaylistFactory.create(this.stateService.getCurrentState(), this.mediaFileService),
-                new MediaPlayerEventListener(watcherContainer)
+                new MediaPlayerEventListener(this.watcherContainer, asyncTaskExecutor)
         );
     }
 }
