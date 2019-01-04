@@ -29,4 +29,11 @@ public interface ControlPanelEventHandler {
      * Handles the open config event
      */
     void onConfigOpen();
+
+    /**
+     * Handles the changing value of timeline
+     *
+     * @param value - new value of timeline
+     */
+    void onTimelineValueChanged(int value);
 }

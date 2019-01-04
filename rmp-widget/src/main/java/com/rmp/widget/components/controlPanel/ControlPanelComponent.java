@@ -58,6 +58,20 @@ public class ControlPanelComponent {
     private JPanel createTimeSliderPanel() {
         this.timelinePanel = new TimelinePanel(new Dimension(this.skin.getWidgetSize().width - 20, 30));
         this.timelinePanel.initialize();
+
+        this.timelinePanel.setTimeLineLabelShadowColor(this.skin.getTimeLineLabelShadowColor());
+        this.timelinePanel.setTimeLineLabelForegroundColor(this.skin.getTimeLineLabelForegroundColor());
+        this.timelinePanel.setTimelineBackgroundColor(this.skin.getTimelineBackgroundColor());
+        this.timelinePanel.setTimelineBorderColor(this.skin.getTimelineBorderColor());
+        this.timelinePanel.setTimelineCursorShadowColor(this.skin.getTimelineCursorShadowColor());
+        this.timelinePanel.setTimelineShadowColor(this.skin.getTimelineShadowColor());
+
+        this.timelinePanel.setChangeListener((Integer value) -> {
+            // Value in seconds. Convert to millisecond
+            this.eventHandler.onTimelineValueChanged(value == null ? 0 : value * 1000);
+            return null;
+        });
+
         return this.timelinePanel;
     }
 

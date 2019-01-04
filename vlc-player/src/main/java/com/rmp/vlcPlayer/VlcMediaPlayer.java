@@ -93,6 +93,15 @@ public class VlcMediaPlayer {
     }
 
     /**
+     * Sets the time of current media item
+     *
+     * @param time - the time value
+     */
+    public void setTime(int time) {
+        this.mediaPlayer.setTime(time);
+    }
+
+    /**
      * Gets the index of media file that is selected in current moment
      */
     public int getSelectedMediaFileIndex() {

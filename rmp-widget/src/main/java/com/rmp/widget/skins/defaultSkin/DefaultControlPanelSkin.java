@@ -1,5 +1,6 @@
 package com.rmp.widget.skins.defaultSkin;
 
+import com.rmp.widget.skins.Colors;
 import com.rmp.widget.skins.ControlPanelSkin;
 import com.rmp.widget.utilities.ResourceHelper;
 
@@ -131,7 +132,7 @@ public class DefaultControlPanelSkin implements ControlPanelSkin {
      */
     @Override
     public Color getTimelineBackgroundColor() {
-        return null;
+        return Colors.BLACK;
     }
 
     /**
@@ -139,7 +140,7 @@ public class DefaultControlPanelSkin implements ControlPanelSkin {
      */
     @Override
     public Color getTimelineBorderColor() {
-        return null;
+        return Colors.PRIMARY_GRAY;
     }
 
     /**
@@ -147,7 +148,7 @@ public class DefaultControlPanelSkin implements ControlPanelSkin {
      */
     @Override
     public Color getTimelineCursorShadowColor() {
-        return null;
+        return Colors.IRON;
     }
 
     /**
@@ -155,7 +156,7 @@ public class DefaultControlPanelSkin implements ControlPanelSkin {
      */
     @Override
     public Color getTimelineShadowColor() {
-        return null;
+        return Colors.PRIMARY_GRAY;
     }
 
     /**
@@ -163,7 +164,7 @@ public class DefaultControlPanelSkin implements ControlPanelSkin {
      */
     @Override
     public Color getTimeLineLabelShadowColor() {
-        return null;
+        return Colors.BLACK;
     }
 
     /**
@@ -171,6 +172,6 @@ public class DefaultControlPanelSkin implements ControlPanelSkin {
      */
     @Override
     public Color getTimeLineLabelForegroundColor() {
-        return null;
+        return Colors.PRIMARY_GRAY;
     }
 }

@@ -36,6 +36,8 @@ public class MediaPlayerEventListener extends MediaPlayerEventAdapter {
         this.isPlaying = false;
         this.watcherContainer.getControlPanelDataWatcher().getIsPlayingObserver().emit(this.isPlaying);
         this.watcherContainer.getPlaylistDataWatcher().getSelectedMediaFileIdObserver().emit(null);
+        this.watcherContainer.getControlPanelDataWatcher().getTimelineLengthChangedObserver().emit(0L);
+        this.watcherContainer.getControlPanelDataWatcher().getTimelineValueChangedObserver().emit(0L);
     }
 
     @Override
@@ -48,9 +50,5 @@ public class MediaPlayerEventListener extends MediaPlayerEventAdapter {
     public void lengthChanged(MediaPlayer mediaPlayer, long newLength) {
         // newLength stored in milliseconds. Should be converted to seconds
         this.watcherContainer.getControlPanelDataWatcher().getTimelineLengthChangedObserver().emit(newLength / 1000);
-    }
-
-    @Override
-    public void finished(MediaPlayer mediaPlayer) {
     }
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.function.Function;
 
 /**
  * Provides the panel that working with time line of media item
@@ -16,8 +17,8 @@ class TimelinePanel extends JPanel {
     private final Dimension timelineSize;
     private SliderControl sliderControl;
     private JLabel timeLabel;
+    private JPanel timeLabelPanel;
 
-    @Setter
     private Color timeLineLabelShadowColor = Colors.BLACK;
 
     @Setter
@@ -41,12 +42,12 @@ class TimelinePanel extends JPanel {
         this.timeLabel = new JLabel("");
         this.timeLabel.setForeground(this.timeLineLabelForegroundColor);
 
-        JPanel timeLabelPanel = new RoundPanel();
-        timeLabelPanel.setBackground(this.timeLineLabelShadowColor);
-        timeLabelPanel.add(this.timeLabel);
+        this.timeLabelPanel = new RoundPanel();
+        this.timeLabelPanel.setBackground(this.timeLineLabelShadowColor);
+        this.timeLabelPanel.add(this.timeLabel);
 
         this.add(this.sliderControl);
-        this.add(timeLabelPanel);
+        this.add(this.timeLabelPanel);
     }
 
     /**
@@ -75,6 +76,15 @@ class TimelinePanel extends JPanel {
                     (minutes >= 10 ? minutes : "0" + minutes) + ":" + (seconds >= 10 ? seconds : "0" + seconds)
             );
         }
+    }
+
+    /**
+     * Sets the listener of value changing
+     *
+     * @param changeValueListener - the callback function
+     */
+    void setChangeListener(Function<Integer, Void> changeValueListener) {
+        this.sliderControl.setChangeValueListener(changeValueListener);
     }
 
     /**
@@ -111,5 +121,25 @@ class TimelinePanel extends JPanel {
      */
     void setTimelineShadowColor(Color color) {
         this.sliderControl.setSliderShadowColor(color);
+    }
+
+    /**
+     * Sets the timeline label shadow color
+     *
+     * @param color - the color of shadow
+     */
+    void setTimeLineLabelShadowColor(Color color) {
+        this.timeLineLabelShadowColor = color;
+        this.timeLabelPanel.setBackground(this.timeLineLabelShadowColor);
+    }
+
+    /**
+     * Sets the timeline label shadow color
+     *
+     * @param color - the color of shadow
+     */
+    void setTimeLineLabelForegroundColor(Color color) {
+        this.timeLineLabelForegroundColor = color;
+        this.timeLabel.setForeground(this.timeLineLabelForegroundColor);
     }
 }

@@ -93,6 +93,16 @@ public class ControlPanelEventHandlerImpl implements ControlPanelEventHandler {
         System.out.println("Not implemented yet");
     }
 
+    /**
+     * Handles the changing value of timeline
+     *
+     * @param value - new value of timeline
+     */
+    @Override
+    public void onTimelineValueChanged(int value) {
+        this.asyncTaskExecutor.executeTask(() -> this.mediaPlayer.setTime(value));
+    }
+
     private void updateAfterMediaFileChange() {
         List<UIMediaFileModel> mediaFileModels = this.mediaFileService.getByPlaylistId(
                 this.playlistService.getById(this.stateService.getCurrentState().getPlaylistId()).getId()
