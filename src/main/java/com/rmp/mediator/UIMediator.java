@@ -1,5 +1,6 @@
 package com.rmp.mediator;
 
+import com.rmp.dao.domain.state.StateModel;
 import com.rmp.mediator.mediaPlayer.MediaPlayerEventListener;
 import com.rmp.mediator.mediaPlayer.MediaPlaylistFactory;
 import com.rmp.mediator.service.mediaFile.MediaFileService;
@@ -11,6 +12,7 @@ import com.rmp.mediator.ui.PlaylistEventHandlerImpl;
 import com.rmp.vlcPlayer.VlcMediaPlayer;
 import com.rmp.widget.RMPWidget;
 import com.rmp.widget.RMPWidgetBuilder;
+import com.rmp.widget.components.controlPanel.TimeLabelOrder;
 import com.rmp.widget.skins.Skin;
 import lombok.extern.slf4j.Slf4j;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
@@ -86,29 +88,36 @@ public class UIMediator {
 
     private void initializeUI() {
         this.asyncTaskExecutor.executeTask(() -> {
+            StateModel currentState = this.stateService.getCurrentState();
+
             this.watcherContainer.getPlaylistDataWatcher().getPlaylistModelObserver().emit(this.playlistService.getAllPlaylists());
-        });
 
-        this.asyncTaskExecutor.executeTask(() -> {
             this.watcherContainer.getPlaylistDataWatcher().getSelectedPlaylistObserver().emit(playlistService.getById(
-                    this.stateService.getCurrentState().getPlaylistId()
+                    currentState.getPlaylistId()
             ));
-        });
 
-        this.asyncTaskExecutor.executeTask(() -> {
             this.watcherContainer.getPlaylistDataWatcher().getReplaceMediaFilesObserver().emit(
-                    this.mediaFileService.getByPlaylistId(this.stateService.getCurrentState().getPlaylistId())
+                    this.mediaFileService.getByPlaylistId(currentState.getPlaylistId())
             );
-        });
 
-        this.asyncTaskExecutor.executeTask(() -> {
             this.watcherContainer.getPlaylistDataWatcher().getSelectedMediaFileIdObserver().emit(
-                    this.stateService.getCurrentState().getPlaylistFileId()
+                    currentState.getPlaylistFileId()
             );
-        });
 
-        this.watcherContainer.getControlPanelDataWatcher().getTimelineValueChangedObserver().emit(0L);
-        this.watcherContainer.getControlPanelDataWatcher().getTimelineValueChangedObserver().emit(0L);
+            this.watcherContainer.getControlPanelDataWatcher().getTimelineValueChangedObserver().emit(0L);
+            this.watcherContainer.getControlPanelDataWatcher().getTimelineValueChangedObserver().emit(0L);
+
+            TimeLabelOrder uiLabelOrder = null;
+            switch (currentState.getTimeLabelOrder()) {
+                case ASC:
+                    uiLabelOrder = TimeLabelOrder.ASC;
+                    break;
+                case DESC:
+                    uiLabelOrder = TimeLabelOrder.DESC;
+                    break;
+            }
+            this.watcherContainer.getControlPanelDataWatcher().getTimeLabelOrderChangedObserver().emit(uiLabelOrder);
+        });
     }
 
     private VlcMediaPlayer createMediaPlayer() {

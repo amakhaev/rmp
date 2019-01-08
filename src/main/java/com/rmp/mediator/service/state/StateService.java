@@ -2,6 +2,7 @@ package com.rmp.mediator.service.state;
 
 import com.rmp.dao.domain.state.StateDao;
 import com.rmp.dao.domain.state.StateModel;
+import com.rmp.dao.domain.state.TimeLabelOrder;
 
 /**
  * Provides service to work with state of player
@@ -45,6 +46,18 @@ public class StateService {
     public StateModel updatePlaylistId(int currentPlaylistId) {
         StateModel current = this.getCurrentState();
         current.setPlaylistId(currentPlaylistId);
+        return this.updateState(current);
+    }
+
+    /**
+     * Updates the time label order in the state
+     *
+     * @param timeLabelOrder - the value
+     * @return updated {@link StateModel} instance
+     */
+    public StateModel updateTimeLabelOrder(TimeLabelOrder timeLabelOrder) {
+        StateModel current = this.getCurrentState();
+        current.setTimeLabelOrder(timeLabelOrder);
         return this.updateState(current);
     }
 

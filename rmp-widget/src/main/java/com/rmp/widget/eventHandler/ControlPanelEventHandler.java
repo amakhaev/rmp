@@ -1,5 +1,7 @@
 package com.rmp.widget.eventHandler;
 
+import com.rmp.widget.components.controlPanel.TimeLabelOrder;
+
 /**
  * Provides the event handler to button's manipulate
  */
@@ -36,4 +38,11 @@ public interface ControlPanelEventHandler {
      * @param value - new value of timeline
      */
     void onTimelineValueChanged(int value);
+
+    /**
+     * Handles the changing of time label order
+     *
+     * @param order - the value
+     */
+    void onTimeLabelOrderChanged(TimeLabelOrder order);
 }

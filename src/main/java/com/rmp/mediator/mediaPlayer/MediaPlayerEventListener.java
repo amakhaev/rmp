@@ -42,8 +42,16 @@ public class MediaPlayerEventListener implements VlcMediaPlayerEventListener {
      * Handles the playing event. Called when media item started/proceeded playing
      */
     @Override
-    public void onPlaying() {
+    public void onPlaying(VlcMediaPlayer mediaPlayer) {
         this.isPlaying = true;
+
+        UIMediaFileModel model = this.mediaFileService.getByPlaylistIdAndPath(
+                this.stateService.getCurrentState().getPlaylistId(),
+                mediaPlayer.getSelectedMediaFilePath()
+        );
+        this.watcherContainer.getPlaylistDataWatcher().getSelectedMediaFileIdObserver().emit(
+                model == null ? null : model.getId()
+        );
     }
 
     /**

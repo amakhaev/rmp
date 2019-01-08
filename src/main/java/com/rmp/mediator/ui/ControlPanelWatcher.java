@@ -1,5 +1,6 @@
 package com.rmp.mediator.ui;
 
+import com.rmp.widget.components.controlPanel.TimeLabelOrder;
 import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;
 import com.rmp.widget.dataWatcher.ReplayDataObserver;
 
@@ -11,6 +12,7 @@ public final class ControlPanelWatcher implements ControlPanelDataWatcher {
     private final ReplayDataObserver<Boolean> isPlayingObserver;
     private final ReplayDataObserver<Long> sliderValueChangedObserver;
     private final ReplayDataObserver<Long> sliderLengthChangedObserver;
+    private final ReplayDataObserver<TimeLabelOrder> timeLabelOrderChangedObserver;
 
     /**
      * Initialize new instance of {@link ControlPanelDataWatcher}
@@ -19,6 +21,7 @@ public final class ControlPanelWatcher implements ControlPanelDataWatcher {
         this.sliderValueChangedObserver = new ReplayDataObserver<>();
         this.sliderLengthChangedObserver = new ReplayDataObserver<>();
         this.isPlayingObserver = new ReplayDataObserver<>();
+        this.timeLabelOrderChangedObserver = new ReplayDataObserver<>();
     }
 
     /**
@@ -43,5 +46,13 @@ public final class ControlPanelWatcher implements ControlPanelDataWatcher {
     @Override
     public ReplayDataObserver<Long> getTimelineLengthChangedObserver() {
         return this.sliderLengthChangedObserver;
+    }
+
+    /**
+     * Gets the observer that indicates when time label order was changed
+     */
+    @Override
+    public ReplayDataObserver<TimeLabelOrder> getTimeLabelOrderChangedObserver() {
+        return this.timeLabelOrderChangedObserver;
     }
 }

@@ -8,7 +8,7 @@ public interface VlcMediaPlayerEventListener {
     /**
      * Handles the playing event. Called when media item started/proceeded playing
      */
-    void onPlaying();
+    void onPlaying(VlcMediaPlayer mediaPlayer);
 
     /**
      * Handles the paused event. Called when media item paused

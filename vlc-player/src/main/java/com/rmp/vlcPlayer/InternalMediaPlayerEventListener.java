@@ -18,15 +18,6 @@ abstract class InternalMediaPlayerEventListener extends MediaPlayerEventAdapter 
     }
 
     @Override
-    public void playing(MediaPlayer mediaPlayer) {
-        if (this.eventListener == null) {
-            return;
-        }
-
-        this.eventListener.onPlaying();
-    }
-
-    @Override
     public void paused(MediaPlayer mediaPlayer) {
         if (this.eventListener == null) {
             return;

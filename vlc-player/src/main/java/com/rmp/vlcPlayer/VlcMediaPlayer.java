@@ -108,6 +108,13 @@ public class VlcMediaPlayer {
         return this.mediaPlaylist.getCurrentIndex();
     }
 
+    /**
+     * Gets the path of media file that is selected in current moment
+     */
+    public String getSelectedMediaFilePath() {
+        return this.mediaPlaylist.getCurrentMedia();
+    }
+
     private InternalMediaPlayerEventListener createEventListener(VlcMediaPlayerEventListener eventListener) {
         return new InternalMediaPlayerEventListener(eventListener) {
             @Override
@@ -117,6 +124,15 @@ public class VlcMediaPlayer {
                 }
 
                 this.eventListener.onFinish(VlcMediaPlayer.this);
+            }
+
+            @Override
+            public void playing(MediaPlayer mediaPlayer) {
+                if (this.eventListener == null) {
+                    return;
+                }
+
+                this.eventListener.onPlaying(VlcMediaPlayer.this);
             }
         };
     }

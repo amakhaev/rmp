@@ -84,9 +84,7 @@ public class MediaFileService {
      * @return the media file
      */
     public UIMediaFileModel getById(int id) {
-        return this.mapper.dataModelToUIModel(
-                this.mediaFileDao.findMediaFileById(id)
-        );
+        return this.mapper.dataModelToUIModel(this.mediaFileDao.findMediaFileById(id));
     }
 
     /**
@@ -96,5 +94,16 @@ public class MediaFileService {
      */
     public void deleteMediaFiles(List<Integer> mediaFileIds) {
         this.mediaFileDao.deleteByFileIds(mediaFileIds);
+    }
+
+    /**
+     * Gets the media file by given playlist id and path
+     *
+     * @param playlistId - the playlist id
+     * @param path - the path to file
+     * @return the {@link UIMediaFileModel} instance
+     */
+    public UIMediaFileModel getByPlaylistIdAndPath(int playlistId, String path) {
+        return this.mapper.dataModelToUIModel(this.mediaFileDao.findByPlaylistIdAndPath(playlistId, path));
     }
 }

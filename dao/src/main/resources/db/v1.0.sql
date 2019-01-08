@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS states (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   playlist_id INTEGER NOT NULL,
   playlist_file_id INTEGER,
+  time_label_order VARCHAR NOT NULL DEFAULT ('ASC'),
   modified_at DATETIME NOT NULL DEFAULT (datetime('now','localtime')),
 
   FOREIGN KEY (playlist_id) REFERENCES playlists(id),

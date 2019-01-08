@@ -6,6 +6,7 @@ import com.rmp.mediator.service.playlist.PlaylistService;
 import com.rmp.mediator.service.state.StateService;
 import com.rmp.mediator.taskExecutor.AsyncTaskExecutor;
 import com.rmp.vlcPlayer.VlcMediaPlayer;
+import com.rmp.widget.components.controlPanel.TimeLabelOrder;
 import com.rmp.widget.eventHandler.ControlPanelEventHandler;
 import com.rmp.widget.readModels.UIMediaFileModel;
 import lombok.Setter;
@@ -101,6 +102,26 @@ public class ControlPanelEventHandlerImpl implements ControlPanelEventHandler {
     @Override
     public void onTimelineValueChanged(int value) {
         this.asyncTaskExecutor.executeTask(() -> this.mediaPlayer.setTime(value));
+    }
+
+    /**
+     * Handles the changing of time label order
+     *
+     * @param order - the value
+     */
+    @Override
+    public void onTimeLabelOrderChanged(TimeLabelOrder order) {
+        this.asyncTaskExecutor.executeTask(() -> {
+            switch (order) {
+                case ASC:
+                    this.stateService.updateTimeLabelOrder(com.rmp.dao.domain.state.TimeLabelOrder.ASC);
+                    break;
+                case DESC:
+                    this.stateService.updateTimeLabelOrder(com.rmp.dao.domain.state.TimeLabelOrder.DESC);
+                    break;
+            }
+            this.watcherContainer.getControlPanelDataWatcher().getTimeLabelOrderChangedObserver().emit(order);
+        });
     }
 
     private void updateAfterMediaFileChanged() {

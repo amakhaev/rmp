@@ -72,6 +72,10 @@ public class ControlPanelComponent {
             return null;
         });
 
+        this.timelinePanel.setTimeLabelOrderListener(order -> {
+            this.eventHandler.onTimeLabelOrderChanged(order);
+        });
+
         return this.timelinePanel;
     }
 
@@ -190,6 +194,12 @@ public class ControlPanelComponent {
         if (this.controlPanelDataWatcher.getTimelineValueChangedObserver() != null) {
             this.controlPanelDataWatcher.getTimelineValueChangedObserver().subscribe(value -> {
                 this.timelinePanel.setTimeValue(value.intValue());
+            });
+        }
+
+        if (this.controlPanelDataWatcher.getTimeLabelOrderChangedObserver() != null) {
+            this.controlPanelDataWatcher.getTimeLabelOrderChangedObserver().subscribe(order -> {
+                this.timelinePanel.setTimeLabelOrder(order);
             });
         }
     }

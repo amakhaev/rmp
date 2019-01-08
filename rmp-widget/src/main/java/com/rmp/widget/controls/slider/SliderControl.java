@@ -120,6 +120,20 @@ public class SliderControl extends JComponent {
         this.calculateCursorPosition();
     }
 
+    /**
+     * Gets the current value of delimiter
+     */
+    public int getDelimiterValue() {
+        return (int)this.delimiter.currentValue;
+    }
+
+    /**
+     * Gets the max value of delimiter
+     */
+    public int getDelimiterMax() {
+        return (int)this.delimiter.maxValue;
+    }
+
     private void drawShadow(Graphics graphics) {
         graphics.setColor(this.cursorShadowColor);
         graphics.fillRect(0, this.cursorPosition.y, this.getPreferredSize().width, CURSOR_SIZE.height);

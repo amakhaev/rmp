@@ -101,4 +101,29 @@ class MediaFileDaoImpl implements MediaFileDao {
             log.error(e.getMessage());
         }
     }
+
+    /**
+     * Gets the media file by given playlist id and path
+     *
+     * @param playlistId - the playlist id
+     * @param path       - the path to file
+     * @return the {@link MediaFileModel} instance
+     */
+    @Override
+    public MediaFileModel findByPlaylistIdAndPath(int playlistId, String path) {
+        try {
+            return this.mapper.entityToModel(
+                    this.mediaFileDao
+                            .queryBuilder()
+                            .where()
+                            .eq(MediaFileEntity.PLAYLIST_ID_FIELD, playlistId)
+                            .and()
+                            .eq(MediaFileEntity.PATH_FIELD, path)
+                            .queryForFirst()
+            );
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
 }

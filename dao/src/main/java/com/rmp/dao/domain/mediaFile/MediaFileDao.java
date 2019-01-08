@@ -39,4 +39,13 @@ public interface MediaFileDao {
      * @param fileIds - the list of identifiers to delete
      */
     void deleteByFileIds(List<Integer> fileIds);
+
+    /**
+     * Gets the media file by given playlist id and path
+     *
+     * @param playlistId - the playlist id
+     * @param path - the path to file
+     * @return the {@link MediaFileModel} instance
+     */
+    MediaFileModel findByPlaylistIdAndPath(int playlistId, String path);
 }

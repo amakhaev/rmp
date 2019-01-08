@@ -3,10 +3,14 @@ package com.rmp.widget.components.controlPanel;
 import com.rmp.widget.controls.roundPanel.RoundPanel;
 import com.rmp.widget.controls.slider.SliderControl;
 import com.rmp.widget.skins.Colors;
+import com.rmp.widget.utilities.LocalizationUtils;
 import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.function.Function;
 
 /**
@@ -14,15 +18,24 @@ import java.util.function.Function;
  */
 class TimelinePanel extends JPanel {
 
+    private static final Cursor DEFAULT_CURSOR = new Cursor(Cursor.DEFAULT_CURSOR);
+    private static final Cursor HAND_CURSOR = new Cursor(Cursor.HAND_CURSOR);
+
     private final Dimension timelineSize;
     private SliderControl sliderControl;
     private JLabel timeLabel;
     private JPanel timeLabelPanel;
+    private JPopupMenu timeLabelContextMenu;
+
+    @Setter
+    private TimeLabelOrder labelTimeOrder;
 
     private Color timeLineLabelShadowColor = Colors.BLACK;
 
-    @Setter
     private Color timeLineLabelForegroundColor = Colors.PRIMARY_GRAY;
+
+    @Setter
+    private TimeLabelOrderListener timeLabelOrderListener;
 
     /**
      * Initialize new instance of {@link TimelinePanel}
@@ -30,6 +43,7 @@ class TimelinePanel extends JPanel {
     TimelinePanel(Dimension timelineSize) {
         this.timelineSize = timelineSize;
         this.setBackground(Colors.TRANSPARENT);
+        this.labelTimeOrder = TimeLabelOrder.ASC;
     }
 
     /**
@@ -39,12 +53,7 @@ class TimelinePanel extends JPanel {
         this.sliderControl = new SliderControl();
         this.sliderControl.setPreferredSize(new Dimension(timelineSize.width - 50, 30));
 
-        this.timeLabel = new JLabel("");
-        this.timeLabel.setForeground(this.timeLineLabelForegroundColor);
-
-        this.timeLabelPanel = new RoundPanel();
-        this.timeLabelPanel.setBackground(this.timeLineLabelShadowColor);
-        this.timeLabelPanel.add(this.timeLabel);
+        this.timeLabelPanel = this.createTimeLabelPanel();
 
         this.add(this.sliderControl);
         this.add(this.timeLabelPanel);
@@ -69,12 +78,7 @@ class TimelinePanel extends JPanel {
     void setTimeValue(int timeValue) {
         if (this.sliderControl != null) {
             this.sliderControl.setDelimiterValue(timeValue);
-            int minutes = timeValue / 60;
-            int seconds = timeValue % 60;
-
-            this.timeLabel.setText(
-                    (minutes >= 10 ? minutes : "0" + minutes) + ":" + (seconds >= 10 ? seconds : "0" + seconds)
-            );
+            this.updateTimeLabelValue();
         }
     }
 
@@ -141,5 +145,87 @@ class TimelinePanel extends JPanel {
     void setTimeLineLabelForegroundColor(Color color) {
         this.timeLineLabelForegroundColor = color;
         this.timeLabel.setForeground(this.timeLineLabelForegroundColor);
+    }
+
+    /**
+     * Sets the order of time label
+     *
+     * @param timeLabelOrder - the value of order
+     */
+    void setTimeLabelOrder(TimeLabelOrder timeLabelOrder) {
+        this.labelTimeOrder = timeLabelOrder;
+        updateTimeLabelValue();
+    }
+
+    private JPanel createTimeLabelPanel() {
+        this.timeLabel = new JLabel("");
+        this.timeLabel.setForeground(this.timeLineLabelForegroundColor);
+
+        JPanel timeLabelPanel = new RoundPanel();
+        timeLabelPanel.setBackground(this.timeLineLabelShadowColor);
+        timeLabelPanel.setPreferredSize(new Dimension(50, 25));
+
+        timeLabelPanel.add(this.timeLabel);
+        this.timeLabelContextMenu = this.createTimeLabelContextMenu();
+
+        timeLabelPanel.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseEntered(MouseEvent var1) {
+                setCursor(HAND_CURSOR);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent var1) {
+                setCursor(DEFAULT_CURSOR);
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                timeLabelContextMenu.show(e.getComponent(), e.getX(), e.getY());
+            }
+        });
+
+        return timeLabelPanel;
+    }
+
+    private JPopupMenu createTimeLabelContextMenu() {
+        JPopupMenu popupMenu = new JPopupMenu();
+        popupMenu.add(new AbstractAction(LocalizationUtils.getString("ascending")) {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (timeLabelOrderListener != null) {
+                    timeLabelOrderListener.onChanged(TimeLabelOrder.ASC);
+                }
+            }
+        });
+
+        popupMenu.add(new AbstractAction(LocalizationUtils.getString("descending")) {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (timeLabelOrderListener != null) {
+                    timeLabelOrderListener.onChanged(TimeLabelOrder.DESC);
+                }
+            }
+        });
+
+        return popupMenu;
+    }
+
+    private void updateTimeLabelValue() {
+        int currentTime;
+        String result = "";
+        if (this.labelTimeOrder == TimeLabelOrder.ASC) {
+            currentTime = this.sliderControl.getDelimiterValue();
+        } else {
+            currentTime = this.sliderControl.getDelimiterMax() - this.sliderControl.getDelimiterValue();
+            result = "-";
+        }
+
+        int minutes = currentTime / 60;
+        int seconds = currentTime % 60;
+
+        result += (minutes >= 10 ? minutes : "0" + minutes) + ":" + (seconds >= 10 ? seconds : "0" + seconds);
+        this.timeLabel.setText(result);
     }
 }
