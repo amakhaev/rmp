@@ -8,6 +8,8 @@ import com.rmp.mediator.service.playlist.PlaylistService;
 import com.rmp.mediator.service.state.StateService;
 import com.rmp.mediator.taskExecutor.AsyncTaskExecutor;
 import com.rmp.mediator.ui.ControlPanelEventHandlerImpl;
+import com.rmp.mediator.ui.MediaDetailEventHandlerImpl;
+import com.rmp.mediator.ui.MediaDetailWatcher;
 import com.rmp.mediator.ui.PlaylistEventHandlerImpl;
 import com.rmp.vlcPlayer.VlcMediaPlayer;
 import com.rmp.widget.RMPWidget;
@@ -68,6 +70,8 @@ public class UIMediator {
                     .setPlaylistEventHandler(playlistHandler)
                     .setControlPanelDataWatcher(this.watcherContainer.getControlPanelDataWatcher())
                     .setControlPanelEventHandler(controlPanelEventHandler)
+                    .setMediaDetailDataWatcher(this.watcherContainer.getMediaDetailDataWatcher())
+                    .setMediaDetailEventHandler(new MediaDetailEventHandlerImpl())
                     .build();
 
 
@@ -88,35 +92,9 @@ public class UIMediator {
 
     private void initializeUI() {
         this.asyncTaskExecutor.executeTask(() -> {
-            StateModel currentState = this.stateService.getCurrentState();
-
-            this.watcherContainer.getPlaylistDataWatcher().getPlaylistModelObserver().emit(this.playlistService.getAllPlaylists());
-
-            this.watcherContainer.getPlaylistDataWatcher().getSelectedPlaylistObserver().emit(playlistService.getById(
-                    currentState.getPlaylistId()
-            ));
-
-            this.watcherContainer.getPlaylistDataWatcher().getReplaceMediaFilesObserver().emit(
-                    this.mediaFileService.getByPlaylistId(currentState.getPlaylistId())
-            );
-
-            this.watcherContainer.getPlaylistDataWatcher().getSelectedMediaFileIdObserver().emit(
-                    currentState.getPlaylistFileId()
-            );
-
-            this.watcherContainer.getControlPanelDataWatcher().getTimelineValueChangedObserver().emit(0L);
-            this.watcherContainer.getControlPanelDataWatcher().getTimelineValueChangedObserver().emit(0L);
-
-            TimeLabelOrder uiLabelOrder = null;
-            switch (currentState.getTimeLabelOrder()) {
-                case ASC:
-                    uiLabelOrder = TimeLabelOrder.ASC;
-                    break;
-                case DESC:
-                    uiLabelOrder = TimeLabelOrder.DESC;
-                    break;
-            }
-            this.watcherContainer.getControlPanelDataWatcher().getTimeLabelOrderChangedObserver().emit(uiLabelOrder);
+            this.initializePlaylistUI();
+            this.initializeControlPanelUI();
+            this.initializeMediaDetailUI();
         });
     }
 
@@ -124,6 +102,45 @@ public class UIMediator {
         return new VlcMediaPlayer(
                 MediaPlaylistFactory.create(this.stateService.getCurrentState(), this.mediaFileService),
                 new MediaPlayerEventListener(this.watcherContainer, asyncTaskExecutor)
+        );
+    }
+
+    private void initializePlaylistUI() {
+        StateModel currentState = this.stateService.getCurrentState();
+        this.watcherContainer.getPlaylistDataWatcher().getPlaylistModelObserver().emit(this.playlistService.getAllPlaylists());
+
+        this.watcherContainer.getPlaylistDataWatcher().getSelectedPlaylistObserver().emit(playlistService.getById(
+                currentState.getPlaylistId()
+        ));
+
+        this.watcherContainer.getPlaylistDataWatcher().getReplaceMediaFilesObserver().emit(
+                this.mediaFileService.getByPlaylistId(currentState.getPlaylistId())
+        );
+
+        this.watcherContainer.getPlaylistDataWatcher().getSelectedMediaFileIdObserver().emit(
+                currentState.getPlaylistFileId()
+        );
+    }
+
+    private void initializeControlPanelUI() {
+        this.watcherContainer.getControlPanelDataWatcher().getTimelineValueChangedObserver().emit(0L);
+        this.watcherContainer.getControlPanelDataWatcher().getTimelineValueChangedObserver().emit(0L);
+
+        TimeLabelOrder uiLabelOrder = null;
+        switch (this.stateService.getCurrentState().getTimeLabelOrder()) {
+            case ASC:
+                uiLabelOrder = TimeLabelOrder.ASC;
+                break;
+            case DESC:
+                uiLabelOrder = TimeLabelOrder.DESC;
+                break;
+        }
+        this.watcherContainer.getControlPanelDataWatcher().getTimeLabelOrderChangedObserver().emit(uiLabelOrder);
+    }
+
+    private void initializeMediaDetailUI() {
+        this.watcherContainer.getMediaDetailDataWatcher().getMediaFileObserver().emit(
+                this.mediaFileService.getById(this.stateService.getCurrentState().getPlaylistFileId())
         );
     }
 }

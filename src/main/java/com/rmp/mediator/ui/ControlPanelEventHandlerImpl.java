@@ -46,6 +46,7 @@ public class ControlPanelEventHandlerImpl implements ControlPanelEventHandler {
         this.asyncTaskExecutor.executeTask(() -> {
             this.mediaPlayer.stop();
             this.stateService.updatePlaylistFile(null);
+            this.watcherContainer.getMediaDetailDataWatcher().getMediaFileObserver().emit(null);
         });
     }
 
@@ -137,5 +138,9 @@ public class ControlPanelEventHandlerImpl implements ControlPanelEventHandler {
                 this.stateService.getCurrentState().getPlaylistFileId()
         );
         this.watcherContainer.getControlPanelDataWatcher().getIsPlayingObserver().emit(this.mediaPlayer.isPlaying());
+
+        this.watcherContainer.getMediaDetailDataWatcher().getMediaFileObserver().emit(
+                this.mediaFileService.getById(this.stateService.getCurrentState().getPlaylistFileId())
+        );
     }
 }

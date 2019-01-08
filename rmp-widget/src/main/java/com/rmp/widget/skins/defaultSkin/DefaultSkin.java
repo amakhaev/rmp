@@ -1,8 +1,6 @@
 package com.rmp.widget.skins.defaultSkin;
 
-import com.rmp.widget.skins.ControlPanelSkin;
-import com.rmp.widget.skins.Colors;
-import com.rmp.widget.skins.RMPSkin;
+import com.rmp.widget.skins.*;
 
 import java.awt.*;
 
@@ -14,7 +12,8 @@ public class DefaultSkin implements RMPSkin {
     private static final Dimension SIZE = new Dimension(600, 450);
 
     private ControlPanelSkin controlPanelSkin;
-    private com.rmp.widget.skins.PlaylistPanelSkin playlistPanelSkin;
+    private PlaylistPanelSkin playlistPanelSkin;
+    private MediaDetailPanelSkin mediaDetailPanelSkin;
 
     /**
      * Gets the size of widget
@@ -63,5 +62,17 @@ public class DefaultSkin implements RMPSkin {
         }
 
         return this.playlistPanelSkin;
+    }
+
+    /**
+     * Gets the skin of media detail component
+     */
+    @Override
+    public MediaDetailPanelSkin getMediaDetailSkin() {
+        if (this.mediaDetailPanelSkin == null) {
+            this.mediaDetailPanelSkin = new DefaultMediaDetailPanelSkin();
+        }
+
+        return this.mediaDetailPanelSkin;
     }
 }

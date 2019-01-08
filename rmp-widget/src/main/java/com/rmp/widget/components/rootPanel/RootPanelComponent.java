@@ -2,6 +2,8 @@ package com.rmp.widget.components.rootPanel;
 
 import com.rmp.widget.components.controlPanel.ControlPanelComponent;
 import com.rmp.widget.components.controlPanel.ControlPanelBuilder;
+import com.rmp.widget.components.mediaDetailPanel.MediaDetailBuilder;
+import com.rmp.widget.components.mediaDetailPanel.MediaDetailComponent;
 import com.rmp.widget.components.playlistPanel.PlaylistPanelBuilder;
 import com.rmp.widget.components.playlistPanel.PlaylistPanelComponent;
 import com.rmp.widget.controls.gradientPanel.GradientJPanel;
@@ -34,7 +36,9 @@ public class RootPanelComponent {
     /**
      * Initializes the root panel
      */
-    void initialize(PlaylistPanelBuilder playlistPanelBuilder, ControlPanelBuilder controlPanelBuilder) {
+    void initialize(PlaylistPanelBuilder playlistPanelBuilder,
+                    ControlPanelBuilder controlPanelBuilder,
+                    MediaDetailBuilder mediaDetailBuilder) {
         this.rootPanel.setLayout(new BorderLayout());
 
         PlaylistPanelComponent playlistPanelComponent = playlistPanelBuilder
@@ -51,6 +55,11 @@ public class RootPanelComponent {
                 .setSkin(this.skin.getControlPanelSkin())
                 .build();
 
+        MediaDetailComponent mediaDetailComponent = mediaDetailBuilder
+                .setSkin(this.skin.getMediaDetailSkin())
+                .build();
+
+        this.rootPanel.add(mediaDetailComponent.getMediaDetailPanel(), BorderLayout.CENTER);
         this.rootPanel.add(playlistPanelComponent.getPlaylistPanel(), BorderLayout.LINE_END);
         this.rootPanel.add(controlPanelComponent.getControlPanel(), BorderLayout.PAGE_END);
     }

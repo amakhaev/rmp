@@ -33,4 +33,9 @@ public interface RMPSkin {
      * Gets the playlist panel skin
      */
     PlaylistPanelSkin getPlaylistSkin();
+
+    /**
+     * Gets the skin of media detail component
+     */
+    MediaDetailPanelSkin getMediaDetailSkin();
 }

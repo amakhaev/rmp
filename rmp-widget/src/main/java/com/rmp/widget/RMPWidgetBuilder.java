@@ -1,8 +1,10 @@
 package com.rmp.widget;
 
 import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;
+import com.rmp.widget.dataWatcher.MediaDetailDataWatcher;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.eventHandler.ControlPanelEventHandler;
+import com.rmp.widget.eventHandler.MediaDetailEventHandler;
 import com.rmp.widget.eventHandler.PlaylistEventHandler;
 import com.rmp.widget.skins.RMPSkin;
 import com.rmp.widget.skins.Skin;
@@ -20,6 +22,8 @@ public class RMPWidgetBuilder {
     private PlaylistEventHandler playlistEventHandler;
     private ControlPanelDataWatcher controlPanelDataWatcher;
     private ControlPanelEventHandler controlPanelEventHandler;
+    private MediaDetailDataWatcher mediaDetailDataWatcher;
+    private MediaDetailEventHandler mediaDetaileventHandler;
 
     /**
      * Initialize new instance of {@link RMPWidgetBuilder}
@@ -87,6 +91,28 @@ public class RMPWidgetBuilder {
     }
 
     /**
+     * Sets the data watcher for component
+     *
+     * @param mediaDetailDataWatcher - the data watcher instance
+     * @return the current {@link RMPWidgetBuilder} instance
+     */
+    public RMPWidgetBuilder setMediaDetailDataWatcher(MediaDetailDataWatcher mediaDetailDataWatcher) {
+        this.mediaDetailDataWatcher = mediaDetailDataWatcher;
+        return this;
+    }
+
+    /**
+     * Sets the event handler for component
+     *
+     * @param eventHandler - the event handler component
+     * @return the current {@link RMPWidgetBuilder} instance
+     */
+    public RMPWidgetBuilder setMediaDetailEventHandler(MediaDetailEventHandler eventHandler) {
+        this.mediaDetaileventHandler = eventHandler;
+        return this;
+    }
+
+    /**
      * Builds the widget by parameters from builder
      *
      * @return the {@link RMPWidget} instance
@@ -97,7 +123,9 @@ public class RMPWidgetBuilder {
                 this.playlistDataWatcher,
                 this.playlistEventHandler,
                 this.controlPanelDataWatcher,
-                this.controlPanelEventHandler
+                this.controlPanelEventHandler,
+                this.mediaDetailDataWatcher,
+                this.mediaDetaileventHandler
         );
 
         return widget;

@@ -187,5 +187,8 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
         }
 
         this.watcherContainer.getControlPanelDataWatcher().getIsPlayingObserver().emit(this.mediaPlayer.isPlaying());
+        this.watcherContainer.getMediaDetailDataWatcher().getMediaFileObserver().emit(
+                this.mediaFileService.getById(this.stateService.getCurrentState().getPlaylistFileId())
+        );
     }
 }

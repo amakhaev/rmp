@@ -1,6 +1,7 @@
 package com.rmp.widget.components.rootPanel;
 
 import com.rmp.widget.components.controlPanel.ControlPanelBuilder;
+import com.rmp.widget.components.mediaDetailPanel.MediaDetailBuilder;
 import com.rmp.widget.components.playlistPanel.PlaylistPanelBuilder;
 import com.rmp.widget.skins.RMPSkin;
 
@@ -12,6 +13,7 @@ public class RootPanelBuilder {
     private RMPSkin skin;
     private PlaylistPanelBuilder playlistPanelBuilder;
     private ControlPanelBuilder controlPanelBuilder;
+    private MediaDetailBuilder mediaDetailBuilder;
 
     /**
      * Sets the skin of {@link RootPanelComponent}.
@@ -47,6 +49,17 @@ public class RootPanelBuilder {
     }
 
     /**
+     * Sets the media detail panel builder
+     *
+     * @param mediaDetailBuilder - the builder to set
+     * @return current {@link RootPanelBuilder} instance
+     */
+    public RootPanelBuilder setMediaDetailBuilder(MediaDetailBuilder mediaDetailBuilder) {
+        this.mediaDetailBuilder = mediaDetailBuilder;
+        return this;
+    }
+
+    /**
      * Builds the {@link RootPanelComponent} from prepared parameters
      *
      * @return the {@link RootPanelComponent} instance
@@ -64,8 +77,12 @@ public class RootPanelBuilder {
             throw new NullPointerException("Button panel builder is required to create RootPanelComponent");
         }
 
+        if (this.mediaDetailBuilder == null) {
+            throw new NullPointerException("Media detail panel builder is required to create RootPanelComponent");
+        }
+
         RootPanelComponent rootPanelComponent = new RootPanelComponent(this.skin);
-        rootPanelComponent.initialize(this.playlistPanelBuilder, this.controlPanelBuilder);
+        rootPanelComponent.initialize(this.playlistPanelBuilder, this.controlPanelBuilder, this.mediaDetailBuilder);
         return rootPanelComponent;
     }
 }

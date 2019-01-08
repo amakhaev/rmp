@@ -1,13 +1,16 @@
 package com.rmp.widget;
 
 import com.rmp.widget.components.controlPanel.ControlPanelBuilder;
+import com.rmp.widget.components.mediaDetailPanel.MediaDetailBuilder;
 import com.rmp.widget.components.playlistDialog.NewPlaylistDialogComponent;
 import com.rmp.widget.components.playlistDialog.OpenFileDialogComponent;
 import com.rmp.widget.components.playlistPanel.PlaylistPanelBuilder;
 import com.rmp.widget.components.rootPanel.RootPanelComponent;
 import com.rmp.widget.components.rootPanel.RootPanelBuilder;
 import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;
+import com.rmp.widget.dataWatcher.MediaDetailDataWatcher;
 import com.rmp.widget.eventHandler.ControlPanelEventHandler;
+import com.rmp.widget.eventHandler.MediaDetailEventHandler;
 import com.rmp.widget.eventHandler.PlaylistEventHandler;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.RMPSkin;
@@ -52,7 +55,9 @@ public class RMPWidget {
     void initialize(PlaylistDataWatcher playlistDataWatcher,
                     PlaylistEventHandler playlistEventHandler,
                     ControlPanelDataWatcher dataWatcher,
-                    ControlPanelEventHandler eventHandler) {
+                    ControlPanelEventHandler eventHandler,
+                    MediaDetailDataWatcher mediaDetailDataWatcher,
+                    MediaDetailEventHandler mediaDetailEventHandler) {
         this.widget.setResizable(false);
         this.widget.setPreferredSize(this.skin.getSize());
         this.widget.addWindowListener(new WindowAdapter() {
@@ -66,6 +71,7 @@ public class RMPWidget {
                 .setSkin(this.skin)
                 .setPlaylistPanelBuilder(this.createPlaylistBuilder(playlistDataWatcher, playlistEventHandler))
                 .setControlPanelBuilder(this.createButtonPanelBuilder(dataWatcher, eventHandler))
+                .setMediaDetailBuilder(this.createMediaDetailPanelBuilder(mediaDetailDataWatcher, mediaDetailEventHandler))
                 .build();
         this.widget.setContentPane(rootPanelComponent.getRootPanel());
     }
@@ -84,6 +90,13 @@ public class RMPWidget {
                                                          ControlPanelEventHandler eventHandler) {
         return new ControlPanelBuilder()
                 .setControlPanelDataWatcher(dataWatcher)
+                .setEventHandler(eventHandler);
+    }
+
+    private MediaDetailBuilder createMediaDetailPanelBuilder(MediaDetailDataWatcher dataWatcher,
+                                                             MediaDetailEventHandler eventHandler) {
+        return new MediaDetailBuilder()
+                .setMediaDetailDataWatcher(dataWatcher)
                 .setEventHandler(eventHandler);
     }
 }

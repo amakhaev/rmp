@@ -156,7 +156,7 @@ public class DefaultControlPanelSkin implements ControlPanelSkin {
      */
     @Override
     public Color getTimelineShadowColor() {
-        return Colors.PRIMARY_GRAY;
+        return Colors.PRIMARY;
     }
 
     /**
