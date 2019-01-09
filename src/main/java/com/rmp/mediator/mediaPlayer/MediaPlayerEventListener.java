@@ -8,6 +8,7 @@ import com.rmp.mediator.taskExecutor.AsyncTaskExecutor;
 import com.rmp.vlcPlayer.VlcMediaPlayer;
 import com.rmp.vlcPlayer.VlcMediaPlayerEventListener;
 import com.rmp.widget.readModels.UIMediaFileModel;
+import uk.co.caprica.vlcj.player.MediaMeta;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class MediaPlayerEventListener implements VlcMediaPlayerEventListener {
     private final PlaylistService playlistService;
     private final MediaFileService mediaFileService;
 
-    private boolean isPlaying;
+    // private boolean isPlaying;
 
     /**
      * Initialize new instance of {@link MediaPlayerEventListener}
@@ -35,7 +36,6 @@ public class MediaPlayerEventListener implements VlcMediaPlayerEventListener {
         this.stateService = new StateService();
         this.playlistService = new PlaylistService();
         this.mediaFileService = new MediaFileService();
-        this.isPlaying = false;
     }
 
     /**
@@ -43,35 +43,22 @@ public class MediaPlayerEventListener implements VlcMediaPlayerEventListener {
      */
     @Override
     public void onPlaying(VlcMediaPlayer mediaPlayer) {
-        this.isPlaying = true;
-
         UIMediaFileModel model = this.mediaFileService.getByPlaylistIdAndPath(
                 this.stateService.getCurrentState().getPlaylistId(),
                 mediaPlayer.getSelectedMediaFilePath()
         );
-        this.watcherContainer.getPlaylistDataWatcher().getSelectedMediaFileIdObserver().emit(
-                model == null ? null : model.getId()
-        );
-    }
-
-    /**
-     * Handles the paused event. Called when media item paused
-     */
-    @Override
-    public void onPaused() {
-        this.isPlaying = false;
+        this.watcherContainer.emitSelectedMediaFileChanged(model == null ? null : model.getId());
     }
 
     /**
      * Handles the stopped event. Called when media item stopped
      */
     @Override
-    public void onStopped() {
-        this.isPlaying = false;
-        this.watcherContainer.getControlPanelDataWatcher().getIsPlayingObserver().emit(this.isPlaying);
-        this.watcherContainer.getPlaylistDataWatcher().getSelectedMediaFileIdObserver().emit(null);
-        this.watcherContainer.getControlPanelDataWatcher().getTimelineLengthChangedObserver().emit(0L);
-        this.watcherContainer.getControlPanelDataWatcher().getTimelineValueChangedObserver().emit(0L);
+    public void onStopped(VlcMediaPlayer mediaPlayer) {
+        this.watcherContainer.emitIsPlayingChanged(mediaPlayer.isPlaying());
+        this.watcherContainer.emitSelectedMediaFileChanged(null);
+        this.watcherContainer.emitTimelineLengthChanged(0L);
+        this.watcherContainer.emitTimelineValueChanged(0L);
     }
 
     /**
@@ -82,7 +69,7 @@ public class MediaPlayerEventListener implements VlcMediaPlayerEventListener {
     @Override
     public void onTimeChanged(long newTime) {
         // newTime stored in milliseconds. Should be converted to seconds
-        this.watcherContainer.getControlPanelDataWatcher().getTimelineValueChangedObserver().emit(newTime / 1000);
+        this.watcherContainer.emitTimelineValueChanged(newTime / 1000);
     }
 
     /**
@@ -93,7 +80,7 @@ public class MediaPlayerEventListener implements VlcMediaPlayerEventListener {
     @Override
     public void onLengthChanged(long newLength) {
         // newLength stored in milliseconds. Should be converted to seconds
-        this.watcherContainer.getControlPanelDataWatcher().getTimelineLengthChangedObserver().emit(newLength / 1000);
+        this.watcherContainer.emitTimelineLengthChanged(newLength / 1000);
     }
 
     /**
@@ -109,6 +96,18 @@ public class MediaPlayerEventListener implements VlcMediaPlayerEventListener {
         });
     }
 
+    /**
+     * Handles the changing of media metadata
+     *
+     * @param metadata - the metadata of current item
+     */
+    @Override
+    public void onMetadataChanged(MediaMeta metadata) {
+        this.asyncTaskExecutor.executeTask(() -> {
+            this.watcherContainer.emitMediaDetailArtChanged(metadata.getArtwork());
+        });
+    }
+
     private void updateAfterMediaFileChanged(VlcMediaPlayer mediaPlayer) {
         List<UIMediaFileModel> mediaFileModels = this.mediaFileService.getByPlaylistId(
                 this.playlistService.getById(this.stateService.getCurrentState().getPlaylistId()).getId()
@@ -118,9 +117,9 @@ public class MediaPlayerEventListener implements VlcMediaPlayerEventListener {
             this.stateService.updatePlaylistFile(mediaFileModels.get(mediaPlayer.getSelectedMediaFileIndex()).getId());
         }
 
-        this.watcherContainer.getPlaylistDataWatcher().getSelectedMediaFileIdObserver().emit(
-                this.stateService.getCurrentState().getPlaylistFileId()
+        this.watcherContainer.emitMediaFileChanged(
+                this.mediaFileService.getById(this.stateService.getCurrentState().getPlaylistFileId()),
+                mediaPlayer.isPlaying()
         );
-        this.watcherContainer.getControlPanelDataWatcher().getIsPlayingObserver().emit(mediaPlayer.isPlaying());
     }
 }

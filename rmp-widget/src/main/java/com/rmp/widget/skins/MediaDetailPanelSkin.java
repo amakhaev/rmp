@@ -1,6 +1,7 @@
 package com.rmp.widget.skins;
 
 import java.awt.*;
+import java.net.URL;
 
 /**
  * Provides the skin of MediaDetailComponent
@@ -16,4 +17,9 @@ public interface MediaDetailPanelSkin {
      * Gets the foreground color of title panel
      */
     Color getTitlePanelForegroundColor();
+
+    /**
+     * Gets the default art URL
+     */
+    URL getDefaultArt();
 }

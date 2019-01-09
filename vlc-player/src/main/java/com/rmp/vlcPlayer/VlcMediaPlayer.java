@@ -134,6 +134,15 @@ public class VlcMediaPlayer {
 
                 this.eventListener.onPlaying(VlcMediaPlayer.this);
             }
+
+            @Override
+            public void stopped(MediaPlayer mediaPlayer) {
+                if (this.eventListener == null) {
+                    return;
+                }
+
+                this.eventListener.onStopped(VlcMediaPlayer.this);
+            }
         };
     }
 }

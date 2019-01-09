@@ -1,5 +1,6 @@
 package com.rmp.mediator.ui;
 
+import com.rmp.dao.domain.state.StateModel;
 import com.rmp.mediator.UIWatcherContainer;
 import com.rmp.mediator.service.mediaFile.MediaFileService;
 import com.rmp.mediator.service.playlist.PlaylistService;
@@ -46,7 +47,7 @@ public class ControlPanelEventHandlerImpl implements ControlPanelEventHandler {
         this.asyncTaskExecutor.executeTask(() -> {
             this.mediaPlayer.stop();
             this.stateService.updatePlaylistFile(null);
-            this.watcherContainer.getMediaDetailDataWatcher().getMediaFileObserver().emit(null);
+            this.watcherContainer.emitMediaDetailChanged(null);
         });
     }
 
@@ -121,7 +122,7 @@ public class ControlPanelEventHandlerImpl implements ControlPanelEventHandler {
                     this.stateService.updateTimeLabelOrder(com.rmp.dao.domain.state.TimeLabelOrder.DESC);
                     break;
             }
-            this.watcherContainer.getControlPanelDataWatcher().getTimeLabelOrderChangedObserver().emit(order);
+            this.watcherContainer.emitTimeLabelOrderChanged(order);
         });
     }
 
@@ -134,13 +135,9 @@ public class ControlPanelEventHandlerImpl implements ControlPanelEventHandler {
             this.stateService.updatePlaylistFile(mediaFileModels.get(this.mediaPlayer.getSelectedMediaFileIndex()).getId());
         }
 
-        this.watcherContainer.getPlaylistDataWatcher().getSelectedMediaFileIdObserver().emit(
-                this.stateService.getCurrentState().getPlaylistFileId()
-        );
-        this.watcherContainer.getControlPanelDataWatcher().getIsPlayingObserver().emit(this.mediaPlayer.isPlaying());
-
-        this.watcherContainer.getMediaDetailDataWatcher().getMediaFileObserver().emit(
-                this.mediaFileService.getById(this.stateService.getCurrentState().getPlaylistFileId())
+        this.watcherContainer.emitMediaFileChanged(
+                this.mediaFileService.getById(this.stateService.getCurrentState().getPlaylistFileId()),
+                this.mediaPlayer.isPlaying()
         );
     }
 }

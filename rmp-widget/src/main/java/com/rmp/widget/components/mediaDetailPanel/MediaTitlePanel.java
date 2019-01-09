@@ -1,6 +1,7 @@
 package com.rmp.widget.components.mediaDetailPanel;
 
 import com.rmp.widget.controls.roundPanel.RoundPanel;
+import com.rmp.widget.utilities.ImageUtility;
 import com.rmp.widget.utilities.LocalizationUtils;
 
 import javax.swing.*;
@@ -40,5 +41,6 @@ class MediaTitlePanel extends RoundPanel {
         this.label.setText(
                 title == null || title.isEmpty() ? LocalizationUtils.getString("not_selected") : title
         );
+        this.repaint();
     }
 }

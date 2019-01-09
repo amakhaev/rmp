@@ -7,14 +7,14 @@ import com.rmp.mediator.service.mediaFile.MediaFileService;
 import com.rmp.mediator.service.playlist.PlaylistService;
 import com.rmp.mediator.service.state.StateService;
 import com.rmp.mediator.taskExecutor.AsyncTaskExecutor;
-import com.rmp.mediator.ui.ControlPanelEventHandlerImpl;
-import com.rmp.mediator.ui.MediaDetailEventHandlerImpl;
-import com.rmp.mediator.ui.MediaDetailWatcher;
-import com.rmp.mediator.ui.PlaylistEventHandlerImpl;
+import com.rmp.mediator.ui.*;
 import com.rmp.vlcPlayer.VlcMediaPlayer;
 import com.rmp.widget.RMPWidget;
 import com.rmp.widget.RMPWidgetBuilder;
 import com.rmp.widget.components.controlPanel.TimeLabelOrder;
+import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;
+import com.rmp.widget.dataWatcher.MediaDetailDataWatcher;
+import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.Skin;
 import lombok.extern.slf4j.Slf4j;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
@@ -28,6 +28,10 @@ import javax.swing.*;
 public class UIMediator {
 
     private AsyncTaskExecutor asyncTaskExecutor;
+
+    private final ControlPanelDataWatcher controlPanelDataWatcher;
+    private final PlaylistDataWatcher playlistDataWatcher;
+    private final MediaDetailDataWatcher mediaDetailDataWatcher;
     private UIWatcherContainer watcherContainer;
 
     private RMPWidget widget;
@@ -40,8 +44,16 @@ public class UIMediator {
      * Initialize new instance of {@link UIMediator}
      */
     public UIMediator() {
-        this.watcherContainer = new UIWatcherContainer();
         this.asyncTaskExecutor = new AsyncTaskExecutor();
+
+        this.controlPanelDataWatcher = new ControlPanelWatcher();
+        this.playlistDataWatcher = new PlaylistWatcher();
+        this.mediaDetailDataWatcher = new MediaDetailWatcher();
+        this.watcherContainer = new UIWatcherContainer(
+                this.controlPanelDataWatcher,
+                this.playlistDataWatcher,
+                this.mediaDetailDataWatcher
+        );
 
         this.playlistService = new PlaylistService();
         this.stateService = new StateService();
@@ -66,11 +78,11 @@ public class UIMediator {
 
             this.widget = new RMPWidgetBuilder()
                     .setSkin(Skin.DEFAULT)
-                    .setPlaylistDataWatcher(this.watcherContainer.getPlaylistDataWatcher())
+                    .setPlaylistDataWatcher(this.playlistDataWatcher)
                     .setPlaylistEventHandler(playlistHandler)
-                    .setControlPanelDataWatcher(this.watcherContainer.getControlPanelDataWatcher())
+                    .setControlPanelDataWatcher(this.controlPanelDataWatcher)
                     .setControlPanelEventHandler(controlPanelEventHandler)
-                    .setMediaDetailDataWatcher(this.watcherContainer.getMediaDetailDataWatcher())
+                    .setMediaDetailDataWatcher(this.mediaDetailDataWatcher)
                     .setMediaDetailEventHandler(new MediaDetailEventHandlerImpl())
                     .build();
 
@@ -107,24 +119,15 @@ public class UIMediator {
 
     private void initializePlaylistUI() {
         StateModel currentState = this.stateService.getCurrentState();
-        this.watcherContainer.getPlaylistDataWatcher().getPlaylistModelObserver().emit(this.playlistService.getAllPlaylists());
-
-        this.watcherContainer.getPlaylistDataWatcher().getSelectedPlaylistObserver().emit(playlistService.getById(
-                currentState.getPlaylistId()
-        ));
-
-        this.watcherContainer.getPlaylistDataWatcher().getReplaceMediaFilesObserver().emit(
-                this.mediaFileService.getByPlaylistId(currentState.getPlaylistId())
-        );
-
-        this.watcherContainer.getPlaylistDataWatcher().getSelectedMediaFileIdObserver().emit(
-                currentState.getPlaylistFileId()
-        );
+        this.watcherContainer.emitPlaylistsChanged(this.playlistService.getAllPlaylists());
+        this.watcherContainer.emitSelectedPlaylistChanged(playlistService.getById(currentState.getPlaylistId()));
+        this.watcherContainer.emitMediaFileReplaced(this.mediaFileService.getByPlaylistId(currentState.getPlaylistId()));
+        this.watcherContainer.emitSelectedMediaFileChanged(currentState.getPlaylistFileId());
     }
 
     private void initializeControlPanelUI() {
-        this.watcherContainer.getControlPanelDataWatcher().getTimelineValueChangedObserver().emit(0L);
-        this.watcherContainer.getControlPanelDataWatcher().getTimelineValueChangedObserver().emit(0L);
+        this.watcherContainer.emitTimelineValueChanged(0L);
+        this.watcherContainer.emitTimelineLengthChanged(0L);
 
         TimeLabelOrder uiLabelOrder = null;
         switch (this.stateService.getCurrentState().getTimeLabelOrder()) {
@@ -135,12 +138,13 @@ public class UIMediator {
                 uiLabelOrder = TimeLabelOrder.DESC;
                 break;
         }
-        this.watcherContainer.getControlPanelDataWatcher().getTimeLabelOrderChangedObserver().emit(uiLabelOrder);
+        this.watcherContainer.emitTimeLabelOrderChanged(uiLabelOrder);
     }
 
     private void initializeMediaDetailUI() {
-        this.watcherContainer.getMediaDetailDataWatcher().getMediaFileObserver().emit(
-                this.mediaFileService.getById(this.stateService.getCurrentState().getPlaylistFileId())
+        Integer mediaFileId = this.stateService.getCurrentState().getPlaylistFileId();
+        this.watcherContainer.emitMediaDetailChanged(
+                mediaFileId == null ? null : this.mediaFileService.getById(mediaFileId)
         );
     }
 }

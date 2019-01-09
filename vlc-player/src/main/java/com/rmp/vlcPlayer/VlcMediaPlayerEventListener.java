@@ -1,5 +1,7 @@
 package com.rmp.vlcPlayer;
 
+import uk.co.caprica.vlcj.player.MediaMeta;
+
 /**
  * Provides the event listener of media player
  */
@@ -11,14 +13,9 @@ public interface VlcMediaPlayerEventListener {
     void onPlaying(VlcMediaPlayer mediaPlayer);
 
     /**
-     * Handles the paused event. Called when media item paused
-     */
-    void onPaused();
-
-    /**
      * Handles the stopped event. Called when media item stopped
      */
-    void onStopped();
+    void onStopped(VlcMediaPlayer mediaPlayer);
 
     /**
      * Handles the time changing event. Called when media item play time was changed
@@ -40,4 +37,11 @@ public interface VlcMediaPlayerEventListener {
      * @param mediaPlayer - the media player
      */
     void onFinish(VlcMediaPlayer mediaPlayer);
+
+    /**
+     * Handles the changing of media metadata
+     *
+     * @param metadata - the metadata of current item
+     */
+    void onMetadataChanged(MediaMeta metadata);
 }

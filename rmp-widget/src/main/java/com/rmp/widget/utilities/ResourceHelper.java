@@ -35,6 +35,8 @@ public class ResourceHelper {
     public static final String CHECK_ICON = "check-icon.png";
     public static final String PLAY_BUTTON_ICON = "play-button-icon.png";
 
+    public static final String MEDIA_DETAIL_BACKGROUND_ICON = "media_detail_background-icon.png";
+
     /**
      * Gets the full path to resource.
      *

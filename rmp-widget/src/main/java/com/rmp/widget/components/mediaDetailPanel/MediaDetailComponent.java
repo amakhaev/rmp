@@ -21,6 +21,7 @@ public class MediaDetailComponent {
     private final MediaDetailPanelSkin skin;
 
     private MediaTitlePanel mediaTitlePanel;
+    private MediaArtPanel mediaArtPanel;
 
     @Setter
     private MediaDetailEventHandler eventHandler;
@@ -48,7 +49,10 @@ public class MediaDetailComponent {
         this.mediaDetailPanel.setBackground(Colors.TRANSPARENT);
 
         this.mediaTitlePanel = this.createMediaTitlePanel();
+        this.mediaArtPanel = this.createMediaArtPanel();
+
         this.mediaDetailPanel.add(this.mediaTitlePanel, BorderLayout.PAGE_START);
+        this.mediaDetailPanel.add(this.mediaArtPanel, BorderLayout.CENTER);
 
         this.subscribeToWatcherChanges();
     }
@@ -62,6 +66,10 @@ public class MediaDetailComponent {
         return mediaTitlePanel;
     }
 
+    private MediaArtPanel createMediaArtPanel() {
+        return new MediaArtPanel(this.skin.getDefaultArt());
+    }
+
     private void subscribeToWatcherChanges() {
         if (this.dataWatcher == null) {
             return;
@@ -69,8 +77,16 @@ public class MediaDetailComponent {
 
         if (this.dataWatcher.getMediaFileObserver() != null) {
             this.dataWatcher.getMediaFileObserver().subscribe(mediaFile -> {
-                this.mediaTitlePanel.setTitle(mediaFile.getDisplayName());
+                this.mediaTitlePanel.setTitle(mediaFile == null ? null : mediaFile.getDisplayName());
+            });
+        }
+
+        if (this.dataWatcher.getMediaFileArtObserver() != null) {
+            this.dataWatcher.getMediaFileArtObserver().subscribe(imageArt -> {
+                this.mediaArtPanel.setArt(imageArt);
             });
         }
     }
+
+
 }

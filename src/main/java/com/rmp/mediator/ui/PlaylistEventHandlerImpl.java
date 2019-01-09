@@ -57,7 +57,7 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
     public void onPlaylistCreate(String title) {
         this.asyncTaskExecutor.executeTask(() -> {
             this.playlistService.createPlaylist(title);
-            this.watcherContainer.getPlaylistDataWatcher().getPlaylistModelObserver().emit(this.playlistService.getAllPlaylists());
+            this.watcherContainer.emitPlaylistsChanged(this.playlistService.getAllPlaylists());
             this.onPlaylistSelected(this.playlistService.getByTitle(title).getId());
         });
     }
@@ -76,15 +76,11 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
                     MediaPlaylistFactory.create(this.stateService.getCurrentState(), this.mediaFileService)
             );
 
-            this.watcherContainer.getPlaylistDataWatcher().getSelectedPlaylistObserver().emit(
-                    this.playlistService.getById(currentState.getPlaylistId())
+            this.watcherContainer.emitPlaylistChanged(
+                    this.playlistService.getById(currentState.getPlaylistId()),
+                    this.mediaFileService.getByPlaylistId(currentState.getPlaylistId()),
+                    this.mediaPlayer.isPlaying()
             );
-
-            this.watcherContainer.getPlaylistDataWatcher().getReplaceMediaFilesObserver().emit(
-                    this.mediaFileService.getByPlaylistId(currentState.getPlaylistId())
-            );
-
-            this.watcherContainer.getControlPanelDataWatcher().getIsPlayingObserver().emit(this.mediaPlayer.isPlaying());
         });
     }
 
@@ -105,7 +101,7 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
                 mediaFile.setPlaylistId(currentState.getPlaylistId());
 
                 mediaFile = this.mediaFileService.createMediaFile(mediaFile);
-                this.watcherContainer.getPlaylistDataWatcher().getAddMediaFileObserver().emit(mediaFile);
+                this.watcherContainer.emitMediaFileAdded(mediaFile);
             });
 
             this.mediaPlayer.setMediaPlaylist(
@@ -125,7 +121,7 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
             StateModel currentState = this.stateService.getCurrentState();
 
             this.mediaFileService.deleteMediaFiles(mediaFileIds);
-            this.watcherContainer.getPlaylistDataWatcher().getReplaceMediaFilesObserver().emit(
+            this.watcherContainer.emitMediaFileReplaced(
                     this.mediaFileService.getByPlaylistId(currentState.getPlaylistId())
             );
 
@@ -186,9 +182,9 @@ public class PlaylistEventHandlerImpl implements PlaylistEventHandler {
             this.stateService.updatePlaylistFile(mediaFileModels.get(this.mediaPlayer.getSelectedMediaFileIndex()).getId());
         }
 
-        this.watcherContainer.getControlPanelDataWatcher().getIsPlayingObserver().emit(this.mediaPlayer.isPlaying());
-        this.watcherContainer.getMediaDetailDataWatcher().getMediaFileObserver().emit(
-                this.mediaFileService.getById(this.stateService.getCurrentState().getPlaylistFileId())
+        this.watcherContainer.emitMediaFileChanged(
+                this.mediaFileService.getById(this.stateService.getCurrentState().getPlaylistFileId()),
+                this.mediaPlayer.isPlaying()
         );
     }
 }

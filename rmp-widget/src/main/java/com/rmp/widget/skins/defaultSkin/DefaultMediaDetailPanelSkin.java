@@ -2,13 +2,18 @@ package com.rmp.widget.skins.defaultSkin;
 
 import com.rmp.widget.skins.Colors;
 import com.rmp.widget.skins.MediaDetailPanelSkin;
+import com.rmp.widget.utilities.ResourceHelper;
 
 import java.awt.*;
+import java.net.URL;
 
 /**
  * Provides default implementation of MediaDetailPanelSkin
  */
 public class DefaultMediaDetailPanelSkin implements MediaDetailPanelSkin {
+
+    private static final String SKIN_NAME = "skin_default";
+
     /**
      * Gets the background color if title panel
      */
@@ -23,5 +28,13 @@ public class DefaultMediaDetailPanelSkin implements MediaDetailPanelSkin {
     @Override
     public Color getTitlePanelForegroundColor() {
         return Colors.PRIMARY;
+    }
+
+    /**
+     * Gets the default art URL
+     */
+    @Override
+    public URL getDefaultArt() {
+        return ResourceHelper.getPathToSkinIcon(SKIN_NAME, ResourceHelper.MEDIA_DETAIL_BACKGROUND_ICON);
     }
 }

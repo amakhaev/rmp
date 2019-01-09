@@ -8,31 +8,13 @@ import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
  */
 abstract class InternalMediaPlayerEventListener extends MediaPlayerEventAdapter {
 
-    protected final VlcMediaPlayerEventListener eventListener;
+    final VlcMediaPlayerEventListener eventListener;
 
     /**
      * Initialize new instance of {@link InternalMediaPlayerEventListener}
      */
     InternalMediaPlayerEventListener(VlcMediaPlayerEventListener eventListener) {
         this.eventListener = eventListener;
-    }
-
-    @Override
-    public void paused(MediaPlayer mediaPlayer) {
-        if (this.eventListener == null) {
-            return;
-        }
-
-        this.eventListener.onPaused();
-    }
-
-    @Override
-    public void stopped(MediaPlayer mediaPlayer) {
-        if (this.eventListener == null) {
-            return;
-        }
-
-        this.eventListener.onStopped();
     }
 
     @Override
@@ -51,6 +33,15 @@ abstract class InternalMediaPlayerEventListener extends MediaPlayerEventAdapter 
         }
 
         this.eventListener.onLengthChanged(newLength);
+    }
+
+    @Override
+    public void mediaMetaChanged(MediaPlayer mediaPlayer, int metaType) {
+        if (this.eventListener == null) {
+            return;
+        }
+
+        this.eventListener.onMetadataChanged(mediaPlayer.getMediaMeta());
     }
 
 }
