@@ -67,7 +67,9 @@ public class MediaDetailComponent {
     }
 
     private MediaArtPanel createMediaArtPanel() {
-        return new MediaArtPanel(this.skin.getDefaultArt());
+        MediaArtPanel mediaArtPanel = new MediaArtPanel(this.skin.getDefaultArt());
+        mediaArtPanel.setGradient(this.skin.getArtPanelBackgroundGradientPalette());
+        return mediaArtPanel;
     }
 
     private void subscribeToWatcherChanges() {

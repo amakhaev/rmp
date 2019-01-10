@@ -1,12 +1,12 @@
 package com.rmp.widget.components.mediaDetailPanel;
 
-import com.rmp.widget.controls.roundPanel.RoundPanel;
+import com.rmp.widget.controls.roundPanel.RoundGradientPanel;
 import com.rmp.widget.skins.Colors;
+import com.rmp.widget.skins.GradientPalette;
 import com.rmp.widget.utilities.ImageUtility;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
@@ -15,7 +15,9 @@ import java.net.URL;
  * Provides the panel that shown the art of media item
  */
 @Slf4j
-public class MediaArtPanel extends RoundPanel {
+public class MediaArtPanel extends RoundGradientPanel {
+
+    private static final GradientPalette DEFAULT_PALETTE = new GradientPalette(Colors.BLACK, Colors.CHARCOAL);
 
     private Image defaultImage;
     private Image artImage;
@@ -25,13 +27,13 @@ public class MediaArtPanel extends RoundPanel {
      * Initialize new instance of {@link MediaArtPanel}
      */
     MediaArtPanel(URL defaultImageUrl) {
+        super(DEFAULT_PALETTE);
         try {
             this.defaultImage = ImageIO.read(defaultImageUrl);
         } catch (IOException e) {
             log.error(e.getMessage());
         }
 
-        this.setBackground(Colors.BLACK);
         this.loadDefaultImage();
     }
 

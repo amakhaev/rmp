@@ -19,6 +19,11 @@ public interface MediaDetailPanelSkin {
     Color getTitlePanelForegroundColor();
 
     /**
+     * Gets the background palette of gradient palette
+     */
+    GradientPalette getArtPanelBackgroundGradientPalette();
+
+    /**
      * Gets the default art URL
      */
     URL getDefaultArt();

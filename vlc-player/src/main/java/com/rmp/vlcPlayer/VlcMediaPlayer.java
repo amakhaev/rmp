@@ -64,8 +64,8 @@ public class VlcMediaPlayer {
      * Stops the playing of media object
      */
     public void stop() {
-        this.mediaPlayer.stop();
         this.isPlaying = false;
+        this.mediaPlayer.stop();
     }
 
     /**
