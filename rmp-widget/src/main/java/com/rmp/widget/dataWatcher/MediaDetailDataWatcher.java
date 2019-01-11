@@ -19,4 +19,14 @@ public interface MediaDetailDataWatcher {
      */
     ReplayDataObserver<Image> getMediaFileArtObserver();
 
+    /**
+     * Gets the observer that watched on media file count changing
+     */
+    ReplayDataObserver<Integer> getTotalCountObserver();
+
+    /**
+     * Gets the observer that watched on selected media file intex changing
+     */
+    ReplayDataObserver<Integer> getSelectedMediaIndexObserver();
+
 }

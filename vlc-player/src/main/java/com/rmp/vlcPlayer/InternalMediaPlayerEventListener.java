@@ -44,4 +44,19 @@ abstract class InternalMediaPlayerEventListener extends MediaPlayerEventAdapter 
         this.eventListener.onMetadataChanged(mediaPlayer.getMediaMeta());
     }
 
+    void playlistItemCountChanged(int playlistItemCountChanged) {
+        if (this.eventListener == null) {
+            return;
+        }
+
+        this.eventListener.onMediaItemTotalCountChanged(playlistItemCountChanged);
+    }
+
+    void playlistSelectedItemChanged(int index) {
+        if (this.eventListener == null) {
+            return;
+        }
+
+        this.eventListener.onSelectedMediaItemChanged(index);
+    }
 }

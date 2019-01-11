@@ -44,4 +44,18 @@ public interface VlcMediaPlayerEventListener {
      * @param metadata - the metadata of current item
      */
     void onMetadataChanged(MediaMeta metadata);
+
+    /**
+     * Handles the changing of items count in playlist
+     *
+     * @param totalCount - the total count of items
+     */
+    void onMediaItemTotalCountChanged(int totalCount);
+
+    /**
+     * Handles the changing of selected item in playlist
+     *
+     * @param selectedItemIndex - the index of selected item
+     */
+    void onSelectedMediaItemChanged(int selectedItemIndex);
 }

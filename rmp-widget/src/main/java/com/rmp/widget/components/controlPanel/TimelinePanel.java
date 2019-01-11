@@ -1,6 +1,6 @@
 package com.rmp.widget.components.controlPanel;
 
-import com.rmp.widget.controls.roundPanel.RoundPanel;
+import com.rmp.widget.controls.panels.RoundPanel;
 import com.rmp.widget.controls.slider.SliderControl;
 import com.rmp.widget.skins.Colors;
 import com.rmp.widget.utilities.LocalizationUtils;
@@ -225,7 +225,6 @@ class TimelinePanel extends JPanel {
         int minutes = currentTime / 60;
         int seconds = currentTime % 60;
 
-        result += (minutes >= 10 ? minutes : "0" + minutes) + ":" + (seconds >= 10 ? seconds : "0" + seconds);
-        this.timeLabel.setText(result);
+        this.timeLabel.setText(String.format("%s%02d:%02d", result, minutes, seconds));
     }
 }

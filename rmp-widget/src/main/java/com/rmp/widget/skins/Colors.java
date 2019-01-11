@@ -25,4 +25,6 @@ public class Colors {
 
     public static final Color VERY_DARK_GREEN = new Color(6,45,0);
 
+    public static final Color LIGHT_GREEN = new Color(106,168,60);
+
 }

@@ -55,6 +55,14 @@ public class SuccessivelyPlaylist implements MediaPlaylist {
     }
 
     /**
+     * Gets the count of media items
+     */
+    @Override
+    public int getMediaCount() {
+        return this.mediaFilePath == null ? 0 : this.mediaFilePath.size();
+    }
+
+    /**
      * Sets the current media file to play
      *
      * @param path - the path od media item

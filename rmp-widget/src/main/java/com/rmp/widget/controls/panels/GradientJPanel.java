@@ -1,5 +1,6 @@
-package com.rmp.widget.controls.gradientPanel;
+package com.rmp.widget.controls.panels;
 
+import com.rmp.widget.skins.PairColor;
 import lombok.AllArgsConstructor;
 
 import javax.swing.*;
@@ -11,8 +12,7 @@ import java.awt.*;
 @AllArgsConstructor
 public class GradientJPanel extends JPanel {
 
-    private Color startColor;
-    private Color endColor;
+    private PairColor pairColor;
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -21,7 +21,14 @@ public class GradientJPanel extends JPanel {
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         int w = getWidth();
         int h = getHeight();
-        GradientPaint gp = new GradientPaint(0, 0, this.startColor, 0, h, this.endColor);
+        GradientPaint gp = new GradientPaint(
+                0,
+                0,
+                this.pairColor.getFirstColor(),
+                0,
+                h,
+                this.pairColor.getSecondColor()
+        );
         g2d.setPaint(gp);
         g2d.fillRect(0, 0, w, h);
     }

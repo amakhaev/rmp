@@ -40,6 +40,24 @@ public class UIWatcherContainer {
     }
 
     /**
+     * Emits the total count changed
+     *
+     * @param totalCount - the new total count value
+     */
+    public void emitTotalCountChanged(int totalCount) {
+        this.mediaDetailDataWatcher.getTotalCountObserver().emit(totalCount);
+    }
+
+    /**
+     * Emits the selected media item index changed
+     *
+     * @param selectedFileIndex - the new index value
+     */
+    public void emitSelectedMediaItemIndexChanged(int selectedFileIndex) {
+        this.mediaDetailDataWatcher.getSelectedMediaIndexObserver().emit(selectedFileIndex);
+    }
+
+    /**
      * Emits the art of media file
      *
      * @param mediaFileArt - the image art of media file

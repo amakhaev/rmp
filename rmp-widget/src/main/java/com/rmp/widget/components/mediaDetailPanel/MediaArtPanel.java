@@ -1,8 +1,8 @@
 package com.rmp.widget.components.mediaDetailPanel;
 
-import com.rmp.widget.controls.roundPanel.RoundGradientPanel;
+import com.rmp.widget.controls.panels.RoundGradientPanel;
 import com.rmp.widget.skins.Colors;
-import com.rmp.widget.skins.GradientPalette;
+import com.rmp.widget.skins.PairColor;
 import com.rmp.widget.utilities.ImageUtility;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,7 +17,7 @@ import java.net.URL;
 @Slf4j
 public class MediaArtPanel extends RoundGradientPanel {
 
-    private static final GradientPalette DEFAULT_PALETTE = new GradientPalette(Colors.BLACK, Colors.CHARCOAL);
+    private static final PairColor DEFAULT_PALETTE = new PairColor(Colors.BLACK, Colors.CHARCOAL);
 
     private Image defaultImage;
     private Image artImage;

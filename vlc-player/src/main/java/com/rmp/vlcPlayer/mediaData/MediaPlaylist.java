@@ -1,7 +1,5 @@
 package com.rmp.vlcPlayer.mediaData;
 
-import java.util.List;
-
 /**
  * Provides the media playlist
  */
@@ -26,6 +24,11 @@ public interface MediaPlaylist {
      * Gets the index of selected item
      */
     int getCurrentIndex();
+
+    /**
+     * Gets the count of media items
+     */
+    int getMediaCount();
 
     /**
      * Sets the current media file to play

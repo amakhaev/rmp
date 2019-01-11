@@ -1,6 +1,6 @@
 package com.rmp.widget.components.mediaDetailPanel;
 
-import com.rmp.widget.controls.roundPanel.RoundPanel;
+import com.rmp.widget.controls.panels.RoundPanel;
 import com.rmp.widget.utilities.LocalizationUtils;
 
 import javax.swing.*;

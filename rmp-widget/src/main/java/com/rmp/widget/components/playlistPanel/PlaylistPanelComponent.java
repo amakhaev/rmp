@@ -4,7 +4,7 @@ import com.rmp.widget.components.playlistDialog.NewPlaylistDialogComponent;
 import com.rmp.widget.components.playlistDialog.OpenFileDialogComponent;
 import com.rmp.widget.eventHandler.PlaylistEventHandler;
 import com.rmp.widget.controls.button.IconButton;
-import com.rmp.widget.controls.roundPanel.RoundPanel;
+import com.rmp.widget.controls.panels.RoundPanel;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.Colors;
 import com.rmp.widget.skins.PlaylistPanelSkin;

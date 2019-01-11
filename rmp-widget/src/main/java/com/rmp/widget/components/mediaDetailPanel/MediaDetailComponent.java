@@ -22,6 +22,7 @@ public class MediaDetailComponent {
 
     private MediaTitlePanel mediaTitlePanel;
     private MediaArtPanel mediaArtPanel;
+    private MediaSummaryPanel mediaSummaryPanel;
 
     @Setter
     private MediaDetailEventHandler eventHandler;
@@ -50,9 +51,11 @@ public class MediaDetailComponent {
 
         this.mediaTitlePanel = this.createMediaTitlePanel();
         this.mediaArtPanel = this.createMediaArtPanel();
+        this.mediaSummaryPanel = this.createMediaSummaryPanel();
 
         this.mediaDetailPanel.add(this.mediaTitlePanel, BorderLayout.PAGE_START);
         this.mediaDetailPanel.add(this.mediaArtPanel, BorderLayout.CENTER);
+        this.mediaDetailPanel.add(this.mediaSummaryPanel, BorderLayout.PAGE_END);
 
         this.subscribeToWatcherChanges();
     }
@@ -72,21 +75,48 @@ public class MediaDetailComponent {
         return mediaArtPanel;
     }
 
+    private MediaSummaryPanel createMediaSummaryPanel() {
+        MediaSummaryPanel mediaSummary = new MediaSummaryPanel();
+        mediaSummary.setTotalCountColors(
+                this.skin.getTotalCountBackgroundColor(),
+                this.skin.getTotalCountTitleColor(),
+                this.skin.getTotalCountValueColor()
+        );
+
+        mediaSummary.setSelectedTrackColors(
+                this.skin.getSelectedTrackBackgroundColor(),
+                this.skin.getSelectedTrackTitleColor(),
+                this.skin.getSelectedTrackValueColor()
+        );
+
+        return mediaSummary;
+    }
+
     private void subscribeToWatcherChanges() {
         if (this.dataWatcher == null) {
             return;
         }
 
         if (this.dataWatcher.getMediaFileObserver() != null) {
-            this.dataWatcher.getMediaFileObserver().subscribe(mediaFile -> {
-                this.mediaTitlePanel.setTitle(mediaFile == null ? null : mediaFile.getDisplayName());
-            });
+            this.dataWatcher.getMediaFileObserver().subscribe(
+                    mediaFile -> this.mediaTitlePanel.setTitle(mediaFile == null ? null : mediaFile.getDisplayName())
+            );
         }
 
         if (this.dataWatcher.getMediaFileArtObserver() != null) {
-            this.dataWatcher.getMediaFileArtObserver().subscribe(imageArt -> {
-                this.mediaArtPanel.setArt(imageArt);
-            });
+            this.dataWatcher.getMediaFileArtObserver().subscribe(imageArt -> this.mediaArtPanel.setArt(imageArt));
+        }
+
+        if (this.dataWatcher.getTotalCountObserver() != null) {
+            this.dataWatcher.getTotalCountObserver().subscribe(
+                    totalCount -> this.mediaSummaryPanel.setTotalCountValue(totalCount)
+            );
+        }
+
+        if (this.dataWatcher.getSelectedMediaIndexObserver() != null) {
+            this.dataWatcher.getSelectedMediaIndexObserver().subscribe(
+                    selectedTrackIndex -> this.mediaSummaryPanel.setSelectedTrackValue(selectedTrackIndex)
+            );
         }
     }
 

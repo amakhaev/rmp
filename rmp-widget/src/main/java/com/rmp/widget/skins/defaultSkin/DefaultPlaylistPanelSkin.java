@@ -69,7 +69,7 @@ public class DefaultPlaylistPanelSkin implements PlaylistPanelSkin {
      */
     @Override
     public Color getListItemForegroundColor() {
-        return Colors.PRIMARY_GRAY;
+        return Colors.PRIMARY;
     }
 
     /**

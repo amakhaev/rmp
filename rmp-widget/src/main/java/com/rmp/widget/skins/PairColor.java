@@ -10,9 +10,9 @@ import java.awt.*;
  */
 @AllArgsConstructor
 @Getter
-public class GradientPalette {
+public class PairColor {
 
-    private Color startColor;
-    private Color endColor;
+    private Color firstColor;
+    private Color secondColor;
 
 }

@@ -1,9 +1,10 @@
 package com.rmp.widget.components.playlistDialog;
 
 import com.rmp.widget.controls.button.TransparentButton;
-import com.rmp.widget.controls.gradientPanel.GradientJPanel;
+import com.rmp.widget.controls.panels.GradientJPanel;
 import com.rmp.widget.dataWatcher.ReplayDataObserver;
 import com.rmp.widget.skins.Colors;
+import com.rmp.widget.skins.PairColor;
 import com.rmp.widget.utilities.LocalizationUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -63,7 +64,7 @@ public class NewPlaylistDialogComponent extends JDialog {
     }
 
     private JPanel createContentPanel() {
-        JPanel contentPanel = new GradientJPanel(backgroundStartColor, backgroundEndColor);
+        JPanel contentPanel = new GradientJPanel(new PairColor(backgroundStartColor, backgroundEndColor));
         contentPanel.setPreferredSize(SIZE);
         contentPanel.setLayout(new BorderLayout());
         contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));

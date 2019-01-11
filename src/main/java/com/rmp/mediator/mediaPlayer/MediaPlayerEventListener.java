@@ -103,9 +103,29 @@ public class MediaPlayerEventListener implements VlcMediaPlayerEventListener {
      */
     @Override
     public void onMetadataChanged(MediaMeta metadata) {
-        this.asyncTaskExecutor.executeTask(() -> {
-            this.watcherContainer.emitMediaDetailArtChanged(metadata.getArtwork());
-        });
+        this.asyncTaskExecutor.executeTask(() -> this.watcherContainer.emitMediaDetailArtChanged(metadata.getArtwork()));
+    }
+
+    /**
+     * Handles the changing of items count in playlist
+     *
+     * @param totalCount - the total count of items
+     */
+    @Override
+    public void onMediaItemTotalCountChanged(int totalCount) {
+        this.asyncTaskExecutor.executeTask(() -> this.watcherContainer.emitTotalCountChanged(totalCount));
+    }
+
+    /**
+     * Handles the changing of selected item in playlist
+     *
+     * @param selectedItemIndex - the index of selected item
+     */
+    @Override
+    public void onSelectedMediaItemChanged(int selectedItemIndex) {
+        this.asyncTaskExecutor.executeTask(
+                () -> this.watcherContainer.emitSelectedMediaItemIndexChanged(selectedItemIndex + 1)
+        );
     }
 
     private void updateAfterMediaFileChanged(VlcMediaPlayer mediaPlayer) {

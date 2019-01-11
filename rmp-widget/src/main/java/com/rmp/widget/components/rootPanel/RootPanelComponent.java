@@ -6,7 +6,8 @@ import com.rmp.widget.components.mediaDetailPanel.MediaDetailBuilder;
 import com.rmp.widget.components.mediaDetailPanel.MediaDetailComponent;
 import com.rmp.widget.components.playlistPanel.PlaylistPanelBuilder;
 import com.rmp.widget.components.playlistPanel.PlaylistPanelComponent;
-import com.rmp.widget.controls.gradientPanel.GradientJPanel;
+import com.rmp.widget.controls.panels.GradientJPanel;
+import com.rmp.widget.skins.PairColor;
 import com.rmp.widget.skins.RMPSkin;
 import lombok.Getter;
 
@@ -30,7 +31,9 @@ public class RootPanelComponent {
      */
     RootPanelComponent(RMPSkin skin) {
         this.skin = skin;
-        this.rootPanel = new GradientJPanel(this.skin.getBackgroundStartColor(), this.skin.getBackgroundEndColor());
+        this.rootPanel = new GradientJPanel(
+                new PairColor(this.skin.getBackgroundStartColor(), this.skin.getBackgroundEndColor())
+        );
     }
 
     /**

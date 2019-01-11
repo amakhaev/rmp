@@ -1,7 +1,7 @@
 package com.rmp.widget.skins.defaultSkin;
 
 import com.rmp.widget.skins.Colors;
-import com.rmp.widget.skins.GradientPalette;
+import com.rmp.widget.skins.PairColor;
 import com.rmp.widget.skins.MediaDetailPanelSkin;
 import com.rmp.widget.utilities.ResourceHelper;
 
@@ -35,8 +35,8 @@ public class DefaultMediaDetailPanelSkin implements MediaDetailPanelSkin {
      * Gets the background palette of gradient palette
      */
     @Override
-    public GradientPalette getArtPanelBackgroundGradientPalette() {
-        return new GradientPalette(Colors.BLACK, Colors.CHARCOAL);
+    public PairColor getArtPanelBackgroundGradientPalette() {
+        return new PairColor(Colors.CHARCOAL, Colors.BLACK);
     }
 
     /**
@@ -45,5 +45,53 @@ public class DefaultMediaDetailPanelSkin implements MediaDetailPanelSkin {
     @Override
     public URL getDefaultArt() {
         return ResourceHelper.getPathToSkinIcon(SKIN_NAME, ResourceHelper.MEDIA_DETAIL_BACKGROUND_ICON);
+    }
+
+    /**
+     * Gets the background color of total panel
+     */
+    @Override
+    public Color getTotalCountBackgroundColor() {
+        return Colors.BLACK;
+    }
+
+    /**
+     * Gets the title color of total panel
+     */
+    @Override
+    public Color getTotalCountTitleColor() {
+        return Colors.PRIMARY;
+    }
+
+    /**
+     * Gets the value color of total panel
+     */
+    @Override
+    public Color getTotalCountValueColor() {
+        return Colors.LIGHT_GREEN;
+    }
+
+    /**
+     * Gets the background color of selected track panel
+     */
+    @Override
+    public Color getSelectedTrackBackgroundColor() {
+        return Colors.BLACK;
+    }
+
+    /**
+     * Gets the title color of selected track panel
+     */
+    @Override
+    public Color getSelectedTrackTitleColor() {
+        return Colors.PRIMARY;
+    }
+
+    /**
+     * Gets the value color of selected track panel
+     */
+    @Override
+    public Color getSelectedTrackValueColor() {
+        return Colors.LIGHT_GREEN;
     }
 }

@@ -1,4 +1,4 @@
-package com.rmp.widget.controls.roundPanel;
+package com.rmp.widget.controls.panels;
 
 import javax.swing.*;
 import java.awt.*;
