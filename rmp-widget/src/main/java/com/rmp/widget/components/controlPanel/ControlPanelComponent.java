@@ -6,6 +6,7 @@ import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;
 import com.rmp.widget.eventHandler.ControlPanelEventHandler;
 import com.rmp.widget.skins.ControlPanelSkin;
 import com.rmp.widget.skins.Colors;
+import com.rmp.widget.skins.SkinFactory;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +21,7 @@ import java.net.URL;
  */
 public class ControlPanelComponent {
 
-    private ControlPanelSkin skin;
+    private final ControlPanelSkin skin;
     private ToggleIconButton playPauseButton;
     private TimelinePanel timelinePanel;
 
@@ -36,8 +37,8 @@ public class ControlPanelComponent {
     /**
      * Initialize new instance of {@link ControlPanelComponent}
      */
-    ControlPanelComponent(ControlPanelSkin skin) {
-        this.skin = skin;
+    ControlPanelComponent() {
+        this.skin = SkinFactory.getRMPSkin().getControlPanelSkin();
 
         this.controlPanel = new JPanel();
         this.controlPanel.setBackground(Colors.TRANSPARENT);

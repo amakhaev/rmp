@@ -13,24 +13,11 @@ import java.awt.*;
  */
 public class PlaylistPanelBuilder {
 
-    private PlaylistPanelSkin skin;
     private Dimension playlistPanelSize;
     private PlaylistDataWatcher dataWatcher;
     private PlaylistEventHandler playlistEventHandler;
     private NewPlaylistDialogComponent playlistDialogComponent;
     private OpenFileDialogComponent openFileDialogComponent;
-
-
-    /**
-     * Sets the skin for {@link PlaylistPanelComponent}
-     *
-     * @param skin - the skin that should be applied
-     * @return the current {@link PlaylistPanelBuilder} instance
-     */
-    public PlaylistPanelBuilder setSkin(PlaylistPanelSkin skin) {
-        this.skin = skin;
-        return this;
-    }
 
     /**
      * Sets the size of component
@@ -93,9 +80,6 @@ public class PlaylistPanelBuilder {
      * @return the {@link PlaylistPanelComponent} instance
      */
     public PlaylistPanelComponent build() {
-        if (this.skin == null) {
-            throw new NullPointerException("Skin is required to build PlaylistPanelComponent");
-        }
 
         if (this.playlistPanelSize == null) {
             throw new NullPointerException("Panel size is required to build PlaylistPanelComponent");
@@ -105,7 +89,7 @@ public class PlaylistPanelBuilder {
             throw new NullPointerException("Data ui is required to build PlaylistPanelComponent");
         }
 
-        PlaylistPanelComponent component = new PlaylistPanelComponent(this.skin, this.playlistPanelSize, this.dataWatcher);
+        PlaylistPanelComponent component = new PlaylistPanelComponent(this.playlistPanelSize, this.dataWatcher);
         component.setPlaylistDialogComponent(this.playlistDialogComponent);
         component.setPlaylistEventHandler(this.playlistEventHandler);
         component.setOpenFileDialogComponent(this.openFileDialogComponent);

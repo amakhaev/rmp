@@ -4,6 +4,7 @@ import com.rmp.widget.dataWatcher.MediaDetailDataWatcher;
 import com.rmp.widget.eventHandler.MediaDetailEventHandler;
 import com.rmp.widget.skins.Colors;
 import com.rmp.widget.skins.MediaDetailPanelSkin;
+import com.rmp.widget.skins.SkinFactory;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,8 +37,8 @@ public class MediaDetailComponent {
     /**
      * Initialize new instance of {@link MediaDetailComponent}
      */
-    MediaDetailComponent(MediaDetailPanelSkin skin) {
-        this.skin = skin;
+    MediaDetailComponent() {
+        this.skin = SkinFactory.getRMPSkin().getMediaDetailSkin();
         this.mediaDetailPanel = new JPanel();
     }
 

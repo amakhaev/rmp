@@ -15,7 +15,6 @@ import com.rmp.widget.components.controlPanel.TimeLabelOrder;
 import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;
 import com.rmp.widget.dataWatcher.MediaDetailDataWatcher;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
-import com.rmp.widget.skins.Skin;
 import lombok.extern.slf4j.Slf4j;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 
@@ -77,7 +76,6 @@ public class UIMediator {
             );
 
             this.widget = new RMPWidgetBuilder()
-                    .setSkin(Skin.DEFAULT)
                     .setPlaylistDataWatcher(this.playlistDataWatcher)
                     .setPlaylistEventHandler(playlistHandler)
                     .setControlPanelDataWatcher(this.controlPanelDataWatcher)

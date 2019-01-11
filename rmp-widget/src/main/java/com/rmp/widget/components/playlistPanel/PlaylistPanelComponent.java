@@ -8,6 +8,7 @@ import com.rmp.widget.controls.panels.RoundPanel;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.Colors;
 import com.rmp.widget.skins.PlaylistPanelSkin;
+import com.rmp.widget.skins.SkinFactory;
 import com.rmp.widget.utilities.LocalizationUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +28,7 @@ public class PlaylistPanelComponent {
     private static final Border EMPTY_BORDER = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 
     private PlaylistDataWatcher dataWatcher;
-    private PlaylistPanelSkin skin;
+    private final PlaylistPanelSkin skin;
 
     @Setter
     private PlaylistEventHandler playlistEventHandler;
@@ -44,12 +45,9 @@ public class PlaylistPanelComponent {
 
     /**
      * Initialize new instance of {@link PlaylistPanelComponent}
-     *
-     * @param skin - the skin of {@link PlaylistPanelComponent}
-     * @param size - the size of {@link PlaylistPanelComponent}
      */
-    PlaylistPanelComponent(PlaylistPanelSkin skin, Dimension size, PlaylistDataWatcher dataWatcher) {
-        this.skin = skin;
+    PlaylistPanelComponent(Dimension size, PlaylistDataWatcher dataWatcher) {
+        this.skin = SkinFactory.getRMPSkin().getPlaylistSkin();
         this.dataWatcher = dataWatcher;
 
         this.playlistPanel = new JPanel();

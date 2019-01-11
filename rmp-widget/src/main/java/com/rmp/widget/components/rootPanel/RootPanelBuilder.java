@@ -10,21 +10,9 @@ import com.rmp.widget.skins.RMPSkin;
  */
 public class RootPanelBuilder {
 
-    private RMPSkin skin;
     private PlaylistPanelBuilder playlistPanelBuilder;
     private ControlPanelBuilder controlPanelBuilder;
     private MediaDetailBuilder mediaDetailBuilder;
-
-    /**
-     * Sets the skin of {@link RootPanelComponent}.
-     *
-     * @param skin - the skin that should be applied to panel
-     * @return current {@link RootPanelBuilder} instance
-     */
-    public RootPanelBuilder setSkin(RMPSkin skin) {
-        this.skin = skin;
-        return this;
-    }
 
     /**
      * Sets the builder playlist component
@@ -65,10 +53,6 @@ public class RootPanelBuilder {
      * @return the {@link RootPanelComponent} instance
      */
     public RootPanelComponent build() {
-        if (this.skin == null) {
-            throw new NullPointerException("Skin is required to build RootPanelComponent");
-        }
-
         if (this.playlistPanelBuilder == null) {
             throw new NullPointerException("Playlist builder is required to create RootPanelComponent");
         }
@@ -81,7 +65,7 @@ public class RootPanelBuilder {
             throw new NullPointerException("Media detail panel builder is required to create RootPanelComponent");
         }
 
-        RootPanelComponent rootPanelComponent = new RootPanelComponent(this.skin);
+        RootPanelComponent rootPanelComponent = new RootPanelComponent();
         rootPanelComponent.initialize(this.playlistPanelBuilder, this.controlPanelBuilder, this.mediaDetailBuilder);
         return rootPanelComponent;
     }

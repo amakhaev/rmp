@@ -14,6 +14,7 @@ import com.rmp.widget.eventHandler.MediaDetailEventHandler;
 import com.rmp.widget.eventHandler.PlaylistEventHandler;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.RMPSkin;
+import com.rmp.widget.skins.SkinFactory;
 import com.rmp.widget.utilities.LocalizationUtils;
 
 import javax.swing.*;
@@ -31,12 +32,10 @@ public class RMPWidget {
 
     /**
      * Initialize new instance of {@link RMPWidget}
-     *
-     * @param skin - the skin that should be used when UI is shows
      */
-    RMPWidget(RMPSkin skin) {
+    RMPWidget() {
         this.widget = new JFrame(LocalizationUtils.getString("rmp_title"));
-        this.skin = skin;
+        this.skin = SkinFactory.getRMPSkin();
     }
 
     /**
@@ -68,7 +67,6 @@ public class RMPWidget {
         });
 
         RootPanelComponent rootPanelComponent = new RootPanelBuilder()
-                .setSkin(this.skin)
                 .setPlaylistPanelBuilder(this.createPlaylistBuilder(playlistDataWatcher, playlistEventHandler))
                 .setControlPanelBuilder(this.createButtonPanelBuilder(dataWatcher, eventHandler))
                 .setMediaDetailBuilder(this.createMediaDetailPanelBuilder(mediaDetailDataWatcher, mediaDetailEventHandler))

@@ -9,21 +9,8 @@ import com.rmp.widget.skins.MediaDetailPanelSkin;
  */
 public class MediaDetailBuilder {
 
-    private MediaDetailPanelSkin skin;
     private MediaDetailDataWatcher mediaDetailDataWatcher;
     private MediaDetailEventHandler eventHandler;
-
-
-    /**
-     * Sets the skin for {@link MediaDetailPanelSkin}
-     *
-     * @param skin - the skin that should be applied
-     * @return the current {@link MediaDetailBuilder} instance
-     */
-    public MediaDetailBuilder setSkin(MediaDetailPanelSkin skin) {
-        this.skin = skin;
-        return this;
-    }
 
     /**
      * Sets the data watcher for component
@@ -53,11 +40,7 @@ public class MediaDetailBuilder {
      * @return the {@link MediaDetailComponent} instance
      */
     public MediaDetailComponent build() {
-        if (this.skin == null) {
-            throw new NullPointerException("Skin is required to build MediaDetailComponent");
-        }
-
-        MediaDetailComponent component = new MediaDetailComponent(this.skin);
+        MediaDetailComponent component = new MediaDetailComponent();
         component.setDataWatcher(this.mediaDetailDataWatcher);
         component.setEventHandler(this.eventHandler);
 

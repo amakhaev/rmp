@@ -9,6 +9,7 @@ import com.rmp.widget.components.playlistPanel.PlaylistPanelComponent;
 import com.rmp.widget.controls.panels.GradientJPanel;
 import com.rmp.widget.skins.PairColor;
 import com.rmp.widget.skins.RMPSkin;
+import com.rmp.widget.skins.SkinFactory;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -22,15 +23,13 @@ public class RootPanelComponent {
     @Getter
     private JPanel rootPanel;
 
-    private RMPSkin skin;
+    private final RMPSkin skin;
 
     /**
      * Initialize new instance of {@link RootPanelComponent}
-     *
-     * @param skin - the skin of root panel
      */
-    RootPanelComponent(RMPSkin skin) {
-        this.skin = skin;
+    RootPanelComponent() {
+        this.skin = SkinFactory.getRMPSkin();
         this.rootPanel = new GradientJPanel(
                 new PairColor(this.skin.getBackgroundStartColor(), this.skin.getBackgroundEndColor())
         );
@@ -45,7 +44,6 @@ public class RootPanelComponent {
         this.rootPanel.setLayout(new BorderLayout());
 
         PlaylistPanelComponent playlistPanelComponent = playlistPanelBuilder
-                .setSkin(this.skin.getPlaylistSkin())
                 .setPlaylistPanelSize(
                         new Dimension(
                                 (int)skin.getSize().getWidth() / 100 * 35,
@@ -54,13 +52,8 @@ public class RootPanelComponent {
                 )
                 .build();
 
-        ControlPanelComponent controlPanelComponent = controlPanelBuilder
-                .setSkin(this.skin.getControlPanelSkin())
-                .build();
-
-        MediaDetailComponent mediaDetailComponent = mediaDetailBuilder
-                .setSkin(this.skin.getMediaDetailSkin())
-                .build();
+        ControlPanelComponent controlPanelComponent = controlPanelBuilder.build();
+        MediaDetailComponent mediaDetailComponent = mediaDetailBuilder.build();
 
         this.rootPanel.add(mediaDetailComponent.getMediaDetailPanel(), BorderLayout.CENTER);
         this.rootPanel.add(playlistPanelComponent.getPlaylistPanel(), BorderLayout.LINE_END);

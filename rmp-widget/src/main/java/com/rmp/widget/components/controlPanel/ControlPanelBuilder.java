@@ -9,20 +9,8 @@ import com.rmp.widget.skins.ControlPanelSkin;
  */
 public class ControlPanelBuilder {
 
-    private ControlPanelSkin skin;
     private ControlPanelDataWatcher controlPanelDataWatcher;
     private ControlPanelEventHandler eventHandler;
-
-    /**
-     * Sets the skin for {@link ControlPanelComponent}
-     *
-     * @param skin - the skin that should be applied
-     * @return the current {@link ControlPanelBuilder} instance
-     */
-    public ControlPanelBuilder setSkin(ControlPanelSkin skin) {
-        this.skin = skin;
-        return this;
-    }
 
     /**
      * Sets the data watcher of buttons panel
@@ -52,11 +40,7 @@ public class ControlPanelBuilder {
      * @return the {@link ControlPanelComponent} instance
      */
     public ControlPanelComponent build() {
-        if (this.skin == null) {
-            throw new NullPointerException("Skin is required to build ControlPanelComponent");
-        }
-
-        ControlPanelComponent component = new ControlPanelComponent(this.skin);
+        ControlPanelComponent component = new ControlPanelComponent();
         component.setControlPanelDataWatcher(this.controlPanelDataWatcher);
         component.setEventHandler(this.eventHandler);
         component.initialize();

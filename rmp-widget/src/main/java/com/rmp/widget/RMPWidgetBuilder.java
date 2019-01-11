@@ -6,9 +6,6 @@ import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.eventHandler.ControlPanelEventHandler;
 import com.rmp.widget.eventHandler.MediaDetailEventHandler;
 import com.rmp.widget.eventHandler.PlaylistEventHandler;
-import com.rmp.widget.skins.RMPSkin;
-import com.rmp.widget.skins.Skin;
-import com.rmp.widget.skins.defaultSkin.DefaultSkin;
 import lombok.Getter;
 
 /**
@@ -17,34 +14,12 @@ import lombok.Getter;
 @Getter
 public class RMPWidgetBuilder {
 
-    private Skin skin;
     private PlaylistDataWatcher playlistDataWatcher;
     private PlaylistEventHandler playlistEventHandler;
     private ControlPanelDataWatcher controlPanelDataWatcher;
     private ControlPanelEventHandler controlPanelEventHandler;
     private MediaDetailDataWatcher mediaDetailDataWatcher;
     private MediaDetailEventHandler mediaDetaileventHandler;
-
-    /**
-     * Initialize new instance of {@link RMPWidgetBuilder}
-     */
-    public RMPWidgetBuilder() {
-        this.skin = Skin.DEFAULT;
-    }
-
-    /**
-     * Sets the skin of widget
-     *
-     * @param skin - the skin to use
-     * @return current {@link RMPWidgetBuilder} instance.
-     */
-    public RMPWidgetBuilder setSkin(Skin skin) {
-        if (skin == null) {
-            throw new IllegalArgumentException("Skin is required parameter");
-        }
-        this.skin = skin;
-        return this;
-    }
 
     /**
      * Sets the ui of playlist component
@@ -118,7 +93,7 @@ public class RMPWidgetBuilder {
      * @return the {@link RMPWidget} instance
      */
     public RMPWidget build() {
-        RMPWidget widget = new RMPWidget(this.getSkin());
+        RMPWidget widget = new RMPWidget();
         widget.initialize(
                 this.playlistDataWatcher,
                 this.playlistEventHandler,
@@ -129,14 +104,5 @@ public class RMPWidgetBuilder {
         );
 
         return widget;
-    }
-
-    private RMPSkin getSkin() {
-        switch (this.skin) {
-            case DEFAULT:
-                return new DefaultSkin();
-            default:
-                return new DefaultSkin();
-        }
     }
 }
