@@ -2,6 +2,7 @@ package com.rmp.mediator;
 
 import com.rmp.dao.domain.state.StateModel;
 import com.rmp.mediator.listeners.ControlPanelEventListener;
+import com.rmp.mediator.listeners.GlobalKeyboardListener;
 import com.rmp.mediator.listeners.MediaDetailEventListener;
 import com.rmp.mediator.listeners.PlaylistEventListener;
 import com.rmp.mediator.mediaPlayer.PlayerMediator;
@@ -14,6 +15,8 @@ import com.rmp.widget.RMPWidget;
 import com.rmp.widget.RMPWidgetBuilder;
 import com.rmp.widget.components.controlPanel.TimeLabelOrder;
 import lombok.extern.slf4j.Slf4j;
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 
 import javax.swing.*;
@@ -26,21 +29,6 @@ public class RMPApplication {
 
     private RMPWidget widget;
     private PlayerMediator playerMediator;
-
-    /**
-     * Initialize new instance of {@link RMPApplication}
-     */
-    public RMPApplication() {
-        /*this.playerMediatorBuilder = new PlayerMediatorBuilder();
-        try {
-            GlobalScreen.registerNativeHook();
-        }
-        catch (NativeHookException ex) {
-            log.error(ex.getMessage());
-        }
-
-        GlobalScreen.addNativeKeyListener(new GlobalKeyboardListener());*/
-    }
 
     /**
      * Shows the UI widget
@@ -76,6 +64,7 @@ public class RMPApplication {
         new NativeDiscovery().discover();
         this.playerMediator.initialize();
 
+        this.registerGlobalKeyboardListener();
         this.initializeUI();
     }
 
@@ -120,5 +109,16 @@ public class RMPApplication {
         this.playerMediator.emitMediaDetailChanged(
                 mediaFileId == null ? null : mediaFileService.getById(mediaFileId)
         );
+    }
+
+    private void registerGlobalKeyboardListener() {
+        try {
+            GlobalScreen.registerNativeHook();
+        }
+        catch (NativeHookException ex) {
+            log.error(ex.getMessage());
+        }
+
+        GlobalScreen.addNativeKeyListener(new GlobalKeyboardListener(playerMediator));
     }
 }
