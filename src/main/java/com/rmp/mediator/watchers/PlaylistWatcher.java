@@ -1,4 +1,4 @@
-package com.rmp.mediator.ui;
+package com.rmp.mediator.watchers;
 
 import com.rmp.widget.dataWatcher.ReplayDataObserver;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
@@ -54,7 +54,7 @@ public final class PlaylistWatcher implements PlaylistDataWatcher {
      * Gets the observer that called when media files were added
      */
     @Override
-    public ReplayDataObserver<List<UIMediaFileModel>> getReplaceMediaFilesObserver() {
+    public ReplayDataObserver<List<UIMediaFileModel>> getAddMediaFilesObserver() {
         return this.addMediaFiles;
     }
 

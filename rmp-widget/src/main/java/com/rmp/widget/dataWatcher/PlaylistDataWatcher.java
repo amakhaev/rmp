@@ -6,7 +6,7 @@ import com.rmp.widget.readModels.UIPlaylistModel;
 import java.util.List;
 
 /**
- * Provides the ui for playlist
+ * Provides the watchers for playlist
  */
 public interface PlaylistDataWatcher {
 
@@ -28,7 +28,7 @@ public interface PlaylistDataWatcher {
     /**
      * Gets the observer that called when media files were added
      */
-    ReplayDataObserver<List<UIMediaFileModel>> getReplaceMediaFilesObserver();
+    ReplayDataObserver<List<UIMediaFileModel>> getAddMediaFilesObserver();
 
     /**
      * Gets the observer that called when media file id was changed

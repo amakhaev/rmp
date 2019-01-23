@@ -25,30 +25,30 @@ public abstract class UIModelMapper<Model, UIModel> {
     }
 
     /**
-     * Maps the data model to ui model
+     * Maps the data model to watchers model
      *
      * @param dataModel - the model for mapping
-     * @return ui representation of model
+     * @return watchers representation of model
      */
     public UIModel dataModelToUIModel(Model dataModel) {
         return this.modelMapper.map(dataModel, this.uiModelClass);
     }
 
     /**
-     * Maps the ui model to data model
+     * Maps the watchers model to data model
      *
      * @param dataModel - the model for mapping
-     * @return ui representation of model
+     * @return watchers representation of model
      */
     public Model UiModelToDataModel(UIModel dataModel) {
         return this.modelMapper.map(dataModel, this.dataModelClass);
     }
 
     /**
-     * Maps the data models to ui models
+     * Maps the data models to watchers models
      *
      * @param dataModels - the models for mapping
-     * @return ui representation of model
+     * @return watchers representation of model
      */
     public List<UIModel> dataModelsToUIModels(List<Model> dataModels) {
         if (dataModels == null) {

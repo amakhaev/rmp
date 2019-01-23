@@ -1,4 +1,4 @@
-package com.rmp.mediator.ui;
+package com.rmp.mediator.watchers;
 
 import com.rmp.widget.components.controlPanel.TimeLabelOrder;
 import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;

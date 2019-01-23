@@ -22,9 +22,9 @@ public class RMPWidgetBuilder {
     private MediaDetailEventHandler mediaDetaileventHandler;
 
     /**
-     * Sets the ui of playlist component
+     * Sets the watchers of playlist component
      *
-     * @param dataWatcher - the ui
+     * @param dataWatcher - the watchers
      * @return the current {@link RMPWidgetBuilder} instance
      */
     public RMPWidgetBuilder setPlaylistDataWatcher(PlaylistDataWatcher dataWatcher) {

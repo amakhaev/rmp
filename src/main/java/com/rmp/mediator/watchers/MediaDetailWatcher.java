@@ -1,4 +1,4 @@
-package com.rmp.mediator.ui;
+package com.rmp.mediator.watchers;
 
 import com.rmp.widget.dataWatcher.MediaDetailDataWatcher;
 import com.rmp.widget.dataWatcher.ReplayDataObserver;
@@ -9,7 +9,7 @@ import java.awt.*;
 /**
  * Provides the implementation of watching on MediaDetails
  */
-public class MediaDetailWatcher implements MediaDetailDataWatcher {
+public final class MediaDetailWatcher implements MediaDetailDataWatcher {
 
     private final ReplayDataObserver<UIMediaFileModel> mediaFileObserver;
     private final ReplayDataObserver<Image> mediaFileArtObserver;

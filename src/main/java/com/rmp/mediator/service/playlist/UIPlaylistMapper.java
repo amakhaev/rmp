@@ -5,7 +5,7 @@ import com.rmp.mediator.service.UIModelMapper;
 import com.rmp.widget.readModels.UIPlaylistModel;
 
 /**
- * Provides the mapper from data model to ui model
+ * Provides the mapper from data model to watchers model
  */
 class UIPlaylistMapper extends UIModelMapper<PlaylistModel, UIPlaylistModel> {
 

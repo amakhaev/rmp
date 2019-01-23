@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
  */
 public class AsyncTaskExecutor {
 
-    private static final int POOL_SIZE = 3;
+    private static final int POOL_SIZE = 5;
 
     private ExecutorService executorService;
 

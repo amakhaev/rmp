@@ -31,9 +31,9 @@ public class PlaylistPanelBuilder {
     }
 
     /**
-     * Sets the ui of playlist component
+     * Sets the watchers of playlist component
      *
-     * @param dataWatcher - the ui
+     * @param dataWatcher - the watchers
      * @return the current {@link PlaylistPanelBuilder} instance
      */
     public PlaylistPanelBuilder setDataWatcher(PlaylistDataWatcher dataWatcher) {
@@ -86,7 +86,7 @@ public class PlaylistPanelBuilder {
         }
 
         if (this.dataWatcher == null) {
-            throw new NullPointerException("Data ui is required to build PlaylistPanelComponent");
+            throw new NullPointerException("Data watchers is required to build PlaylistPanelComponent");
         }
 
         PlaylistPanelComponent component = new PlaylistPanelComponent(this.playlistPanelSize, this.dataWatcher);

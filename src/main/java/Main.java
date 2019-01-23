@@ -1,9 +1,9 @@
-import com.rmp.mediator.UIMediator;
+import com.rmp.mediator.RMPApplication;
 
 public class Main {
 
     public static void main(String[] args) {
-        UIMediator mediator = new UIMediator();
+        RMPApplication mediator = new RMPApplication();
         mediator.initialize();
         mediator.showUI();
     }

@@ -1,4 +1,4 @@
-package com.rmp.mediator;
+package com.rmp.mediator.watchers;
 
 import com.rmp.widget.components.controlPanel.TimeLabelOrder;
 import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;
@@ -6,6 +6,7 @@ import com.rmp.widget.dataWatcher.MediaDetailDataWatcher;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.readModels.UIMediaFileModel;
 import com.rmp.widget.readModels.UIPlaylistModel;
+import lombok.Getter;
 
 import java.awt.*;
 import java.util.List;
@@ -13,21 +14,24 @@ import java.util.List;
 /**
  * Provides the container that stored all UI watchers
  */
-public class UIWatcherContainer {
+public class WatcherContainer {
 
+    @Getter
     private final ControlPanelDataWatcher controlPanelDataWatcher;
+
+    @Getter
     private final PlaylistDataWatcher playlistDataWatcher;
+
+    @Getter
     private final MediaDetailDataWatcher mediaDetailDataWatcher;
 
     /**
-     * Initialize new instance of {@link UIWatcherContainer}
+     * Initialize new instance of {@link WatcherContainer}
      */
-    UIWatcherContainer(ControlPanelDataWatcher controlPanelDataWatcher,
-                       PlaylistDataWatcher playlistDataWatcher,
-                       MediaDetailDataWatcher mediaDetailDataWatcher) {
-        this.controlPanelDataWatcher = controlPanelDataWatcher;
-        this.playlistDataWatcher = playlistDataWatcher;
-        this.mediaDetailDataWatcher = mediaDetailDataWatcher;
+    public WatcherContainer() {
+        this.controlPanelDataWatcher = new ControlPanelWatcher();
+        this.playlistDataWatcher = new PlaylistWatcher();
+        this.mediaDetailDataWatcher = new MediaDetailWatcher();
     }
 
     /**
@@ -125,8 +129,8 @@ public class UIWatcherContainer {
      *
      * @param mediaFiles - the new medi file list
      */
-    public void emitMediaFileReplaced(List<UIMediaFileModel> mediaFiles) {
-        this.playlistDataWatcher.getReplaceMediaFilesObserver().emit(mediaFiles);
+    public void emitMediaFilesAdded(List<UIMediaFileModel> mediaFiles) {
+        this.playlistDataWatcher.getAddMediaFilesObserver().emit(mediaFiles);
     }
 
     /**
@@ -168,7 +172,7 @@ public class UIWatcherContainer {
      */
     public void emitPlaylistChanged(UIPlaylistModel playlistModel, List<UIMediaFileModel> mediaFiles, boolean isPlaying) {
         this.emitSelectedPlaylistChanged(playlistModel);
-        this.emitMediaFileReplaced(mediaFiles);
+        this.emitMediaFilesAdded(mediaFiles);
         this.emitIsPlayingChanged(isPlaying);
     }
 }
