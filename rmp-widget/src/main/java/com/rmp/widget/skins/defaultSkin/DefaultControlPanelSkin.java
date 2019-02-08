@@ -128,6 +128,22 @@ public class DefaultControlPanelSkin implements ControlPanelSkin {
     }
 
     /**
+     * Gets the URL of VOLUME_PRESSED icon
+     */
+    @Override
+    public URL getVolumePressedIconUrl() {
+        return ResourceHelper.getPathToSkinIcon(SKIN_NAME, ResourceHelper.VOLUME_PRESSED_ICON);
+    }
+
+    /**
+     * Gets the URL of VOLUME icon
+     */
+    @Override
+    public URL getVolumeIconUrl() {
+        return ResourceHelper.getPathToSkinIcon(SKIN_NAME, ResourceHelper.VOLUME_ICON);
+    }
+
+    /**
      * Gets the timeline background color
      */
     @Override

@@ -7,7 +7,7 @@ import com.rmp.mediator.service.playlist.PlaylistService;
 import com.rmp.mediator.service.state.StateService;
 import com.rmp.mediator.taskExecutor.AsyncTaskExecutor;
 import com.rmp.vlcPlayer.VlcMediaPlayer;
-import com.rmp.widget.components.controlPanel.TimeLabelOrder;
+import com.rmp.widget.components.controlPanel.timelinePanel.TimeLabelOrder;
 import com.rmp.widget.readModels.UIMediaFileModel;
 import com.rmp.widget.readModels.UIPlaylistModel;
 import lombok.extern.slf4j.Slf4j;
@@ -125,6 +125,22 @@ public class PlayerMediator {
             this.stateService.updatePlaylistFile(null);
             this.emitMediaDetailChanged(null);
         });
+    }
+
+    /**
+     * Toggles the mute state
+     */
+    public void toggleMute() {
+        this.asyncTaskExecutor.executeTask(() -> this.stateService.updateMuteState(this.mediaPlayer.mute()));
+    }
+
+    /**
+     * Sets the mute state
+     *
+     * @param isMute - the new mute state
+     */
+    public void setMute(boolean isMute) {
+        this.asyncTaskExecutor.executeTask(() -> this.mediaPlayer.mute(isMute));
     }
 
     /**
@@ -333,6 +349,13 @@ public class PlayerMediator {
      */
     public void emitMediaDetailChanged(UIMediaFileModel mediaFileModel) {
         this.asyncTaskExecutor.executeTask(() -> this.watcherContainer.emitMediaDetailChanged(mediaFileModel));
+    }
+
+    /**
+     * Emits changing of mute state
+     */
+    public void emitMuteState(boolean isMuted) {
+        this.asyncTaskExecutor.executeTask(() -> this.watcherContainer.emitMuteStateChanged(isMuted));
     }
 
     private VlcMediaPlayer createMediaPlayer() {

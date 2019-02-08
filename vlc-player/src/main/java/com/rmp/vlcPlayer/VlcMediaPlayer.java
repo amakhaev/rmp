@@ -18,6 +18,8 @@ public class VlcMediaPlayer {
     @Getter
     private boolean isPlaying;
 
+    private boolean isMuted;
+
     /**
      * Initialize new instance of {@link VlcMediaPlayer}
      */
@@ -25,6 +27,7 @@ public class VlcMediaPlayer {
         this.mediaPlayer = new MediaPlayerFactory().newEmbeddedMediaPlayer();
         this.eventListener = this.createEventListener(eventListener);
         this.mediaPlayer.addMediaPlayerEventListener(this.eventListener);
+        this.isMuted = this.mediaPlayer.isMute();
 
         this.setMediaPlaylist(mediaPlaylist);
 
@@ -69,6 +72,25 @@ public class VlcMediaPlayer {
     public void stop() {
         this.isPlaying = false;
         this.mediaPlayer.stop();
+    }
+
+    /**
+     * Mutes the sound of media player
+     */
+    public boolean mute() {
+        this.mediaPlayer.mute();
+        this.isMuted = !this.isMuted;
+        this.eventListener.muted(this.mediaPlayer, this.isMuted);
+        return this.isMuted;
+    }
+
+    /**
+     * Mutes the sound of media player
+     */
+    public void mute(boolean isMute) {
+        this.isMuted = isMute;
+        this.mediaPlayer.mute(isMute);
+        this.eventListener.muted(this.mediaPlayer, this.isMuted);
     }
 
     /**

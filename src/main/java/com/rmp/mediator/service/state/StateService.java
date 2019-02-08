@@ -62,6 +62,18 @@ public class StateService {
     }
 
     /**
+     * Sets the mute to app state
+     *
+     * @param isMute - the mute state of player
+     * @return updated {@link StateModel} instance
+     */
+    public StateModel updateMuteState(boolean isMute) {
+        StateModel current = this.getCurrentState();
+        current.setMute(isMute);
+        return this.updateState(current);
+    }
+
+    /**
      * Updates the current state
      *
      * @param state - the state to update

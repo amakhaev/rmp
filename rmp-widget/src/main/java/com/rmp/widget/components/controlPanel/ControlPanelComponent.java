@@ -1,7 +1,9 @@
 package com.rmp.widget.components.controlPanel;
 
+import com.rmp.widget.components.controlPanel.timelinePanel.TimelinePanel;
+import com.rmp.widget.components.controlPanel.volumePanel.ToggleMuteListener;
+import com.rmp.widget.components.controlPanel.volumePanel.VolumePanel;
 import com.rmp.widget.controls.button.IconButton;
-import com.rmp.widget.controls.slider.SliderControl;
 import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;
 import com.rmp.widget.eventHandler.ControlPanelEventHandler;
 import com.rmp.widget.skins.ControlPanelSkin;
@@ -9,6 +11,7 @@ import com.rmp.widget.skins.Colors;
 import com.rmp.widget.skins.SkinFactory;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,11 +22,13 @@ import java.net.URL;
 /**
  * Provides the buttons panel of widget
  */
+@Slf4j
 public class ControlPanelComponent {
 
     private final ControlPanelSkin skin;
     private ToggleIconButton playPauseButton;
     private TimelinePanel timelinePanel;
+    private VolumePanel volumePanel;
 
     @Setter
     private ControlPanelDataWatcher controlPanelDataWatcher;
@@ -141,6 +146,10 @@ public class ControlPanelComponent {
                 )
         );
 
+
+        this.volumePanel = this.createVolumePanel();
+        buttonsPanel.add(this.volumePanel);
+
         return buttonsPanel;
     }
 
@@ -175,32 +184,45 @@ public class ControlPanelComponent {
         return toggleIconButton;
     }
 
+    private VolumePanel createVolumePanel() {
+        VolumePanel volumeControl = new VolumePanel(this.skin.getVolumeIconUrl(), this.skin.getVolumePressedIconUrl());
+        volumeControl.initialize();
+        volumeControl.setChangeListener((volumeValue) -> this.eventHandler.onVolumeChanged(volumeValue));
+        volumeControl.setToggleMuteListener(() -> this.eventHandler.onMuteToggle());
+
+        return volumeControl;
+    }
+
     private void subscribeToWatcherChanges() {
         if (this.controlPanelDataWatcher == null) {
             return;
         }
 
         if (this.controlPanelDataWatcher.getIsPlayingObserver() != null) {
-            this.controlPanelDataWatcher.getIsPlayingObserver().subscribe(isPlaying -> {
-                playPauseButton.change(!isPlaying);
-            });
+            this.controlPanelDataWatcher.getIsPlayingObserver().subscribe(isPlaying -> playPauseButton.change(!isPlaying));
         }
 
         if (this.controlPanelDataWatcher.getTimelineLengthChangedObserver() != null) {
-            this.controlPanelDataWatcher.getTimelineLengthChangedObserver().subscribe(length -> {
-                this.timelinePanel.setEndTime(length.intValue());
-            });
+            this.controlPanelDataWatcher.getTimelineLengthChangedObserver().subscribe(
+                    length -> this.timelinePanel.setEndTime(length.intValue())
+            );
         }
 
         if (this.controlPanelDataWatcher.getTimelineValueChangedObserver() != null) {
-            this.controlPanelDataWatcher.getTimelineValueChangedObserver().subscribe(value -> {
-                this.timelinePanel.setTimeValue(value.intValue());
-            });
+            this.controlPanelDataWatcher.getTimelineValueChangedObserver().subscribe(
+                    value -> this.timelinePanel.setTimeValue(value.intValue())
+            );
         }
 
         if (this.controlPanelDataWatcher.getTimeLabelOrderChangedObserver() != null) {
-            this.controlPanelDataWatcher.getTimeLabelOrderChangedObserver().subscribe(order -> {
-                this.timelinePanel.setTimeLabelOrder(order);
+            this.controlPanelDataWatcher.getTimeLabelOrderChangedObserver().subscribe(
+                    order -> this.timelinePanel.setTimeLabelOrder(order)
+            );
+        }
+
+        if (this.controlPanelDataWatcher.getMuteChangedObserver() != null) {
+            this.controlPanelDataWatcher.getMuteChangedObserver().subscribe(isMute -> {
+                this.volumePanel.setMute(isMute);
             });
         }
     }

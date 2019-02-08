@@ -58,4 +58,11 @@ public interface VlcMediaPlayerEventListener {
      * @param selectedItemIndex - the index of selected item
      */
     void onSelectedMediaItemChanged(int selectedItemIndex);
+
+    /**
+     * Handles the changing of mute state
+     *
+     * @param isMuted - the mute state
+     */
+    void onMuteChanged(boolean isMuted);
 }

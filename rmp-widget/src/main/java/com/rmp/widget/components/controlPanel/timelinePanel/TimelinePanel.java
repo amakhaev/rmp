@@ -1,4 +1,4 @@
-package com.rmp.widget.components.controlPanel;
+package com.rmp.widget.components.controlPanel.timelinePanel;
 
 import com.rmp.widget.controls.panels.RoundPanel;
 import com.rmp.widget.controls.slider.SliderControl;
@@ -16,7 +16,7 @@ import java.util.function.Function;
 /**
  * Provides the panel that working with time line of media item
  */
-class TimelinePanel extends JPanel {
+public class TimelinePanel extends JPanel {
 
     private static final Cursor DEFAULT_CURSOR = new Cursor(Cursor.DEFAULT_CURSOR);
     private static final Cursor HAND_CURSOR = new Cursor(Cursor.HAND_CURSOR);
@@ -40,7 +40,7 @@ class TimelinePanel extends JPanel {
     /**
      * Initialize new instance of {@link TimelinePanel}
      */
-    TimelinePanel(Dimension timelineSize) {
+    public TimelinePanel(Dimension timelineSize) {
         this.timelineSize = timelineSize;
         this.setBackground(Colors.TRANSPARENT);
         this.labelTimeOrder = TimeLabelOrder.ASC;
@@ -49,7 +49,7 @@ class TimelinePanel extends JPanel {
     /**
      * Initializes the panel
      */
-    void initialize() {
+    public void initialize() {
         this.sliderControl = new SliderControl();
         this.sliderControl.setPreferredSize(new Dimension(timelineSize.width - 50, 30));
 
@@ -64,7 +64,7 @@ class TimelinePanel extends JPanel {
      *
      * @param endTime - the end time
      */
-    void setEndTime(int endTime) {
+    public void setEndTime(int endTime) {
         if (this.sliderControl != null) {
             this.sliderControl.setDelimiterMax(endTime);
         }
@@ -75,7 +75,7 @@ class TimelinePanel extends JPanel {
      *
      * @param timeValue - the time value in seconds
      */
-    void setTimeValue(int timeValue) {
+    public void setTimeValue(int timeValue) {
         if (this.sliderControl != null) {
             this.sliderControl.setDelimiterValue(timeValue);
             this.updateTimeLabelValue();
@@ -87,7 +87,7 @@ class TimelinePanel extends JPanel {
      *
      * @param changeValueListener - the callback function
      */
-    void setChangeListener(Function<Integer, Void> changeValueListener) {
+    public void setChangeListener(Function<Integer, Void> changeValueListener) {
         this.sliderControl.setChangeValueListener(changeValueListener);
     }
 
@@ -96,7 +96,7 @@ class TimelinePanel extends JPanel {
      *
      * @param color - the color of timeline
      */
-    void setTimelineBackgroundColor(Color color) {
+    public void setTimelineBackgroundColor(Color color) {
         this.sliderControl.setSliderBackgroundColor(color);
     }
 
@@ -105,7 +105,7 @@ class TimelinePanel extends JPanel {
      *
      * @param color - the color of border
      */
-    void setTimelineBorderColor(Color color) {
+    public void setTimelineBorderColor(Color color) {
         this.sliderControl.setSliderBorderColor(color);
     }
 
@@ -114,7 +114,7 @@ class TimelinePanel extends JPanel {
      *
      * @param color - the color of border
      */
-    void setTimelineCursorShadowColor(Color color) {
+    public void setTimelineCursorShadowColor(Color color) {
         this.sliderControl.setCursorShadowColor(color);
     }
 
@@ -123,7 +123,7 @@ class TimelinePanel extends JPanel {
      *
      * @param color - the color of border
      */
-    void setTimelineShadowColor(Color color) {
+    public void setTimelineShadowColor(Color color) {
         this.sliderControl.setSliderShadowColor(color);
     }
 
@@ -132,7 +132,7 @@ class TimelinePanel extends JPanel {
      *
      * @param color - the color of shadow
      */
-    void setTimeLineLabelShadowColor(Color color) {
+    public void setTimeLineLabelShadowColor(Color color) {
         this.timeLineLabelShadowColor = color;
         this.timeLabelPanel.setBackground(this.timeLineLabelShadowColor);
     }
@@ -142,7 +142,7 @@ class TimelinePanel extends JPanel {
      *
      * @param color - the color of shadow
      */
-    void setTimeLineLabelForegroundColor(Color color) {
+    public void setTimeLineLabelForegroundColor(Color color) {
         this.timeLineLabelForegroundColor = color;
         this.timeLabel.setForeground(this.timeLineLabelForegroundColor);
     }
@@ -152,7 +152,7 @@ class TimelinePanel extends JPanel {
      *
      * @param timeLabelOrder - the value of order
      */
-    void setTimeLabelOrder(TimeLabelOrder timeLabelOrder) {
+    public void setTimeLabelOrder(TimeLabelOrder timeLabelOrder) {
         this.labelTimeOrder = timeLabelOrder;
         updateTimeLabelValue();
     }

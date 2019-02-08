@@ -13,7 +13,7 @@ import com.rmp.mediator.taskExecutor.AsyncTaskExecutor;
 import com.rmp.mediator.watchers.WatcherContainer;
 import com.rmp.widget.RMPWidget;
 import com.rmp.widget.RMPWidgetBuilder;
-import com.rmp.widget.components.controlPanel.TimeLabelOrder;
+import com.rmp.widget.components.controlPanel.timelinePanel.TimeLabelOrder;
 import lombok.extern.slf4j.Slf4j;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
@@ -92,8 +92,9 @@ public class RMPApplication {
         this.playerMediator.emitTimeChanged(0L);
         this.playerMediator.emitTimeLengthChanged(0L);
 
+        StateModel stateModel = stateService.getCurrentState();
         TimeLabelOrder uiLabelOrder = null;
-        switch (stateService.getCurrentState().getTimeLabelOrder()) {
+        switch (stateModel.getTimeLabelOrder()) {
             case ASC:
                 uiLabelOrder = TimeLabelOrder.ASC;
                 break;
@@ -102,6 +103,7 @@ public class RMPApplication {
                 break;
         }
         this.playerMediator.setTimeLabelOrder(uiLabelOrder);
+        this.playerMediator.setMute(stateModel.isMute());
     }
 
     private void initializeMediaDetailUI(StateService stateService, MediaFileService mediaFileService) {

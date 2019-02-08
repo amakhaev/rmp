@@ -1,6 +1,6 @@
 package com.rmp.mediator.watchers;
 
-import com.rmp.widget.components.controlPanel.TimeLabelOrder;
+import com.rmp.widget.components.controlPanel.timelinePanel.TimeLabelOrder;
 import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;
 import com.rmp.widget.dataWatcher.MediaDetailDataWatcher;
 import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
@@ -149,6 +149,15 @@ public class WatcherContainer {
      */
     public void emitSelectedMediaFileChanged(Integer mediaFileId) {
         this.playlistDataWatcher.getSelectedMediaFileIdObserver().emit(mediaFileId);
+    }
+
+    /**
+     * Emits the mute state
+     *
+     * @param isMute - indicates when volume is mute
+     */
+    public void emitMuteStateChanged(boolean isMute) {
+        this.controlPanelDataWatcher.getMuteChangedObserver().emit(isMute);
     }
 
     /**

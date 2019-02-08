@@ -43,6 +43,11 @@ public class StateEntity {
      */
     public static final String MODIFIED_AT_FIELD = "modified_at";
 
+    /**
+     * Provides the modified at field name.
+     */
+    public static final String IS_MUTE_FIELD = "is_mute";
+
     @DatabaseField(columnName = ID_FIELD, generatedId = true)
     private int id;
 
@@ -57,5 +62,8 @@ public class StateEntity {
 
     @DatabaseField(columnName = TIME_LABEL_ORDER_FIELD)
     private TimeLabelOrder timeLabelOrder;
+
+    @DatabaseField(columnName = IS_MUTE_FIELD)
+    private boolean isMute;
 
 }

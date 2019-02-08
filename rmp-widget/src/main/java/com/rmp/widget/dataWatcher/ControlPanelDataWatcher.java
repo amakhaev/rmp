@@ -1,6 +1,6 @@
 package com.rmp.widget.dataWatcher;
 
-import com.rmp.widget.components.controlPanel.TimeLabelOrder;
+import com.rmp.widget.components.controlPanel.timelinePanel.TimeLabelOrder;
 
 /**
  * Provides the data watcher to button's manipulate
@@ -26,4 +26,9 @@ public interface ControlPanelDataWatcher {
      * Gets the observer that indicates when time label order was changed
      */
     ReplayDataObserver<TimeLabelOrder> getTimeLabelOrderChangedObserver();
+
+    /**
+     * Gets the observer that indicates when mute state was changed
+     */
+    ReplayDataObserver<Boolean> getMuteChangedObserver();
 }

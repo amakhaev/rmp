@@ -17,5 +17,5 @@ public class StateModel {
     private Integer playlistFileId;
     private LocalDateTime modifiedAt;
     private TimeLabelOrder timeLabelOrder;
-
+    private boolean isMute;
 }

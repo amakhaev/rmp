@@ -73,6 +73,16 @@ public interface ControlPanelSkin {
      */
     URL getPausePressedIconUrl();
 
+    /**
+     * Gets the URL of VOLUME_PRESSED icon
+     */
+    URL getVolumePressedIconUrl();
+
+    /**
+     * Gets the URL of VOLUME icon
+     */
+    URL getVolumeIconUrl();
+
     // === Skin of timeline =========================
 
     /**

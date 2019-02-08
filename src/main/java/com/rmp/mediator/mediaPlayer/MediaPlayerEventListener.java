@@ -14,7 +14,7 @@ public class MediaPlayerEventListener implements VlcMediaPlayerEventListener {
     /**
      * Initialize new instance of {@link MediaPlayerEventListener}
      */
-    public MediaPlayerEventListener(PlayerMediator playerMediator) {
+    MediaPlayerEventListener(PlayerMediator playerMediator) {
         this.playerMediator = playerMediator;
     }
 
@@ -93,5 +93,15 @@ public class MediaPlayerEventListener implements VlcMediaPlayerEventListener {
     @Override
     public void onSelectedMediaItemChanged(int selectedItemIndex) {
         this.playerMediator.emitSelectedMediaIndex(selectedItemIndex + 1);
+    }
+
+    /**
+     * Handles the changing of mute state
+     *
+     * @param isMuted - the mute state
+     */
+    @Override
+    public void onMuteChanged(boolean isMuted) {
+        this.playerMediator.emitMuteState(isMuted);
     }
 }

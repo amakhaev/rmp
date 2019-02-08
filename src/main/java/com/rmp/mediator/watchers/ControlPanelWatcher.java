@@ -1,6 +1,6 @@
 package com.rmp.mediator.watchers;
 
-import com.rmp.widget.components.controlPanel.TimeLabelOrder;
+import com.rmp.widget.components.controlPanel.timelinePanel.TimeLabelOrder;
 import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;
 import com.rmp.widget.dataWatcher.ReplayDataObserver;
 
@@ -13,6 +13,7 @@ public final class ControlPanelWatcher implements ControlPanelDataWatcher {
     private final ReplayDataObserver<Long> sliderValueChangedObserver;
     private final ReplayDataObserver<Long> sliderLengthChangedObserver;
     private final ReplayDataObserver<TimeLabelOrder> timeLabelOrderChangedObserver;
+    private final ReplayDataObserver<Boolean> muteStateChangedObserver;
 
     /**
      * Initialize new instance of {@link ControlPanelDataWatcher}
@@ -22,6 +23,7 @@ public final class ControlPanelWatcher implements ControlPanelDataWatcher {
         this.sliderLengthChangedObserver = new ReplayDataObserver<>();
         this.isPlayingObserver = new ReplayDataObserver<>();
         this.timeLabelOrderChangedObserver = new ReplayDataObserver<>();
+        muteStateChangedObserver = new ReplayDataObserver<>();
     }
 
     /**
@@ -54,5 +56,13 @@ public final class ControlPanelWatcher implements ControlPanelDataWatcher {
     @Override
     public ReplayDataObserver<TimeLabelOrder> getTimeLabelOrderChangedObserver() {
         return this.timeLabelOrderChangedObserver;
+    }
+
+    /**
+     * Gets the observer that indicates when mute state was changed
+     */
+    @Override
+    public ReplayDataObserver<Boolean> getMuteChangedObserver() {
+        return this.muteStateChangedObserver;
     }
 }

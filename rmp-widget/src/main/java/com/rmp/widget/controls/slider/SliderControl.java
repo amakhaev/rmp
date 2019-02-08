@@ -15,13 +15,11 @@ import java.util.function.Function;
 @Slf4j
 public class SliderControl extends JComponent {
 
+    private static final int DEFAULT_SLIDER_HEIGHT = 10;
+    private static final Dimension DEFAULT_CURSOR_SIZE = new Dimension(20, 15);
+    private static final Color[] DEFAULT_CURSOR_GRADIENT_COLORS = new Color[] { new Color(41,50,60), Color.LIGHT_GRAY };
+
     private static final Dimension MIN_PREFERENCE_SIZE = new Dimension(50, 30);
-
-    private static final Dimension CURSOR_SIZE = new Dimension(20, 15);
-
-    private static final int SLIDER_HEIGHT = 10;
-
-    private static final Color[] CURSOR_GRADIENT_COLORS = new Color[] { new Color(41,50,60), Color.LIGHT_GRAY };
 
     @Setter
     private Color sliderBackgroundColor = Colors.BLACK;
@@ -35,6 +33,11 @@ public class SliderControl extends JComponent {
     @Setter
     private Color sliderShadowColor = Colors.PRIMARY_GRAY;
 
+    @Setter
+    private Color[] cursorGradientColor;
+
+    private int sliderHeight;
+    private Dimension cursorSize;
     private Point cursorPosition;
     private boolean isCursorCapturedByMouse;
     private Delimiter delimiter;
@@ -51,6 +54,10 @@ public class SliderControl extends JComponent {
         } catch (IllegalAccessException e) {
             log.error(e.getMessage());
         }
+
+        this.sliderHeight = DEFAULT_SLIDER_HEIGHT;
+        this.cursorSize = DEFAULT_CURSOR_SIZE;
+        this.cursorGradientColor = DEFAULT_CURSOR_GRADIENT_COLORS;
 
         this.setPreferredSize(MIN_PREFERENCE_SIZE);
         this.calculateCursorPosition();
@@ -134,9 +141,29 @@ public class SliderControl extends JComponent {
         return (int)this.delimiter.maxValue;
     }
 
+    /**
+     * Sets the height of background area
+     *
+     * @param height - the height value
+     */
+    public void setBackgroundHeight(int height) {
+        this.sliderHeight = height;
+        this.calculateCursorPosition();
+    }
+
+    /**
+     * Sets the size of cursor
+     *
+     * @param cursorSize - the size value
+     */
+    public void setCursorSize(Dimension cursorSize) {
+        this.cursorSize = cursorSize;
+        this.calculateCursorPosition();
+    }
+
     private void drawShadow(Graphics graphics) {
         graphics.setColor(this.cursorShadowColor);
-        graphics.fillRect(0, this.cursorPosition.y, this.getPreferredSize().width, CURSOR_SIZE.height);
+        graphics.fillRect(0, this.cursorPosition.y, this.getPreferredSize().width, this.cursorSize.height);
     }
 
     private void drawSlider(Graphics graphics) {
@@ -144,7 +171,7 @@ public class SliderControl extends JComponent {
         Graphics2D graphics2d = (Graphics2D) graphics;
         graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        int startY = this.getPreferredSize().height / 2 - SLIDER_HEIGHT / 2;
+        int startY = this.getPreferredSize().height / 2 - this.sliderHeight / 2;
 
         //paint background
         graphics2d.setColor(this.sliderBackgroundColor);
@@ -152,7 +179,7 @@ public class SliderControl extends JComponent {
                 0,
                 startY,
                 this.getPreferredSize().width-1,
-                SLIDER_HEIGHT-1,
+                this.sliderHeight - 1,
                 arcs.width,
                 arcs.height
         );
@@ -162,7 +189,7 @@ public class SliderControl extends JComponent {
                 0,
                 startY,
                 this.cursorPosition.x + 5,
-                SLIDER_HEIGHT-1,
+                this.sliderHeight - 1,
                 arcs.width,
                 arcs.height
         );
@@ -173,7 +200,7 @@ public class SliderControl extends JComponent {
                 0,
                 startY,
                 this.getPreferredSize().width - 1,
-                SLIDER_HEIGHT - 1,
+                this.sliderHeight - 1,
                 arcs.width,
                 arcs.height
         );
@@ -185,19 +212,19 @@ public class SliderControl extends JComponent {
         graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         RadialGradientPaint gp = new RadialGradientPaint(
-                this.cursorPosition.x + CURSOR_SIZE.width / 2,
-                this.cursorPosition.y + CURSOR_SIZE.height / 2,
+                this.cursorPosition.x + this.cursorSize.width / 2,
+                this.cursorPosition.y + this.cursorSize.height / 2,
                 10,
                 new float[] { 0.2f, 1.0f },
-                CURSOR_GRADIENT_COLORS
+                this.cursorGradientColor
         );
         graphics2d.setPaint(gp);
         //Draws the rounded opaque panel with borders.
         graphics2d.fillRoundRect(
                 this.cursorPosition.x,
                 this.cursorPosition.y,
-                CURSOR_SIZE.width - 1,
-                CURSOR_SIZE.height - 1,
+                this.cursorSize.width - 1,
+                this.cursorSize.height - 1,
                 arcs.width,
                 arcs.height
         );
@@ -254,12 +281,12 @@ public class SliderControl extends JComponent {
     }
 
     private boolean isMouseOverSlider(int mouseX, int mouseY) {
-        int startY = this.getPreferredSize().height / 2 - SLIDER_HEIGHT / 2;
+        int startY = this.getPreferredSize().height / 2 - this.sliderHeight / 2;
 
         return mouseX >= 0 &&
                 mouseX <= this.getPreferredSize().width &&
                 mouseY >= startY &&
-                mouseY <= startY + SLIDER_HEIGHT;
+                mouseY <= startY + this.sliderHeight;
     }
 
     private void calculateCursorPosition() {
@@ -268,17 +295,17 @@ public class SliderControl extends JComponent {
         }
 
         this.cursorPosition.x = (int)(
-                (this.getPreferredSize().width - CURSOR_SIZE.width) /
+                (this.getPreferredSize().width - this.cursorSize.width) /
                         this.delimiter.distanceBetweenMinAndMax() *
                         this.delimiter.distanceBetweenMinAndCurrent()
         );
-        this.cursorPosition.y = this.getPreferredSize().height / 2 - CURSOR_SIZE.height / 2;
+        this.cursorPosition.y = this.getPreferredSize().height / 2 - this.cursorSize.height / 2;
         this.repaint();
     }
 
     private void calculateCursorPositionDependsOnMousePosition(int mouseX, int mouseY) {
         double neighboringPointsDistance = (
-                (this.getPreferredSize().width - CURSOR_SIZE.width) / this.delimiter.distanceBetweenMinAndMax()
+                (this.getPreferredSize().width - this.cursorSize.width) / this.delimiter.distanceBetweenMinAndMax()
         );
         double lastPassedPoint = mouseX / neighboringPointsDistance;
         double distanceBetweenLastPointAndMouseX = mouseX - lastPassedPoint * neighboringPointsDistance;

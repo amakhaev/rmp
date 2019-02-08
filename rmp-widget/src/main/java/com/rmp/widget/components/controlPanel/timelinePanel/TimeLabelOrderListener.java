@@ -1,4 +1,4 @@
-package com.rmp.widget.components.controlPanel;
+package com.rmp.widget.components.controlPanel.timelinePanel;
 
 /**
  * The listener of changing of time label value

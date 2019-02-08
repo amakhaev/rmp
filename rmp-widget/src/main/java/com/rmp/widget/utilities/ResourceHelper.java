@@ -28,6 +28,9 @@ public class ResourceHelper {
     public static final String PREVIOUS_ICON = "Aqua-Previous-icon.png";
     public static final String PREVIOUS_PRESSED_ICON = "Aqua-Previous-icon-pressed.png";
 
+    public static final String VOLUME_ICON = "Aqua-Volume-icon.png";
+    public static final String VOLUME_PRESSED_ICON = "Aqua-Volume-icon-pressed.png";
+
     public static final String PLAYLIST_COVER_ICON = "playlist-cover.png";
 
     public static final String ADD_ICON = "add-icon.png";

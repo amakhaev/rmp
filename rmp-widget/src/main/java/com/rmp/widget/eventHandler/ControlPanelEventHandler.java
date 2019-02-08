@@ -1,6 +1,6 @@
 package com.rmp.widget.eventHandler;
 
-import com.rmp.widget.components.controlPanel.TimeLabelOrder;
+import com.rmp.widget.components.controlPanel.timelinePanel.TimeLabelOrder;
 
 /**
  * Provides the event handler to button's manipulate
@@ -45,4 +45,16 @@ public interface ControlPanelEventHandler {
      * @param order - the value
      */
     void onTimeLabelOrderChanged(TimeLabelOrder order);
+
+    /**
+     * Handles the changing of volume level
+     *
+     * @param volume - the volume value
+     */
+    void onVolumeChanged(int volume);
+
+    /**
+     * Handles the mute toggle of volume
+     */
+    void onMuteToggle();
 }

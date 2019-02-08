@@ -1,7 +1,7 @@
 package com.rmp.mediator.listeners;
 
 import com.rmp.mediator.mediaPlayer.PlayerMediator;
-import com.rmp.widget.components.controlPanel.TimeLabelOrder;
+import com.rmp.widget.components.controlPanel.timelinePanel.TimeLabelOrder;
 import com.rmp.widget.eventHandler.ControlPanelEventHandler;
 
 /**
@@ -76,5 +76,23 @@ public class ControlPanelEventListener implements ControlPanelEventHandler {
     @Override
     public void onTimeLabelOrderChanged(TimeLabelOrder order) {
         this.playerMediator.setTimeLabelOrder(order);
+    }
+
+    /**
+     * Handles the changing of volume level
+     *
+     * @param volume - the volume value
+     */
+    @Override
+    public void onVolumeChanged(int volume) {
+
+    }
+
+    /**
+     * Handles the mute toggle of volume
+     */
+    @Override
+    public void onMuteToggle() {
+        this.playerMediator.toggleMute();
     }
 }
