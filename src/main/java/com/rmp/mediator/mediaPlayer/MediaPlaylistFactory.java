@@ -12,7 +12,7 @@ import java.util.List;
  * Provides the mediaPlayer to create media playlist
  */
 @UtilityClass
-public class MediaPlaylistFactory {
+class MediaPlaylistFactory {
 
     /**
      * Creates the media playlist by given state
@@ -21,7 +21,7 @@ public class MediaPlaylistFactory {
      * @param mediaFileService - the {@link MediaFileService} instance
      * @return created {@link MediaPlaylist} instance
      */
-    public MediaPlaylist create(StateModel stateModel, MediaFileService mediaFileService) {
+    MediaPlaylist create(StateModel stateModel, MediaFileService mediaFileService) {
         List<String> paths = mediaFileService.getPathsFromPlaylist(stateModel.getPlaylistId());
 
         Integer startMediaFileId = stateModel.getPlaylistFileId();

@@ -1,5 +1,6 @@
 package com.rmp.mediator.service.playlist;
 
+import com.google.inject.Singleton;
 import com.rmp.dao.domain.playlist.PlaylistDao;
 import com.rmp.dao.domain.playlist.PlaylistModel;
 import com.rmp.widget.readModels.UIPlaylistModel;
@@ -9,6 +10,7 @@ import java.util.List;
 /**
  * Provides the service that worked with playlists
  */
+@Singleton
 public class PlaylistService {
 
     private UIPlaylistMapper mapper;

@@ -1,5 +1,7 @@
 package com.rmp.mediator.mediaPlayer;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.rmp.dao.domain.state.StateModel;
 import com.rmp.mediator.watchers.WatcherContainer;
 import com.rmp.mediator.service.mediaFile.MediaFileService;
@@ -10,6 +12,7 @@ import com.rmp.vlcPlayer.VlcMediaPlayer;
 import com.rmp.widget.components.controlPanel.timelinePanel.TimeLabelOrder;
 import com.rmp.widget.readModels.UIMediaFileModel;
 import com.rmp.widget.readModels.UIPlaylistModel;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 
@@ -27,25 +30,33 @@ import java.util.stream.Collectors;
  * Provides the adapter to use vlc-player
  */
 @Slf4j
+@Singleton
 public class PlayerMediator {
 
     private final AsyncTaskExecutor asyncTaskExecutor;
+    private final PlaylistService playlistService;
+    private final StateService stateService;
+    private final MediaFileService mediaFileService;
+
+    @Getter
     private final WatcherContainer watcherContainer;
 
     private VlcMediaPlayer mediaPlayer;
-    private PlaylistService playlistService;
-    private StateService stateService;
-    private MediaFileService mediaFileService;
 
     /**
      * Initialize new instance of {@link PlayerMediator}
      */
-    public PlayerMediator(AsyncTaskExecutor asyncTaskExecutor, WatcherContainer watcherContainer) {
+    @Inject
+    public PlayerMediator(AsyncTaskExecutor asyncTaskExecutor,
+                          PlaylistService playlistService,
+                          StateService stateService,
+                          MediaFileService mediaFileService,
+                          WatcherContainer watcherContainer) {
         this.asyncTaskExecutor = asyncTaskExecutor;
+        this.playlistService = playlistService;
+        this.stateService = stateService;
+        this.mediaFileService = mediaFileService;
         this.watcherContainer = watcherContainer;
-        this.playlistService = new PlaylistService();
-        this.stateService = new StateService();
-        this.mediaFileService = new MediaFileService();
     }
 
     /**

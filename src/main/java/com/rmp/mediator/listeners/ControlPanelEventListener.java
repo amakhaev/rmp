@@ -1,5 +1,7 @@
 package com.rmp.mediator.listeners;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.rmp.mediator.mediaPlayer.PlayerMediator;
 import com.rmp.widget.components.controlPanel.timelinePanel.TimeLabelOrder;
 import com.rmp.widget.eventHandler.ControlPanelEventHandler;
@@ -7,6 +9,7 @@ import com.rmp.widget.eventHandler.ControlPanelEventHandler;
 /**
  * Provides base implementation of {@link ControlPanelEventHandler}
  */
+@Singleton
 public class ControlPanelEventListener implements ControlPanelEventHandler {
 
     private final PlayerMediator playerMediator;
@@ -14,6 +17,7 @@ public class ControlPanelEventListener implements ControlPanelEventHandler {
     /**
      * Initialize new instance of {@link ControlPanelEventHandler}
      */
+    @Inject
     public ControlPanelEventListener(PlayerMediator playerMediator) {
         this.playerMediator = playerMediator;
     }

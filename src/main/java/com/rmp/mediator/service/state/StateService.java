@@ -1,5 +1,6 @@
 package com.rmp.mediator.service.state;
 
+import com.google.inject.Singleton;
 import com.rmp.dao.domain.state.StateDao;
 import com.rmp.dao.domain.state.StateModel;
 import com.rmp.dao.domain.state.TimeLabelOrder;
@@ -7,6 +8,7 @@ import com.rmp.dao.domain.state.TimeLabelOrder;
 /**
  * Provides service to work with state of player
  */
+@Singleton
 public class StateService {
 
     private final StateDao stateDao;

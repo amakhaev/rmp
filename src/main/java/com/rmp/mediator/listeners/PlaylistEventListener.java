@@ -1,5 +1,7 @@
 package com.rmp.mediator.listeners;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.rmp.mediator.mediaPlayer.PlayerMediator;
 import com.rmp.widget.eventHandler.PlaylistEventHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +13,7 @@ import java.util.List;
  * Provides the implementation of event handler from UI
  */
 @Slf4j
+@Singleton
 public class PlaylistEventListener implements PlaylistEventHandler {
 
     private final PlayerMediator playerMediator;
@@ -18,6 +21,7 @@ public class PlaylistEventListener implements PlaylistEventHandler {
     /**
      * Initialize new instance of {@link PlaylistEventListener}
      */
+    @Inject
     public PlaylistEventListener(PlayerMediator playerMediator) {
         this.playerMediator = playerMediator;
     }

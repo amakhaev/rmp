@@ -1,5 +1,7 @@
 package com.rmp.mediator.watchers;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.rmp.widget.components.controlPanel.timelinePanel.TimeLabelOrder;
 import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;
 import com.rmp.widget.dataWatcher.MediaDetailDataWatcher;
@@ -14,6 +16,7 @@ import java.util.List;
 /**
  * Provides the container that stored all UI watchers
  */
+@Singleton
 public class WatcherContainer {
 
     @Getter
@@ -28,10 +31,13 @@ public class WatcherContainer {
     /**
      * Initialize new instance of {@link WatcherContainer}
      */
-    public WatcherContainer() {
-        this.controlPanelDataWatcher = new ControlPanelWatcher();
-        this.playlistDataWatcher = new PlaylistWatcher();
-        this.mediaDetailDataWatcher = new MediaDetailWatcher();
+    @Inject
+    public WatcherContainer(ControlPanelDataWatcher controlPanelDataWatcher,
+                            PlaylistDataWatcher playlistDataWatcher,
+                            MediaDetailDataWatcher mediaDetailDataWatcher) {
+        this.controlPanelDataWatcher = controlPanelDataWatcher;
+        this.playlistDataWatcher = playlistDataWatcher;
+        this.mediaDetailDataWatcher = mediaDetailDataWatcher;
     }
 
     /**

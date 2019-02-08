@@ -1,14 +1,17 @@
 package com.rmp.mediator.taskExecutor;
 
+import com.google.inject.Singleton;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
  * Provides the async task executor to make any jobs in another thread
  */
+@Singleton
 public class AsyncTaskExecutor {
 
-    private static final int POOL_SIZE = 5;
+    private static final int POOL_SIZE = 10;
 
     private ExecutorService executorService;
 

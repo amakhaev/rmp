@@ -1,5 +1,7 @@
 package com.rmp.mediator.listeners;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.rmp.mediator.mediaPlayer.PlayerMediator;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.keyboard.NativeKeyEvent;
@@ -13,6 +15,7 @@ import java.util.logging.Logger;
 /**
  * Provides the global keyboard listener
  */
+@Singleton
 public final class GlobalKeyboardListener implements NativeKeyListener {
 
     private static final Map<AvailableKeys, Integer> KEY_CODES;
@@ -31,6 +34,7 @@ public final class GlobalKeyboardListener implements NativeKeyListener {
     /**
      * Initialize new instance of {@link GlobalKeyboardListener}
      */
+    @Inject
     public GlobalKeyboardListener(PlayerMediator playerMediator) {
         this.playerMediator = playerMediator;
         logger.setLevel(Level.OFF);

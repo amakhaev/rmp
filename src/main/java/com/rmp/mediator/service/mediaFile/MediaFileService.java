@@ -1,5 +1,6 @@
 package com.rmp.mediator.service.mediaFile;
 
+import com.google.inject.Singleton;
 import com.rmp.dao.domain.mediaFile.MediaFileDao;
 import com.rmp.dao.domain.mediaFile.MediaFileModel;
 import com.rmp.widget.readModels.UIMediaFileModel;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 /**
  * Provides the service to work with media files
  */
+@Singleton
 public class MediaFileService {
 
     private final MediaFileDao mediaFileDao;

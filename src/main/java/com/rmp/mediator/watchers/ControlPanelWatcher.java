@@ -23,7 +23,7 @@ public final class ControlPanelWatcher implements ControlPanelDataWatcher {
         this.sliderLengthChangedObserver = new ReplayDataObserver<>();
         this.isPlayingObserver = new ReplayDataObserver<>();
         this.timeLabelOrderChangedObserver = new ReplayDataObserver<>();
-        muteStateChangedObserver = new ReplayDataObserver<>();
+        this.muteStateChangedObserver = new ReplayDataObserver<>();
     }
 
     /**
