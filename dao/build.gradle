@@ -16,6 +16,7 @@ repositories {
 }
 
 ext {
+    googleGuiceVersion = '4.2.2'
     mapstructVersion = "1.3.0.Beta2"
     lombokVersion = "1.18.4"
 }
@@ -29,6 +30,8 @@ dependencies {
 
     compile "org.mapstruct:mapstruct:${mapstructVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+    compile "com.google.inject:guice:${googleGuiceVersion}"
 
     compile group: 'com.j256.ormlite', name: 'ormlite-jdbc', version: '5.1'
     compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.23.1'

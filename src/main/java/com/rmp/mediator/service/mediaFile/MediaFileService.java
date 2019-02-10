@@ -1,5 +1,6 @@
 package com.rmp.mediator.service.mediaFile;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.rmp.dao.domain.mediaFile.MediaFileDao;
 import com.rmp.dao.domain.mediaFile.MediaFileModel;
@@ -20,8 +21,9 @@ public class MediaFileService {
     /**
      * Initialize new instance of {@link MediaFileService}
      */
-    public MediaFileService() {
-        this.mediaFileDao = MediaFileDao.INSTANCE;
+    @Inject
+    public MediaFileService(MediaFileDao mediaFileDao) {
+        this.mediaFileDao = mediaFileDao;
         this.mapper = new UIMediaFileMapper();
     }
 

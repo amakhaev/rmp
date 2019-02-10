@@ -1,5 +1,6 @@
 package com.rmp.mediator.service.playlist;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.rmp.dao.domain.playlist.PlaylistDao;
 import com.rmp.dao.domain.playlist.PlaylistModel;
@@ -14,14 +15,15 @@ import java.util.List;
 public class PlaylistService {
 
     private UIPlaylistMapper mapper;
-    private PlaylistDao playlistDao;
+    private final PlaylistDao playlistDao;
 
     /**
      * Initialize new instance of {@link PlaylistService}
      */
-    public PlaylistService() {
+    @Inject
+    public PlaylistService(PlaylistDao playlistDao) {
+        this.playlistDao = playlistDao;
         this.mapper = new UIPlaylistMapper();
-        this.playlistDao = PlaylistDao.INSTANCE;
     }
 
     /**

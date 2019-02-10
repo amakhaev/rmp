@@ -5,8 +5,6 @@ package com.rmp.dao.domain.state;
  */
 public interface StateDao {
 
-    StateDao INSTANCE = new StateDaoImpl();
-
     /**
      * Finds the first record.
      *

@@ -7,8 +7,6 @@ import java.util.List;
  */
 public interface PlaylistDao {
 
-    PlaylistDao INSTANCE = new PlaylistDaoImpl();
-
     /**
      * Finds the playlist by given title.
      *

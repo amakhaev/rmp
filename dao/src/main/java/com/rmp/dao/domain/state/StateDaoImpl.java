@@ -1,7 +1,9 @@
 package com.rmp.dao.domain.state;
 
+import com.google.inject.Inject;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.support.ConnectionSource;
 import com.rmp.dao.configuration.DatabaseConfiguration;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,10 +21,11 @@ public class StateDaoImpl implements StateDao {
     /**
      * Initialize new instance of {@link StateDaoImpl}
      */
-    StateDaoImpl() {
+    @Inject
+    public StateDaoImpl(ConnectionSource connectionSource) {
         this.mapper = StateMapper.INSTANCE;
         try {
-            this.dao = DaoManager.createDao(DatabaseConfiguration.getConnection(), StateEntity.class);
+            this.dao = DaoManager.createDao(connectionSource, StateEntity.class);
         } catch (SQLException e) {
             log.error(e.getMessage());
         }

@@ -1,5 +1,6 @@
 package com.rmp.mediator.service.state;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.rmp.dao.domain.state.StateDao;
 import com.rmp.dao.domain.state.StateModel;
@@ -16,8 +17,9 @@ public class StateService {
     /**
      * Initialize new instance of {@link StateDao}
      */
-    public StateService() {
-        this.stateDao = StateDao.INSTANCE;
+    @Inject
+    public StateService(StateDao stateDao) {
+        this.stateDao = stateDao;
     }
 
     /**

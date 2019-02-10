@@ -1,7 +1,9 @@
 package com.rmp.dao.domain.mediaFile;
 
+import com.google.inject.Inject;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.support.ConnectionSource;
 import com.rmp.dao.configuration.DatabaseConfiguration;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,7 +14,7 @@ import java.util.List;
  * Provides implementation of {@link MediaFileDao}
  */
 @Slf4j
-class MediaFileDaoImpl implements MediaFileDao {
+public class MediaFileDaoImpl implements MediaFileDao {
 
     private Dao<MediaFileEntity, Integer> mediaFileDao;
     private MediaFileMapper mapper;
@@ -20,10 +22,11 @@ class MediaFileDaoImpl implements MediaFileDao {
     /**
      * Initialize new instance of {@link MediaFileDaoImpl}
      */
-    MediaFileDaoImpl() {
+    @Inject
+    public MediaFileDaoImpl(ConnectionSource connectionSource) {
         this.mapper = MediaFileMapper.INSTANCE;
         try {
-            this.mediaFileDao = DaoManager.createDao(DatabaseConfiguration.getConnection(), MediaFileEntity.class);
+            this.mediaFileDao = DaoManager.createDao(connectionSource, MediaFileEntity.class);
         } catch (SQLException e) {
             log.error(e.getMessage());
         }

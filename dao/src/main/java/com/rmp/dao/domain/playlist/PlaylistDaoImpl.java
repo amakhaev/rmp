@@ -1,7 +1,9 @@
 package com.rmp.dao.domain.playlist;
 
+import com.google.inject.Inject;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.support.ConnectionSource;
 import com.rmp.dao.configuration.DatabaseConfiguration;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,10 +22,11 @@ public class PlaylistDaoImpl implements PlaylistDao {
     /**
      * Initialize new instance of {@link PlaylistDaoImpl}
      */
-    PlaylistDaoImpl() {
+    @Inject
+    public PlaylistDaoImpl(ConnectionSource connectionSource) {
         this.mapper = PlaylistMapper.INSTANCE;
         try {
-            this.playlistDao = DaoManager.createDao(DatabaseConfiguration.getConnection(),PlaylistEntity.class);
+            this.playlistDao = DaoManager.createDao(connectionSource, PlaylistEntity.class);
         } catch (SQLException e) {
             log.error(e.getMessage());
         }

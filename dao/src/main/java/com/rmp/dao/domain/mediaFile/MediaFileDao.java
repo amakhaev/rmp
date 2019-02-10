@@ -7,8 +7,6 @@ import java.util.List;
  */
 public interface MediaFileDao {
 
-    MediaFileDao INSTANCE = new MediaFileDaoImpl();
-
     /**
      * Creates the media files files
      *
