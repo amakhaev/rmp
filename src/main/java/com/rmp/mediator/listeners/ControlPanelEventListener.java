@@ -89,7 +89,7 @@ public class ControlPanelEventListener implements ControlPanelEventHandler {
      */
     @Override
     public void onVolumeChanged(int volume) {
-
+        this.playerMediator.setVolume(volume);
     }
 
     /**

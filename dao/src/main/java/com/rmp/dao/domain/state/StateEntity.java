@@ -44,6 +44,11 @@ public class StateEntity {
     public static final String MODIFIED_AT_FIELD = "modified_at";
 
     /**
+     * Provides the volume value field name.
+     */
+    public static final String VOLUME_VALUE_FIELD = "volume_value";
+
+    /**
      * Provides the modified at field name.
      */
     public static final String IS_MUTE_FIELD = "is_mute";
@@ -66,4 +71,6 @@ public class StateEntity {
     @DatabaseField(columnName = IS_MUTE_FIELD)
     private boolean isMute;
 
+    @DatabaseField(columnName = VOLUME_VALUE_FIELD)
+    private Integer volumeValue;
 }

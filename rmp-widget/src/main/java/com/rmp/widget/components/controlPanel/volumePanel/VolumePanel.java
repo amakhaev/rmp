@@ -3,6 +3,7 @@ package com.rmp.widget.components.controlPanel.volumePanel;
 import com.rmp.widget.controls.button.IconButton;
 import com.rmp.widget.controls.slider.SliderControl;
 import com.rmp.widget.skins.Colors;
+import com.rmp.widget.skins.PairColor;
 import lombok.Setter;
 
 import javax.swing.*;
@@ -15,6 +16,9 @@ import java.net.URL;
  * Provides the volume panel
  */
 public class VolumePanel extends JPanel {
+
+    private static final PairColor DEFAULT_CURSOR_GRADIENT_COLORS = new PairColor(Colors.PRIMARY, Colors.BLACK);
+    private static final Color DEFAULT_SLIDER_SHADOW_COLOR = Colors.BLACK;
 
     private final URL iconUrl;
     private final URL iconDisabledUrl;
@@ -86,13 +90,39 @@ public class VolumePanel extends JPanel {
         }
     }
 
+    /**
+     * Sets the shadow color of slider
+     *
+     * @param color - the olor to set
+     */
+    public void setSliderShadowColor(Color color) {
+        if (this.sliderControl != null) {
+            this.sliderControl.setSliderShadowColor(color);
+        }
+    }
+
+    /**
+     * Sets the gradient colors of slider
+     *
+     * @param gradient - the gradient pair color
+     */
+    public void setCursorGradientColors(PairColor gradient) {
+        if (this.sliderControl != null) {
+            this.sliderControl.setCursorGradientColor(new Color[] {
+                    gradient.getFirstColor(), gradient.getSecondColor()
+            });
+        }
+    }
+
     private SliderControl createVolumeControl() {
         SliderControl sliderControl = new SliderControl();
         sliderControl.setBackgroundHeight(6);
         sliderControl.setCursorSize(new Dimension(12, 8));
         sliderControl.setPreferredSize(new Dimension(80, 0));
-        sliderControl.setCursorGradientColor(new Color[] {Colors.PRIMARY, Colors.PRIMARY_CANCEL });
-        sliderControl.setSliderShadowColor(Colors.BLACK);
+        sliderControl.setCursorGradientColor(new Color[] {
+                DEFAULT_CURSOR_GRADIENT_COLORS.getFirstColor(), DEFAULT_CURSOR_GRADIENT_COLORS.getSecondColor()
+        });
+        sliderControl.setSliderShadowColor(DEFAULT_SLIDER_SHADOW_COLOR);
         sliderControl.setDelimiterMax(100);
         sliderControl.setChangeValueListener(value -> {
             if (this.changeListener != null) {

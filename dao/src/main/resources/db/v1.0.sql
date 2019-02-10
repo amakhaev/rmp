@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS states (
   time_label_order VARCHAR NOT NULL DEFAULT ('ASC'),
   modified_at DATETIME NOT NULL DEFAULT (datetime('now','localtime')),
   is_mute BOOLEAN DEFAULT FALSE,
+  volume_value INTEGER DEFAULT 50,
 
   FOREIGN KEY (playlist_id) REFERENCES playlists(id),
   FOREIGN KEY (playlist_file_id) REFERENCES playlist_files(id) ON DELETE SET NULL

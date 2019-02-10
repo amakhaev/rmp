@@ -14,6 +14,7 @@ public final class ControlPanelWatcher implements ControlPanelDataWatcher {
     private final ReplayDataObserver<Long> sliderLengthChangedObserver;
     private final ReplayDataObserver<TimeLabelOrder> timeLabelOrderChangedObserver;
     private final ReplayDataObserver<Boolean> muteStateChangedObserver;
+    private final ReplayDataObserver<Integer> volumeValueChangedObserver;
 
     /**
      * Initialize new instance of {@link ControlPanelDataWatcher}
@@ -24,6 +25,7 @@ public final class ControlPanelWatcher implements ControlPanelDataWatcher {
         this.isPlayingObserver = new ReplayDataObserver<>();
         this.timeLabelOrderChangedObserver = new ReplayDataObserver<>();
         this.muteStateChangedObserver = new ReplayDataObserver<>();
+        volumeValueChangedObserver = new ReplayDataObserver<>();
     }
 
     /**
@@ -64,5 +66,13 @@ public final class ControlPanelWatcher implements ControlPanelDataWatcher {
     @Override
     public ReplayDataObserver<Boolean> getMuteChangedObserver() {
         return this.muteStateChangedObserver;
+    }
+
+    /**
+     * Gets the observer that indicates when volume value was changed
+     */
+    @Override
+    public ReplayDataObserver<Integer> getVolumeValueChangedObserver() {
+        return this.volumeValueChangedObserver;
     }
 }

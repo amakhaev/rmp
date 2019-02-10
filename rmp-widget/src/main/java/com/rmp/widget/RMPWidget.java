@@ -16,6 +16,7 @@ import com.rmp.widget.dataWatcher.PlaylistDataWatcher;
 import com.rmp.widget.skins.RMPSkin;
 import com.rmp.widget.skins.SkinFactory;
 import com.rmp.widget.utilities.LocalizationUtils;
+import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -29,6 +30,9 @@ public class RMPWidget {
     private JFrame widget;
 
     private final RMPSkin skin;
+
+    @Setter
+    private Runnable closeWidgetAction;
 
     /**
      * Initialize new instance of {@link RMPWidget}
@@ -62,6 +66,10 @@ public class RMPWidget {
         this.widget.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
+                if (closeWidgetAction != null) {
+                    closeWidgetAction.run();
+                }
+
                 System.exit(0);
             }
         });

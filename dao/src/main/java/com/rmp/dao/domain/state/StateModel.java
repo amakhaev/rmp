@@ -18,4 +18,5 @@ public class StateModel {
     private LocalDateTime modifiedAt;
     private TimeLabelOrder timeLabelOrder;
     private boolean isMute;
+    private Integer volumeValue;
 }

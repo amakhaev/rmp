@@ -1,13 +1,12 @@
 package com.rmp.widget.components.controlPanel;
 
 import com.rmp.widget.components.controlPanel.timelinePanel.TimelinePanel;
-import com.rmp.widget.components.controlPanel.volumePanel.ToggleMuteListener;
 import com.rmp.widget.components.controlPanel.volumePanel.VolumePanel;
 import com.rmp.widget.controls.button.IconButton;
 import com.rmp.widget.dataWatcher.ControlPanelDataWatcher;
 import com.rmp.widget.eventHandler.ControlPanelEventHandler;
-import com.rmp.widget.skins.ControlPanelSkin;
 import com.rmp.widget.skins.Colors;
+import com.rmp.widget.skins.ControlPanelSkin;
 import com.rmp.widget.skins.SkinFactory;
 import lombok.Getter;
 import lombok.Setter;
@@ -187,6 +186,8 @@ public class ControlPanelComponent {
     private VolumePanel createVolumePanel() {
         VolumePanel volumeControl = new VolumePanel(this.skin.getVolumeIconUrl(), this.skin.getVolumePressedIconUrl());
         volumeControl.initialize();
+        volumeControl.setCursorGradientColors(this.skin.getVolumePanelCursorGradien());
+        volumeControl.setSliderShadowColor(this.skin.getVolumePanelSliderShadowColor());
         volumeControl.setChangeListener((volumeValue) -> this.eventHandler.onVolumeChanged(volumeValue));
         volumeControl.setToggleMuteListener(() -> this.eventHandler.onMuteToggle());
 
@@ -224,6 +225,12 @@ public class ControlPanelComponent {
             this.controlPanelDataWatcher.getMuteChangedObserver().subscribe(isMute -> {
                 this.volumePanel.setMute(isMute);
             });
+        }
+
+        if (this.controlPanelDataWatcher.getVolumeValueChangedObserver() != null) {
+            this.controlPanelDataWatcher.getVolumeValueChangedObserver().subscribe(
+                    volume -> this.volumePanel.setVolumeValue(volume)
+            );
         }
     }
 }

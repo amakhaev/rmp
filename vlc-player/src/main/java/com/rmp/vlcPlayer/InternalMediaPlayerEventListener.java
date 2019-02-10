@@ -53,6 +53,11 @@ abstract class InternalMediaPlayerEventListener extends MediaPlayerEventAdapter 
         this.eventListener.onMuteChanged(muted);
     }
 
+    @Override
+    public void volumeChanged(MediaPlayer mediaPlayer, float volume) {
+        System.out.println(volume);
+    }
+
     void playlistItemCountChanged(int playlistItemCountChanged) {
         if (this.eventListener == null) {
             return;

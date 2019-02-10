@@ -78,6 +78,18 @@ public class StateService {
     }
 
     /**
+     * Updates the volume value of state
+     *
+     * @param value - the volume value
+     * @return updated {@link StateModel} instance
+     */
+    public StateModel updateVolumeValue(Integer value) {
+        StateModel current = this.getCurrentState();
+        current.setVolumeValue(value);
+        return this.updateState(current);
+    }
+
+    /**
      * Updates the current state
      *
      * @param state - the state to update

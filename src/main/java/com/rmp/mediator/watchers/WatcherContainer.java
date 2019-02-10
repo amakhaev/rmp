@@ -167,6 +167,15 @@ public class WatcherContainer {
     }
 
     /**
+     * Emits the changing of volume value
+     *
+     * @param value - the volume value
+     */
+    public void emitVolumeChanged(int value) {
+        this.controlPanelDataWatcher.getVolumeValueChangedObserver().emit(value);
+    }
+
+    /**
      * Emits the media file after changes
      *
      * @param mediaFile - the new media file

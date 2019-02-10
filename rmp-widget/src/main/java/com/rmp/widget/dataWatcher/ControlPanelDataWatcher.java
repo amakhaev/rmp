@@ -31,4 +31,9 @@ public interface ControlPanelDataWatcher {
      * Gets the observer that indicates when mute state was changed
      */
     ReplayDataObserver<Boolean> getMuteChangedObserver();
+
+    /**
+     * Gets the observer that indicates when volume value was changed
+     */
+    ReplayDataObserver<Integer> getVolumeValueChangedObserver();
 }

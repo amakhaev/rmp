@@ -2,6 +2,7 @@ package com.rmp.widget.skins.defaultSkin;
 
 import com.rmp.widget.skins.Colors;
 import com.rmp.widget.skins.ControlPanelSkin;
+import com.rmp.widget.skins.PairColor;
 import com.rmp.widget.utilities.ResourceHelper;
 
 import java.awt.*;
@@ -189,5 +190,21 @@ public class DefaultControlPanelSkin implements ControlPanelSkin {
     @Override
     public Color getTimeLineLabelForegroundColor() {
         return Colors.PRIMARY_GRAY;
+    }
+
+    /**
+     * Gets the gradient of cursor on volume panel
+     */
+    @Override
+    public PairColor getVolumePanelCursorGradien() {
+        return new PairColor(Colors.PRIMARY, Colors.BLACK);
+    }
+
+    /**
+     * Gets the color of slider on volume panel
+     */
+    @Override
+    public Color getVolumePanelSliderShadowColor() {
+        return Colors.BLACK;
     }
 }

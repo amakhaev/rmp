@@ -114,4 +114,14 @@ public interface ControlPanelSkin {
      * Gets the foreground color of label
      */
     Color getTimeLineLabelForegroundColor();
+
+    /**
+     * Gets the gradient of cursor on volume panel
+     */
+    PairColor getVolumePanelCursorGradien();
+
+    /**
+     * Gets the color of slider on volume panel
+     */
+    Color getVolumePanelSliderShadowColor();
 }

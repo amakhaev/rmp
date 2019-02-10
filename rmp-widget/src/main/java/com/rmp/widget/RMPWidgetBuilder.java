@@ -20,6 +20,18 @@ public class RMPWidgetBuilder {
     private ControlPanelEventHandler controlPanelEventHandler;
     private MediaDetailDataWatcher mediaDetailDataWatcher;
     private MediaDetailEventHandler mediaDetaileventHandler;
+    private Runnable beforeCloseWidgetAction;
+
+    /**
+     * Sets the action that will be called immediately before closing widget
+     *
+     * @param beforeCloseWidgetAction - the action
+     * @return the current {@link RMPWidgetBuilder} instance
+     */
+    public RMPWidgetBuilder setBeforeCloseWidgetAction(Runnable beforeCloseWidgetAction) {
+        this.beforeCloseWidgetAction = beforeCloseWidgetAction;
+        return this;
+    }
 
     /**
      * Sets the watchers of playlist component
@@ -94,6 +106,7 @@ public class RMPWidgetBuilder {
      */
     public RMPWidget build() {
         RMPWidget widget = new RMPWidget();
+        widget.setCloseWidgetAction(this.beforeCloseWidgetAction);
         widget.initialize(
                 this.playlistDataWatcher,
                 this.playlistEventHandler,

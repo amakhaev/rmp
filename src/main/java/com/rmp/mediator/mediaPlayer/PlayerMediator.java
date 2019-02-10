@@ -60,6 +60,13 @@ public class PlayerMediator {
     }
 
     /**
+     * Gets the volume value
+     */
+    public int getVolume() {
+        return this.mediaPlayer.getVolume();
+    }
+
+    /**
      * Initializes the mediator
      */
     public void initialize() {
@@ -152,6 +159,19 @@ public class PlayerMediator {
      */
     public void setMute(boolean isMute) {
         this.asyncTaskExecutor.executeTask(() -> this.mediaPlayer.mute(isMute));
+    }
+
+    /**
+     * Sets the volume value of player
+     *
+     * @param value - the volume value
+     */
+    public void setVolume(int value) {
+        this.asyncTaskExecutor.executeTask(() -> {
+            this.mediaPlayer.setVolume(value);
+            this.watcherContainer.emitVolumeChanged(value);
+            // this.stateService.updateVolumeValue(value);
+        });
     }
 
     /**

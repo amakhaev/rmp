@@ -126,6 +126,22 @@ public class VlcMediaPlayer {
     }
 
     /**
+     * Sets the volume value of player
+     *
+     * @param volume - the value
+     */
+    public void setVolume(int volume) {
+        this.mediaPlayer.setVolume(volume);
+    }
+
+    /**
+     * Gets the volume value
+     */
+    public int getVolume() {
+        return this.mediaPlayer.getVolume();
+    }
+
+    /**
      * Sets the time of current media item
      *
      * @param time - the time value

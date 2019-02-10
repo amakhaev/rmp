@@ -76,6 +76,7 @@ public class RMPApplicationImpl implements RMPApplication {
         }
 
         this.widget = new RMPWidgetBuilder()
+                .setBeforeCloseWidgetAction(() -> this.stateService.updateVolumeValue(this.playerMediator.getVolume()))
                 .setPlaylistDataWatcher(this.playerMediator.getWatcherContainer().getPlaylistDataWatcher())
                 .setPlaylistEventHandler(this.playlistHandler)
                 .setControlPanelDataWatcher(this.playerMediator.getWatcherContainer().getControlPanelDataWatcher())
@@ -122,6 +123,7 @@ public class RMPApplicationImpl implements RMPApplication {
         }
         this.playerMediator.setTimeLabelOrder(uiLabelOrder);
         this.playerMediator.setMute(stateModel.isMute());
+        this.playerMediator.setVolume(stateModel.getVolumeValue());
     }
 
     private void initializeMediaDetailUI() {
